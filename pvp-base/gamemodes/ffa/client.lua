@@ -22,6 +22,7 @@ RegisterNetEvent("pb-ffa:InGame", function(value)
         exports["pvp-hud"]:DisplayHUD(true)
         InGame()
     else
+        exports["pvp-loadout"]:Clearloadout()
         exports["pvp-hud"]:SetTooltip(false)
         exports["pvp-hud"]:DisplayHUD(false)
     end

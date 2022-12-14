@@ -11,10 +11,14 @@ function StartCycle(session)
         Timer = 0,
         Players = {}
     }
-    -- Check for players, and start game once lobby is full
+    StartLobby(session)
+end
+
+-- Start the lobby up
+function StartLobby(session)
     CreateThread(function()
         while session.GameData.State == "LOBBY" do
-            Wait(Config.FFA.LobbyCheck*1000)
+            Wait(1000)
             local rdyCount = 0
             for k, v in pairs(session.GameData.Logic.Players) do
                 if v then
@@ -22,6 +26,15 @@ function StartCycle(session)
                 end
             end
             if rdyCount >= 2 then
+                session.GameData.State = "STARTING"
+                local readyCountdown = Config.FFA.LobbyStart
+                while readyCountdown > 0 do
+                    Wait(1000)
+                    readyCountdown = readyCountdown - 1
+                    for k, v in pairs(session.GameData.Logic.Players) do
+                        TriggerClientEvent("pb-hud:SetStats", k, {[1] = {string = "Game starting", value = readyCountdown}})
+                    end
+                end
                 StartGame(session)
             end
         end
@@ -99,7 +112,7 @@ function HandleJoin(session, src)
             kills = 0,
             deaths = 0,
         }
-        TPGame(session, k)
+        TPGame(session, src)
         TriggerClientEvent("pb-ffa:InGame", src, true)
         TriggerClientEvent("pb-loadout:ForceLoadout", src, {
             [1] = {item = "wep_assaultrifle"},
@@ -107,7 +120,7 @@ function HandleJoin(session, src)
             [3] = {item = "gadget_bandage"},
             [4] = {item = "gadget_armour"}
         })
-    elseif session.GameData.State == "LOBBY" then
+    elseif session.GameData.State == "LOBBY" or session.GameData.State == "STARTING" then
         session.GameData.Logic.Players[src] = true
         TPLobby(session, src)
     end
@@ -155,21 +168,7 @@ function Winner(session, src)
         ply.Functions.AddExp("global", 500)
     end
 
-    -- Check on starting the game back up
-    CreateThread(function()
-        while session.GameData.State == "LOBBY" do
-            Wait(Config.FFA.LobbyCheck*1000)
-            local rdyCount = 0
-            for k, v in pairs(session.GameData.Logic.Players) do
-                if v then
-                    rdyCount = rdyCount + 1
-                end
-            end
-            if rdyCount >= 1 then
-                StartGame(session)
-            end
-        end
-    end)
+    StartLobby(session)
 end
 
 -- TP player into the current game map
@@ -178,6 +177,7 @@ function TPGame(session, src)
     local selectedSpawn = Config.Maps[session.Map].spawns[99][math.random(#Config.Maps[session.Map].spawns[99])]
     SetEntityCoords(plyPed, selectedSpawn)
     SetEntityHeading(plyPed, selectedSpawn.w)
+    SetPlayerInvincible(false)
 end
 
 -- TP player into the lobby
@@ -185,6 +185,8 @@ function TPLobby(session, src)
     local plyPed = GetPlayerPed(src)
     SetEntityCoords(plyPed, 686.3, 577.96, 130.46)
     SetEntityHeading(plyPed, 157.6)
+    SetPlayerInvincible(true)
+    TriggerClientEvent("pb-hud:SetStats", src, {[1] = {string = "In lobby, 2 players required", value = ""}})
 end
 
 -- Handle a player leaving the game
@@ -202,24 +204,21 @@ FFA.Functions.SetHandleDeath(HandleDeath)
 FFA.Functions.SetHandleLeave(HandleLeave)
 
 -- Create default sessions
-PB.Sessions:CreateSession(11, false, "strict", "Official FFA #1")
-local EXMP = PB.Sessions:Get(11)
+local EXMP = PB.Sessions:CreateSession(11, false, "strict", "Official FFA #1")
 EXMP.Functions.SetGame("ffa")
 EXMP.Functions.SetMap("villa")
 EXMP.Functions.SetMaxPlayers(10)
 EXMP.Functions.SetOfficial(true)
 EXMP.Functions.StartGame()
 
-PB.Sessions:CreateSession(12, false, "strict", "Official FFA #2")
-local EXMP = PB.Sessions:Get(12)
+local EXMP =  PB.Sessions:CreateSession(12, false, "strict", "Official FFA #2")
 EXMP.Functions.SetGame("ffa")
 EXMP.Functions.SetMap("nudist")
 EXMP.Functions.SetMaxPlayers(10)
 EXMP.Functions.SetOfficial(true)
 EXMP.Functions.StartGame()
 
-PB.Sessions:CreateSession(12, false, "strict", "Official FFA #3")
-local EXMP = PB.Sessions:Get(12)
+local EXMP = PB.Sessions:CreateSession(13, false, "strict", "Official FFA #3")
 EXMP.Functions.SetGame("ffa")
 EXMP.Functions.SetMap("kortz")
 EXMP.Functions.SetMaxPlayers(32)

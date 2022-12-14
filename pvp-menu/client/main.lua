@@ -55,7 +55,8 @@ function UpdateSessions()
                 map = v.Map,
                 players = plyCount,
                 maxplayers = v.Settings.MaxPlayers,
-                locked = v.Private
+                locked = v.Private,
+                official = v.Settings.Official
             }
         end
         SendNUIMessage({type = "UpdateSessions", sessions = collectedSessions})
@@ -99,7 +100,7 @@ RegisterNUICallback("RefreshSessions", function(data)
 end)
 
 RegisterNUICallback("JoinSession", function(data)
-    TriggerServerEvent("pb:JoinSession", data.session)
+    TriggerServerEvent("pb:JoinSession", data.session, data.password)
 end)
 
 RegisterNUICallback("CreateSession", function(data)

@@ -18,6 +18,7 @@ function CreateSession(src, data)
     local newSession = PB.Sessions:CreateSession(100+src, "strict", true, data.name)
     if not newSession then
         PB.Utility:Notify(src, "ERROR", "Couldn't create session", true)
+        return
     end
     newSession.Functions.SetGame(data.gamemode)
     newSession.Functions.SetMap(data.map)
@@ -27,7 +28,7 @@ function CreateSession(src, data)
     end
     -- Start the game and connect the host
     newSession.Functions.StartGame()
-    PB.Sessions:JoinSession(src, 100+src)
+    PB.Sessions:JoinSession(src, 100+src, data.password)
 end
 
 -- Find best session

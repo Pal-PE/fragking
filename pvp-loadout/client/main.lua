@@ -12,7 +12,7 @@ function ClearLoadout()
 end
 
 -- Force a loadout on the player
-function ForceLoadout()
+function ForceLoadout(data)
     RemoveAllPedWeapons(PlayerPedId())
     currentLoadout = data
     for k, v in pairs(currentLoadout) do

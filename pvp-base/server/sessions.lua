@@ -68,7 +68,7 @@ function PB.Sessions:CreateSession(bucket, population, lockdown, name)
         for k, v in pairs(Sessions[bucket].Players) do
             if v then
                 PB.Utility:Notify(src, "INFO", "The session you were in has closed.")
-                --PB.Lobby:JoinLobby(v)
+                TriggerClientEvent("pb-menu:DisplayMenu", src, true)
             end
         end
     end
@@ -101,11 +101,23 @@ function PB.Sessions:CreateSession(bucket, population, lockdown, name)
 end
 
 -- Add a player to session
-function PB.Sessions:JoinSession(src, bucket)
+function PB.Sessions:JoinSession(src, bucket, password)
+
+    -- Check if theres a password, and if so match it
     bucket = tonumber(bucket)
+    if Sessions[bucket].Private then
+        if not password then
+            PB.Utility:Notify(src, "ERROR", "Session requires password", true)
+            return
+        end
+        if password ~= Sessions[bucket].Settings.Password then
+            PB.Utility:Notify(src, "ERROR", "Incorrect password", true)
+            return
+        end
+    end
 
     if not Sessions[bucket] then
-        --PB.Lobby:JoinLobby(src)
+        TriggerClientEvent("pb-menu:DisplayMenu", src, true)
         PB.Utility:Notify(src, "ERROR", "An error occured while joining a new session.")
         PB.Logging:NewError(src, true, "Attempted to set a players session to a session that does not exist", {session = session}, true)
         return false
@@ -137,7 +149,7 @@ function PB.Sessions:JoinSession(src, bucket)
     PB.Sessions:LeaveSession(src)
 
     if Sessions[bucket].Players[src] then
-        --PB.Lobby:JoinLobby(src)
+        TriggerClientEvent("pb-menu:DisplayMenu", src, true)
         PB.Utility:Notify(src, "ERROR", "An error occured while joining a new session.")
         PB.Logging:NewError(src, true, "Attempted to set a players session to the session they're already in", {session = session, plySession = ply.Session, plyInstance = GetPlayerRoutingBucket(src)}, true)
     else
@@ -170,11 +182,13 @@ function PB.Sessions:JoinSession(src, bucket)
                 Gamemodes[Sessions[bucket].Gamemode].Handles.JoinTrigger(Sessions[bucket], src)
             end
 
+            -- Let the client know that they've joined a new session
+            PB.Utility:Notify(src, "SUCCESS", "Joined session " .. bucket, true)
+            TriggerClientEvent("pb:JoinedSession", src, Sessions[bucket])
+
         end)
     end
 
-    -- Let the client know that they've joined a new session
-    TriggerClientEvent("pb:JoinedSession", src, Sessions[bucket])
 end
 
 -- Remove player from session
@@ -190,13 +204,17 @@ function PB.Sessions:LeaveSession(src)
             if v.GameData.Live then
                 Gamemodes[v.Gamemode].Handles.LeaveTrigger(v, src)
             end
+            PB.Utility:Notify(src, "ERROR", "Left session", true)
         end
     end
-        
-    SetPlayerRoutingBucket(src, 0)
-    TriggerClientEvent("pb:LeftSession", src)
-    PB.Logging:NewLog(src, true, "Player left session", {session = ply.Session}, true)
+    
     ply.Session = 0
+    SetPlayerRoutingBucket(src, 0)
+    PB.Logging:NewLog(src, true, "Player left session", {session = ply.Session}, true)
+
+    -- Let the client know that they've left the session
+    TriggerClientEvent("pb:LeftSession", src)
+
 end
 
 -- Get session object
@@ -214,9 +232,9 @@ function PB.Sessions:GetAll()
 end
 
 -- Net events
-RegisterNetEvent("pb:JoinSession", function(session)
+RegisterNetEvent("pb:JoinSession", function(session, password)
     local src = source
-    PB.Sessions:JoinSession(src, session)
+    PB.Sessions:JoinSession(src, session, password)
 end)
 
 RegisterNetEvent("pb:RequestSessions", function()
