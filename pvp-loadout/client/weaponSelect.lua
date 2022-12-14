@@ -1,0 +1,62 @@
+-- Create the NativeUI menu
+local menuPool = NativeUI.CreatePool()
+local weaponSelectMenu = NativeUI.CreateMenu("WEAPON SELECT", "")
+menuPool:Add(weaponSelectMenu)
+local primaryMenu = menuPool:AddSubMenu(weaponSelectMenu, "Select Primary")
+local secondaryMenu = menuPool:AddSubMenu(weaponSelectMenu, "Select Secondary")
+
+for k, v in pairs(Config.Items) do
+    if v.category == "weps_primary" then
+        local newWeapon = NativeUI.CreateItem(v.label)
+        newWeapon.itemId = k
+        primaryMenu:AddItem(newWeapon)
+    elseif v.category == "weps_secondary" then
+        local newWeapon = NativeUI.CreateItem(v.label)
+        newWeapon.itemId = k
+        secondaryMenu:AddItem(newWeapon)
+    end
+end
+
+primaryMenu.OnItemSelect = function(sender, item, index)
+    if not loadoutLocked then
+        TriggerServerEvent("pb-loadout:RemoveWeapon")
+        currentLoadout[1] = {
+            item = item.itemId
+        }
+        UpdateUI()
+    end
+end
+
+secondaryMenu.OnItemSelect = function(sender, item, index)
+    if not loadoutLocked then
+        TriggerServerEvent("pb-loadout:RemoveWeapon")
+        currentLoadout[2] = {
+            item = item.itemId
+        }
+        UpdateUI()
+    end
+end
+
+-- Process menu
+CreateThread(function()
+    while true do
+        Wait(0)
+        menuPool:ProcessMenus()
+        menuPool:MouseControlsEnabled(false)
+        menuPool:MouseEdgeEnabled(false)
+        menuPool:ControlDisablingEnabled(false)
+    end
+end)
+
+-- Open the weapon select menu
+function OpenWeaponSelect()
+    weaponSelectMenu:Visible(true)
+end
+
+-- Net events
+RegisterNetEvent("pb-loadout:OpenWeaponSelect", function()
+    OpenWeaponSelect()
+end)
+
+-- Exports
+exports("OpenWeaponSelect", OpenWeaponSelect)
