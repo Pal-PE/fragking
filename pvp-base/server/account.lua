@@ -52,8 +52,8 @@ end
 -- Save users account
 function PB.Accounts:Save(src)
     CreateThread(function()
-        exports.oxmysql:query("UPDATE pb_players SET flags = ?, currency = ?, levels = ? WHERE identifier = ?",
-        {json.encode(Players[src].flags), json.encode(Players[src].currency), json.encode(Players[src].levels), Players[src].identifier},
+        exports.oxmysql:query("UPDATE pb_players SET flags = ?, currency = ?, levels = ?, stats = ? WHERE identifier = ?",
+        {json.encode(Players[src].flags), json.encode(Players[src].currency), json.encode(Players[src].levels), json.encode(Players[src].stats), Players[src].identifier},
         function(result)
             if result then
                 PB.Logging:NewLog(src, true, "Saved user's player data", false, true)

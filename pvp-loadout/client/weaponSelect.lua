@@ -23,6 +23,7 @@ primaryMenu.OnItemSelect = function(sender, item, index)
         currentLoadout[1] = {
             item = item.itemId
         }
+        ForceUse(1)
         UpdateUI()
     end
 end
@@ -33,6 +34,7 @@ secondaryMenu.OnItemSelect = function(sender, item, index)
         currentLoadout[2] = {
             item = item.itemId
         }
+        ForceUse(2)
         UpdateUI()
     end
 end

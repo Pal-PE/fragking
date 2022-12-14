@@ -3,7 +3,7 @@ local gameLive = false
 
 -- Run client-side game cycle when game starts
 function InGame()
-    TriggerEvent("pb-loadout:LockLoadout", false)
+    exports["pvp-loadout"]:LockLoadout(false)
     CreateThread(function()
         while gameLive do
             Wait(1)
@@ -22,7 +22,7 @@ RegisterNetEvent("pb-ffa:InGame", function(value)
         exports["pvp-hud"]:DisplayHUD(true)
         InGame()
     else
-        exports["pvp-loadout"]:Clearloadout()
+        exports["pvp-loadout"]:ClearLoadout()
         exports["pvp-hud"]:SetTooltip(false)
         exports["pvp-hud"]:DisplayHUD(false)
     end

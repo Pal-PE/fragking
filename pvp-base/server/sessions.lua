@@ -17,8 +17,7 @@ function PB.Sessions:CreateSession(bucket, population, lockdown, name)
         Players = {},
         Settings = {
             MaxPlayers = 20,
-            Password = nil,
-            Official = false
+            Password = nil
         },
         GameData = {
             Live = false,
@@ -31,14 +30,10 @@ function PB.Sessions:CreateSession(bucket, population, lockdown, name)
     }
 
     -- SESSION OBJECT FUNCTIONS
-    -- Official?
-    Sessions[bucket].Functions.SetOfficial = function(value)
-        Sessions[bucket].Settings.Official = value
-    end
-
     -- Flag functions
     Sessions[bucket].Functions.GetFlag = function(flag)
-        return Sessions[bucket].Flags[flag]
+        print("getting flag ")
+        --return Sessions[bucket].Flags[flag]
     end
 
     Sessions[bucket].Functions.SetFlag = function(flag, value)
@@ -64,10 +59,11 @@ function PB.Sessions:CreateSession(bucket, population, lockdown, name)
     end
 
     Sessions[bucket].Functions.CloseSession = function(value)
-        Sessions[bucket].active = false
+        Sessions[bucket].Active = false
         for k, v in pairs(Sessions[bucket].Players) do
             if v then
-                PB.Utility:Notify(src, "INFO", "The session you were in has closed.")
+                PB.Utility:Notify(k, "INFO", "The session you were in has closed.")
+                PB.Sessions:LeaveSession(k)
                 TriggerClientEvent("pb-menu:DisplayMenu", src, true)
             end
         end
@@ -118,12 +114,13 @@ function PB.Sessions:JoinSession(src, bucket, password)
 
     if not Sessions[bucket] then
         TriggerClientEvent("pb-menu:DisplayMenu", src, true)
-        PB.Utility:Notify(src, "ERROR", "An error occured while joining a new session.")
+        PB.Utility:Notify(src, "ERROR", "An error occured while joining a new session", true)
         PB.Logging:NewError(src, true, "Attempted to set a players session to a session that does not exist", {session = session}, true)
         return false
     end
 
     if not Sessions[bucket].Active then 
+        PB.Utility:Notify(src, "ERROR", "Session has closed")
         PB.Logging:NewError(src, true, "Attempted to join an inactive session", {session = session}, true)
         return false 
     end
@@ -150,7 +147,7 @@ function PB.Sessions:JoinSession(src, bucket, password)
 
     if Sessions[bucket].Players[src] then
         TriggerClientEvent("pb-menu:DisplayMenu", src, true)
-        PB.Utility:Notify(src, "ERROR", "An error occured while joining a new session.")
+        PB.Utility:Notify(src, "ERROR", "An error occured while joining a new session", true)
         PB.Logging:NewError(src, true, "Attempted to set a players session to the session they're already in", {session = session, plySession = ply.Session, plyInstance = GetPlayerRoutingBucket(src)}, true)
     else
         CreateThread(function()
@@ -230,6 +227,25 @@ end
 function PB.Sessions:GetAll()
     return Sessions
 end
+
+-- Auto-remove all inactive sessions
+CreateThread(function()
+    while true do
+        Wait(600*1000)
+        for k, v in pairs(Sessions) do
+            if v.Flags["official"] then return false end
+            local plyCount = 0
+            for x, y in pairs(v.players) do
+                if y then
+                    plyCount = plyCount + 1
+                end
+            end
+            if plyCount == 0 then
+                v.Functions.CloseSession()
+            end
+        end
+    end
+end)
 
 -- Net events
 RegisterNetEvent("pb:JoinSession", function(session, password)

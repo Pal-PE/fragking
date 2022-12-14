@@ -7,7 +7,8 @@ ui_page "html/index.html#"
 files {
     "html/index.html",
     "html/js/*.js",
-    "html/css/*.css"
+    "html/css/*.css",
+    "html/img/*.png"
 }
 
 client_scripts {

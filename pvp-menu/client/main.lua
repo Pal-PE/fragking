@@ -56,7 +56,7 @@ function UpdateSessions()
                 players = plyCount,
                 maxplayers = v.Settings.MaxPlayers,
                 locked = v.Private,
-                official = v.Settings.Official
+                official = v.Flags["official"]
             }
         end
         SendNUIMessage({type = "UpdateSessions", sessions = collectedSessions})
@@ -125,8 +125,12 @@ CreateThread(function()
     SendNUIMessage({ type = "SendTranslations", locale = PB.Locale })
 end)
 
+-- Display menu on join
 CreateThread(function()
     Wait(200)
     DisplayMenu(true)
     GetGamemodes()
 end)
+
+-- Exports
+exports("DisplayMenu", DisplayMenu)

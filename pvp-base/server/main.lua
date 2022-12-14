@@ -13,7 +13,7 @@ RegisterNetEvent("playerDropped", function(reason)
     PB.Sessions:LeaveSession(src)
 end)
 
--- Handle player death
+-- Handle player death, triggers once they're back alive
 RegisterNetEvent("pb:PlayerDied", function(attacker)
     local src = source
     local ply = PB.Accounts:Get(src)

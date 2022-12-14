@@ -1,7 +1,10 @@
 RegisterNetEvent("pb-loadout:GetWeapon", function(weapon)
     local src = source
-    RemoveAllPedWeapons(GetPlayerPed(src))
-    GiveWeaponToPed(GetPlayerPed(src), Config.Items[weapon].weapon, 10000, true, true)
+    CreateThread(function()
+        RemoveAllPedWeapons(GetPlayerPed(src))
+        Wait(50)
+        GiveWeaponToPed(GetPlayerPed(src), Config.Items[weapon].weapon, 10000, true, true)
+    end)
 end)
 
 RegisterNetEvent("pb-loadout:RemoveWeapon", function(weapon)

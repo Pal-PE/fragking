@@ -17,7 +17,9 @@ server_scripts {
     "server/sessions.lua",
     "server/menu.lua",
     "gamemodes/ffa/config.lua",
-    "gamemodes/ffa/server.lua"
+    "gamemodes/ffa/server.lua",
+    "gamemodes/gungame/config.lua",
+    "gamemodes/gungame/server.lua",
 }
 
 client_scripts {
@@ -30,7 +32,8 @@ client_scripts {
     "client/sessions.lua",
     "client/menu.lua",
     "client/death.lua",
-    "gamemodes/ffa/client.lua"
+    "gamemodes/ffa/client.lua",
+    "gamemodes/gungame/client.lua",
 }
 
 shared_scripts {

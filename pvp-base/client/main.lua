@@ -40,7 +40,12 @@ RegisterNetEvent("pb:ReceiveGamemodes", function(gamemodes)
     Gamemodes = gamemodes
 end)
 
+RegisterNetEvent("pb:JoinedSession", function()
+    exports["pvp-menu"]:DisplayMenu(false)
+end)
+
 RegisterNetEvent("pb:LeftSession", function()
+    exports["pvp-loadout"]:ClearLoadout()
     exports["pvp-hud"]:SetStats({})
     exports["pvp-hud"]:SetTooltip(false)
     exports["pvp-hud"]:DisplayHUD(false)
@@ -51,7 +56,7 @@ exports["spawnmanager"]:setAutoSpawn(false)
 CreateThread(function()
     local attacker = false
     while true do
-        Wait(250)
+        Wait(100)
         if IsEntityDead(PlayerPedId()) then
             local pedKiller = GetPedSourceOfDeath(PlayerPedId())
             if IsEntityAPed(pedKiller) and IsPedAPlayer(pedKiller) then
@@ -61,6 +66,9 @@ CreateThread(function()
             while IsEntityDead(PlayerPedId()) do
                 Wait(50)
             end
+            SetEntityMaxHealth(PlayerPedId(), 100)
+            SetEntityHealth(PlayerPedId(), 100)
+            SetPedArmour(PlayerPedId(), 100)
             TriggerServerEvent("pb:PlayerDied", attacker)
         end
     end

@@ -130,6 +130,7 @@ end
 function HandleDeath(session, victim, attacker)
     TPGame(session, victim)
     if not attacker then return false end
+    if attacker == victim then return false end
 
     if session.GameData.Logic.Players[victim] and session.GameData.Logic.Players[attacker] then
         -- Update stats
@@ -177,7 +178,7 @@ function TPGame(session, src)
     local selectedSpawn = Config.Maps[session.Map].spawns[99][math.random(#Config.Maps[session.Map].spawns[99])]
     SetEntityCoords(plyPed, selectedSpawn)
     SetEntityHeading(plyPed, selectedSpawn.w)
-    SetPlayerInvincible(false)
+    SetPlayerInvincible(src, false)
 end
 
 -- TP player into the lobby
@@ -185,7 +186,7 @@ function TPLobby(session, src)
     local plyPed = GetPlayerPed(src)
     SetEntityCoords(plyPed, 686.3, 577.96, 130.46)
     SetEntityHeading(plyPed, 157.6)
-    SetPlayerInvincible(true)
+    SetPlayerInvincible(src, true)
     TriggerClientEvent("pb-hud:SetStats", src, {[1] = {string = "In lobby, 2 players required", value = ""}})
 end
 
@@ -208,19 +209,19 @@ local EXMP = PB.Sessions:CreateSession(11, false, "strict", "Official FFA #1")
 EXMP.Functions.SetGame("ffa")
 EXMP.Functions.SetMap("villa")
 EXMP.Functions.SetMaxPlayers(10)
-EXMP.Functions.SetOfficial(true)
+EXMP.Functions.SetFlag("official", true)
 EXMP.Functions.StartGame()
 
 local EXMP =  PB.Sessions:CreateSession(12, false, "strict", "Official FFA #2")
 EXMP.Functions.SetGame("ffa")
 EXMP.Functions.SetMap("nudist")
 EXMP.Functions.SetMaxPlayers(10)
-EXMP.Functions.SetOfficial(true)
+EXMP.Functions.SetFlag("official", true)
 EXMP.Functions.StartGame()
 
 local EXMP = PB.Sessions:CreateSession(13, false, "strict", "Official FFA #3")
 EXMP.Functions.SetGame("ffa")
 EXMP.Functions.SetMap("kortz")
 EXMP.Functions.SetMaxPlayers(32)
-EXMP.Functions.SetOfficial(true)
+EXMP.Functions.SetFlag("official", true)
 EXMP.Functions.StartGame()

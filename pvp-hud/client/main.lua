@@ -70,3 +70,5 @@ exports("SetTooltip", SetTooltip)
 exports("AddNotification", AddNotification)
 exports("AddKill", AddKill)
 exports("SetStats", SetStats)
+
+NetworkOverrideClockTime(7, 5, 0)
