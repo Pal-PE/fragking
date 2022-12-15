@@ -1,6 +1,7 @@
--- Create gamemode
-local FFA = PB.Gamemodes:CreateGamemode("ffa", "Free-for-all", false)
-FFA.Functions.SetMapPool({"shacktown","chopshop","nudist","lumber","villa","kortz"})
+-- Variables
+local FFA = PB.Gamemodes:CreateGamemode("ffa", "Free-for-all")
+FFA.Functions.SetMapPool({"shacktown","chopshop","nudist","lumber","villa","kortz","ramps"})
+local StartCycle, StartLobby, StartGame, Winner, HandleJoin, HandleDeath, HandleLeave, TPGame, TPLobby
 
 -- Start core game cycle
 function StartCycle(session)
@@ -25,8 +26,34 @@ function StartLobby(session)
                     rdyCount = rdyCount + 1
                 end
             end
-            if rdyCount >= 2 then
+            if rdyCount >= 1 then
                 session.GameData.State = "STARTING"
+                Wait(3000)
+                -- Map voting
+                local voteMaps = {}
+                if session.MapPool then
+                    for v in pairs(session.MapPool) do
+                        voteMaps[v] = {
+                            name = Locale["map_" .. session.MapPool[v] .. "_name"],
+                            img = session.MapPool[v] .. ".png",
+                            Function = function()
+                                session.Functions.SetMap(session.MapPool[v])
+                            end
+                        }
+                    end
+                else
+                    for v in pairs(FFA.MapPool) do
+                        print(v)
+                        voteMaps[v] = {
+                            name = Locale["map_" .. FFA.MapPool[v] .. "_name"],
+                            img = FFA.MapPool[v] .. ".png",
+                            Function = function()
+                                session.Functions.SetMap(FFA.MapPool[v])
+                            end
+                        }
+                    end
+                end
+                exports["pvp-voting"]:CreateVote(session.Bucket, "SELECT MAP", 20, voteMaps)
                 local readyCountdown = Config.FFA.LobbyStart
                 while readyCountdown > 0 do
                     Wait(1000)
@@ -59,7 +86,7 @@ function StartGame(session)
             TriggerClientEvent("pb-loadout:ForceLoadout", k, {
                 [1] = {item = "wep_assaultrifle"},
                 [2] = {item = "wep_appistol"},
-                [3] = {item = "gadget_bandage"},
+                [3] = {item = "gadget_medkit"},
                 [4] = {item = "gadget_armour"}
             })
         end
@@ -117,7 +144,7 @@ function HandleJoin(session, src)
         TriggerClientEvent("pb-loadout:ForceLoadout", src, {
             [1] = {item = "wep_assaultrifle"},
             [2] = {item = "wep_appistol"},
-            [3] = {item = "gadget_bandage"},
+            [3] = {item = "gadget_medkit"},
             [4] = {item = "gadget_armour"}
         })
     elseif session.GameData.State == "LOBBY" or session.GameData.State == "STARTING" then
@@ -198,30 +225,41 @@ function HandleLeave(session, src)
     end
 end
 
--- Attach gamecycle
+-- Attach gamemode funcs
 FFA.Functions.SetCycle(StartCycle)
 FFA.Functions.SetHandleJoin(HandleJoin)
 FFA.Functions.SetHandleDeath(HandleDeath)
 FFA.Functions.SetHandleLeave(HandleLeave)
 
 -- Create default sessions
-local EXMP = PB.Sessions:CreateSession(11, false, "strict", "Official FFA #1")
+local EXMP = PB.Sessions:CreateSession(11, false, "strict", "FFA: Office 24/7")
 EXMP.Functions.SetGame("ffa")
-EXMP.Functions.SetMap("villa")
+EXMP.Functions.SetMap("office")
+EXMP.Functions.SetMapPool({"office"})
 EXMP.Functions.SetMaxPlayers(10)
 EXMP.Functions.SetFlag("official", true)
 EXMP.Functions.StartGame()
 
-local EXMP =  PB.Sessions:CreateSession(12, false, "strict", "Official FFA #2")
+local EXMP = PB.Sessions:CreateSession(12, false, "strict", "FFA: Ramps 24/7")
+EXMP.Functions.SetGame("ffa")
+EXMP.Functions.SetMap("ramps")
+EXMP.Functions.SetMapPool({"ramps"})
+EXMP.Functions.SetMaxPlayers(10)
+EXMP.Functions.SetFlag("official", true)
+EXMP.Functions.StartGame()
+
+local EXMP =  PB.Sessions:CreateSession(13, false, "strict", "FFA: Small & Medium Maps")
 EXMP.Functions.SetGame("ffa")
 EXMP.Functions.SetMap("nudist")
+EXMP.Functions.SetMapPool({"office","chopshop","stabcity","shacktown","villa","ramps"})
 EXMP.Functions.SetMaxPlayers(10)
 EXMP.Functions.SetFlag("official", true)
 EXMP.Functions.StartGame()
 
-local EXMP = PB.Sessions:CreateSession(13, false, "strict", "Official FFA #3")
+local EXMP = PB.Sessions:CreateSession(14, false, "strict", "FFA: Large Maps")
 EXMP.Functions.SetGame("ffa")
 EXMP.Functions.SetMap("kortz")
-EXMP.Functions.SetMaxPlayers(32)
+EXMP.Functions.SetMapPool({"kortz","chopshop"})
+EXMP.Functions.SetMaxPlayers(20)
 EXMP.Functions.SetFlag("official", true)
 EXMP.Functions.StartGame()

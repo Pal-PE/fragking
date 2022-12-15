@@ -1,10 +1,12 @@
 Locale = {
-
     -- Gamemodes
     ["gm_ffa_name"] = "Free-for-all",
     ["gm_ffa_desc"] = "It's every man for himself! Points rewarded for killing other players, with the first player to hit 30 points taking the win.",
     ["gm_gungame_name"] = "Gun Game",
     ["gm_gungame_desc"] = "Classic FFA with a twist, every player will start with the same weapon. After every 2 kills the player will progress to the next weapon until they make it to the Bat! First player to get a kill with the Bat wins.",
+    ["gm_rz_name"] = "RZ: AP",
+    ["gm_rz_desc"] = "Continous fighting in smaller maps, full of cover. Players are only equipped with an AP pistol.",
+
 
     -- Maps
     ["map_villa_name"] = "Villa",
@@ -15,6 +17,6 @@ Locale = {
     ["map_oil_name"] = "Oil Fields",
     ["map_lumber_name"] = "Lumber Yard",
     ["map_stabcity_name"] = "Stab City",
-    ["map_office_name"] = "Office"
-
+    ["map_office_name"] = "Office",
+    ["map_ramps_name"] = "Ramps"
 }

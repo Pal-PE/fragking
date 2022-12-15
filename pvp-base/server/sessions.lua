@@ -8,11 +8,13 @@ function PB.Sessions:CreateSession(bucket, population, lockdown, name)
     if Sessions[bucket] then return false end
 
     Sessions[bucket] = {
+        Bucket = bucket,
         Name = name,
         Active = true,
         Private = false,
         Gamemode = nil,
         Map = nil,
+        MapPool = nil,
         Flags = {},
         Players = {},
         Settings = {
@@ -85,6 +87,11 @@ function PB.Sessions:CreateSession(bucket, population, lockdown, name)
     Sessions[bucket].Functions.SetMap = function(map)
         Sessions[bucket].Map = map
         PB.Logging:NewLog("SESSION", false, "Set a sessions map", {session = bucket, map = map}, true)
+    end
+
+    Sessions[bucket].Functions.SetMapPool = function(maps)
+        Sessions[bucket].MapPool = maps
+        PB.Logging:NewLog("SESSION", false, "Set a sessions mappool", {session = bucket, maps = maps}, true)
     end
 
     -- Set the native options
@@ -257,9 +264,3 @@ RegisterNetEvent("pb:RequestSessions", function()
     local src = source
     TriggerClientEvent("pb:ReceiveSessions", src, Sessions)
 end)
-
--- Commands
-RegisterCommand("leave", function(src)
-    PB.Sessions:LeaveSession(src)
-    TriggerClientEvent("pb-menu:DisplayMenu", src, true)
-end, false)

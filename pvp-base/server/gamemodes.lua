@@ -4,10 +4,9 @@ Games = {}
 PB.Gamemodes = {}
 
 -- Create gamemode
-function PB.Gamemodes:CreateGamemode(gameid, name, official)
+function PB.Gamemodes:CreateGamemode(gameid, name)
     Gamemodes[gameid] = {
         Name = name,
-        Official = official,
         MapPool = {},
         Handles = {
             GameCycle = nil,

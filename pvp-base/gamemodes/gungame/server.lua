@@ -1,10 +1,11 @@
--- Create gamemode
-local GunGame = PB.Gamemodes:CreateGamemode("gungame", "Gun Game", false)
-GunGame.Functions.SetMapPool({"shacktown","chopshop","nudist","lumber","villa","kortz"})
+-- Variables
+local GunGame = PB.Gamemodes:CreateGamemode("gungame", "Gun Game")
+GunGame.Functions.SetMapPool({"shacktown","chopshop","nudist","lumber","villa","kortz","ramps"})
+local StartCycle, StartLobby, StartGame, Winner, HandleJoin, HandleDeath, HandleLeave, TPGame, TPLobby
 
 -- Start core game cycle
 function StartCycle(session)
-    -- Set the session to an initial state
+    -- Set the session to an initial states
     session.GameData.Live = true
     session.GameData.State = "LOBBY"
     session.GameData.Logic = {
@@ -140,7 +141,7 @@ function HandleDeath(session, victim, attacker)
             session.GameData.Logic.Players[attacker].currentGun = newGun
             TriggerClientEvent("pb-loadout:ForceLoadout", attacker, {
                 [1] = {item = Config.GunGame.Guns[newGun]},
-                [2] = {item = "gadget_bandage"},
+                [2] = {item = "gadget_medkit"},
                 [3] = {item = "gadget_armour"}
             })
             TriggerClientEvent("pb-loadout:ForceUse", attacker, 1)
@@ -188,7 +189,7 @@ function TPGame(session, src)
     -- Handle gungame weapons
     TriggerClientEvent("pb-loadout:ForceLoadout", src, {
         [1] = {item = Config.GunGame.Guns[session.GameData.Logic.Players[src].currentGun]},
-        [2] = {item = "gadget_bandage"},
+        [2] = {item = "gadget_medkit"},
         [3] = {item = "gadget_armour"}
     })
     TriggerClientEvent("pb-loadout:ForceUse", src, 1)
@@ -211,30 +212,41 @@ function HandleLeave(session, src)
     end
 end
 
--- Attach gamecycle
+-- Attach gamemode funcs
 GunGame.Functions.SetCycle(StartCycle)
 GunGame.Functions.SetHandleJoin(HandleJoin)
 GunGame.Functions.SetHandleDeath(HandleDeath)
 GunGame.Functions.SetHandleLeave(HandleLeave)
 
 -- Create default sessions
-local EXMP = PB.Sessions:CreateSession(21, false, "strict", "Official Gun Game #1")
+local EXMP = PB.Sessions:CreateSession(21, false, "strict", "Gun Game: Office 24/7")
 EXMP.Functions.SetGame("gungame")
-EXMP.Functions.SetMap("villa")
+EXMP.Functions.SetMap("office")
+EXMP.Functions.SetMapPool({"office"})
 EXMP.Functions.SetMaxPlayers(10)
 EXMP.Functions.SetFlag("official", true)
 EXMP.Functions.StartGame()
 
-local EXMP =  PB.Sessions:CreateSession(22, false, "strict", "Official Gun Game #2")
+local EXMP = PB.Sessions:CreateSession(22, false, "strict", "Gun Game: Ramps 24/7")
 EXMP.Functions.SetGame("gungame")
-EXMP.Functions.SetMap("chopshop")
-EXMP.Functions.SetMaxPlayers(16)
+EXMP.Functions.SetMap("ramps")
+EXMP.Functions.SetMapPool({"ramps"})
+EXMP.Functions.SetMaxPlayers(10)
 EXMP.Functions.SetFlag("official", true)
 EXMP.Functions.StartGame()
 
-local EXMP = PB.Sessions:CreateSession(23, false, "strict", "Official Gun Game #3")
+local EXMP =  PB.Sessions:CreateSession(23, false, "strict", "Gun Game: Small & Medium Maps")
+EXMP.Functions.SetGame("gungame")
+EXMP.Functions.SetMap("nudist")
+EXMP.Functions.SetMapPool({"office","chopshop","stabcity","shacktown","villa","ramps"})
+EXMP.Functions.SetMaxPlayers(10)
+EXMP.Functions.SetFlag("official", true)
+EXMP.Functions.StartGame()
+
+local EXMP = PB.Sessions:CreateSession(24, false, "strict", "Gun Game: Large Maps")
 EXMP.Functions.SetGame("gungame")
 EXMP.Functions.SetMap("kortz")
-EXMP.Functions.SetMaxPlayers(32)
+EXMP.Functions.SetMapPool({"kortz","chopshop"})
+EXMP.Functions.SetMaxPlayers(20)
 EXMP.Functions.SetFlag("official", true)
 EXMP.Functions.StartGame()

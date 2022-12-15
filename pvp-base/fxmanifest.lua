@@ -16,10 +16,12 @@ server_scripts {
     "server/gamemodes.lua",
     "server/sessions.lua",
     "server/menu.lua",
+    "server/commands.lua",
     "gamemodes/ffa/config.lua",
     "gamemodes/ffa/server.lua",
     "gamemodes/gungame/config.lua",
     "gamemodes/gungame/server.lua",
+    "gamemodes/redzone/server.lua"
 }
 
 client_scripts {
@@ -34,6 +36,7 @@ client_scripts {
     "client/death.lua",
     "gamemodes/ffa/client.lua",
     "gamemodes/gungame/client.lua",
+    "gamemodes/redzone/client.lua"
 }
 
 shared_scripts {

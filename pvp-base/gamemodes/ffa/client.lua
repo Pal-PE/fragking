@@ -2,7 +2,7 @@
 local gameLive = false
 
 -- Run client-side game cycle when game starts
-function InGame()
+local function InGame()
     exports["pvp-loadout"]:LockLoadout(false)
     CreateThread(function()
         while gameLive do

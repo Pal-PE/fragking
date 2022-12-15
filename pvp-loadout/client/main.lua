@@ -22,9 +22,6 @@ function ForceLoadout(data, use)
         end
     end
     UpdateUI()
-    if use then
-        UseItem(currentLoadout[use])
-    end
 end
 
 -- Lock loadout, not allowing for it to be changed without force
@@ -35,9 +32,7 @@ end
 -- Update the NUI
 function UpdateUI()
     local loadoutData = {}
-    local activeLoadout = false
     for k, v in pairs(currentLoadout) do
-        activeLoadout = true
         loadoutData[k] = {
             slot = k,
             label = Config.Items[v.item].label,
@@ -45,9 +40,7 @@ function UpdateUI()
             cooldown = v.cooldown
         }
     end
-    if activeLoadout then
-        SendNUIMessage({type = "SetLoadout", loadout = loadoutData})
-    end
+    SendNUIMessage({type = "SetLoadout", loadout = loadoutData})
 end
 
 -- Logic for using an item
@@ -141,7 +134,7 @@ CreateThread(function()
                 UseItem(currentLoadout[4])
             end
         elseif IsControlJustReleased(0, 165) then -- 5
-            if if currentLoadout[5] then
+            if currentLoadout[5] then
                 UseItem(currentLoadout[5])
             end
         end

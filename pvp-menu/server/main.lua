@@ -38,10 +38,11 @@ function FindBestSession(src, gm)
     local bestLobby = false
     local bestPlayers = nil
     for k, v in pairs(sessions) do
+        if v.Private then return end
         if not v.Gamemode == gm then return false end
         local plyCount = 0
-        for k, v in pairs(v.Players) do
-            if v then
+        for x, y in pairs(v.Players) do
+            if y then
                 plyCount = plyCount + 1
             end
         end

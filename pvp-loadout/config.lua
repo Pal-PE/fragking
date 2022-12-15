@@ -76,5 +76,5 @@ Config.Items = {
     -- Gadgets
     ["gadget_bandage"] = { label = "Bandage", category = "consumables", type = "gadget", cooldown = 3, img = "BANDAGE.png" },
     ["gadget_medkit"] = { label = "Med Kit", category = "consumables", type = "gadget", cooldown = 10, img = "MEDKIT.png" },
-    ["gadget_armour"] = { label = "Armour", category = "consumables", type = "gadget", cooldown = 15, img = "ARMOUR.png" }
+    ["gadget_armour"] = { label = "Armour", category = "consumables", type = "gadget", cooldown = 10, img = "ARMOUR.png" }
 }
