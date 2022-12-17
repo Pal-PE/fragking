@@ -5,6 +5,7 @@ PB.Sessions = {}
 local Sessions
 PB.Gamemodes = {}
 local Gamemodes
+local GetCoreObject, GetSessions
 
 -- Return core object
 function GetCoreObject()
@@ -21,6 +22,10 @@ function PB.Sessions:GetSessions()
     return Sessions
 end
 
+function GetSessions()
+    return Sessions
+end
+
 -- Get gamemode data
 function PB.Gamemodes:RequestAll()
     TriggerServerEvent("pb:RequestGamemodes")
@@ -30,26 +35,6 @@ end
 function PB.Gamemodes:GetGamemodes()
     return Gamemodes
 end
-
--- Net events
-RegisterNetEvent("pb:ReceiveSessions", function(sessions)
-    Sessions = sessions
-end)
-
-RegisterNetEvent("pb:ReceiveGamemodes", function(gamemodes)
-    Gamemodes = gamemodes
-end)
-
-RegisterNetEvent("pb:JoinedSession", function()
-    exports["pvp-menu"]:DisplayMenu(false)
-end)
-
-RegisterNetEvent("pb:LeftSession", function()
-    exports["pvp-loadout"]:ClearLoadout()
-    exports["pvp-hud"]:SetStats({})
-    exports["pvp-hud"]:SetTooltip(false)
-    exports["pvp-hud"]:DisplayHUD(false)
-end)
 
 -- Handle death, and provide a killing player if possible
 exports["spawnmanager"]:setAutoSpawn(false)
@@ -74,18 +59,42 @@ CreateThread(function()
     end
 end)
 
--- Set player max health
-SetPedMaxHealth(PlayerPedId(), 100)
+-- Net events
+RegisterNetEvent("pb:PlayerLoaded", function()
+    TriggerEvent("pb-menu:DisplayMenu", true)
+end)
+
+RegisterNetEvent("pb:ReceiveSessions", function(sessions)
+    Sessions = sessions
+end)
+
+RegisterNetEvent("pb:ReceiveGamemodes", function(gamemodes)
+    Gamemodes = gamemodes
+end)
+
+RegisterNetEvent("pb:JoinedSession", function(session)
+    TriggerEvent("pb-menu:DisplayMenu", false)
+    Notify("SUCCESS", "Joined " .. session.name, true)
+end)
+
+RegisterNetEvent("pb:LeftSession", function()
+    TriggerEvent("pb-menu:DisplayMenu", true)
+    TriggerEvent("pb-loadout:ClearLoadout")
+    TriggerEvent("pb-hud:SetStats", {})
+    TriggerEvent("pb-hud:SetTooltip", false)
+    TriggerEvent("pb-hud:DisplayHUD", false)
+    Notify("ERROR", "Left session", true)
+end)
 
 -- Turn on friendly fire, required
-AddEventHandler("playerSpawned", function(spawn)
-	local ped = PlayerPedId()
-	SetCanAttackFriendly(ped, true, true)
+AddEventHandler("playerSpawned", function()
+	SetCanAttackFriendly(PlayerPedId(), true, true)
 	NetworkSetFriendlyFireOption(true)
 end)
 
 -- Exports
 exports("GetCoreObject", GetCoreObject)
+exports("GetSessions", GetSessions)
 
 -- Let the server know that we've connected and are ready!
 TriggerServerEvent("pb:PlayerConnected")

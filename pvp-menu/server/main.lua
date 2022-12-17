@@ -34,22 +34,22 @@ end
 -- Find best session
 function FindBestSession(src, gm)
     local src = source
-    local sessions = PB.Sessions:GetAll()
+    local sessions = exports["pvp-base"]:GetSessions()
     local bestLobby = false
     local bestPlayers = nil
     for k, v in pairs(sessions) do
-        if v.Private then return end
-        if not v.Gamemode == gm then return false end
-        local plyCount = 0
-        for x, y in pairs(v.Players) do
-            if y then
-                plyCount = plyCount + 1
+        if not v.private and v.gamemode == gm then
+            local plyCount = 0
+            for x, y in pairs(v.players) do
+                if y then
+                    plyCount = plyCount + 1
+                end
             end
-        end
-        if plyCount >= v.Settings.MaxPlayers then return false end
-        if bestLobby == false or plyCount > bestPlayers then
-            bestLobby = k
-            bestPlayers = plyCount
+            if plyCount >= v.settings.maxPlayers then return false end
+            if bestLobby == false or plyCount > bestPlayers then
+                bestLobby = k
+                bestPlayers = plyCount
+            end
         end
     end
     if bestLobby then
@@ -65,23 +65,18 @@ RegisterNetEvent("pb-menu:CreateSession", function(data)
     CreateSession(src, data)
 end)
 
-RegisterNetEvent("pb-menu:QuickplayFFA", function()
+RegisterNetEvent("pb-menu:FindBestMatch", function(gamemode)
     local src = source
-    FindBestSession(src, "ffa")
+    FindBestSession(src, gamemode)
 end)
 
-RegisterNetEvent("pb-menu:Quickplay1v1", function()
+RegisterNetEvent("pb-menu:StartTraining", function()
     local src = source
-    FindBestSession(src, "1v1")
-end)
-
-RegisterNetEvent("pb-menu:QuickplayPractice", function()
-    local src = source
-
-    if PB.Sessions:Get(900+src) then
-        PB.Sessions:JoinSession(src, 900+src, "HIDDENPASSWORD" .. src)
+    -- If the session exists, connect using the premade pass, if not then create it and connect them
+    if PB.Sessions:Get(1000+src) then
+        PB.Sessions:JoinSession(src, 1000+src, "HIDDENPASSWORD" .. src)
     else
-        local newSession = PB.Sessions:CreateSession(900+src, "strict", true, "Practice")
+        local newSession = PB.Sessions:CreateSession(1000+src, "strict", true, "Practice")
         newSession.Functions.SetPassword("HIDDENPASSWORD" .. src)
         if not newSession then
             PB.Utility:Notify(src, "ERROR", "Couldn't create practice session", true)
@@ -92,9 +87,6 @@ RegisterNetEvent("pb-menu:QuickplayPractice", function()
         newSession.Functions.SetFlag("official", true)
         newSession.Functions.SetFlag("hidden", true)
         newSession.Functions.StartGame()
-        PB.Sessions:JoinSession(src, 900+src, "HIDDENPASSWORD" .. src)
+        PB.Sessions:JoinSession(src, 1000+src, "HIDDENPASSWORD" .. src)
     end
-
-
-    print("start practice tool!")
 end)

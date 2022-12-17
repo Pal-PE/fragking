@@ -1,5 +1,4 @@
 -- Variables
-local Tracking = Activities:CreateActivity("tracking", false)
 local StartActivity
 
 -- Start activity
@@ -34,5 +33,5 @@ function StartActivity(difficulty)
 
 end
 
--- Attach activity handles
-Tracking.Handles.StartActivity = StartActivity
+-- Create activity
+local Tracking = Activities:CreateActivity("tracking", StartActivity, false, 60, "wep_appistol")

@@ -3,16 +3,18 @@ currentLoadout = {}
 local selectedWeapon = false
 loadoutLocked = true
 local displayLoadout = true
+local ClearLoadout, ForceLoadout, LockLoadout, UseItem
 
 -- Clear loadout to default, and remove ped weapons
 function ClearLoadout()
-    RemoveAllPedWeapons(PlayerPedId())
     currentLoadout = {}
+    TriggerServerEvent("pb-loadout:RemoveWeapon")
     UpdateUI()
 end
 
 -- Force a loadout on the player
 function ForceLoadout(data, use)
+    print("forcing loadout")
     selectedWeapon = false
     RemoveAllPedWeapons(PlayerPedId())
     currentLoadout = data
@@ -22,6 +24,9 @@ function ForceLoadout(data, use)
         end
     end
     UpdateUI()
+    if use then 
+        ForceUse(use)
+    end
 end
 
 -- Lock loadout, not allowing for it to be changed without force
@@ -52,41 +57,29 @@ function UseItem(item)
     end
     -- Handle weapons
     if Config.Items[item.item].type == "weapon" then
-        if not item.item == selectedWeapon then
-            print("equip wep")
-            TriggerServerEvent("pb-loadout:GetWeapon", item.item)
-            selectedWeapon = item.item
-        else
-            TriggerServerEvent("pb-loadout:RemoveWeapon", item.item)
-            selectedWeapon = false
-        end
+    if not item.item == selectedWeapon then
+        selectedWeapon = item.item
+        TriggerServerEvent("pb-loadout:GetWeapon", item.item)
+    else
+        selectedWeapon = false
+        TriggerServerEvent("pb-loadout:RemoveWeapon", item.item)
+    end
     -- Handle gadgets
     elseif Config.Items[item.item].type == "gadget" then
         if not item.cooldown then
             item.cooldown = true
+            Gadgets[item.item]()
+            UpdateUI()
             CreateThread(function()
                 Wait(Config.Items[item.item].cooldown*1000)
                 item.cooldown = false
                 UpdateUI()
             end)
             TriggerEvent("pb:Notification", "SUCCESS", "Used " .. Config.Items[item.item].label .. ".", true)
-            if item.item == "gadget_bandage" then
-                local newHP = GetEntityHealth(PlayerPedId())+30
-                if newHP > 100 then
-                    newHP = 100
-                end
-                SetEntityHealth(PlayerPedId(), newHP)
-            elseif item.item == "gadget_medkit" then
-                SetEntityHealth(PlayerPedId(), 100)
-            elseif item.item== "gadget_armour" then
-                print("armmm")
-                SetPedArmour(PlayerPedId(), 100)
-            end
         else
             TriggerEvent("pb:Notification", "ERROR", Config.Items[item.item].label .. " is on cooldown.", true)
         end
     end
-    UpdateUI()
 end
 
 -- Force the user to use a item, good for auto equipping
@@ -94,23 +87,6 @@ function ForceUse(slot)
     selectedWeapon = false
     UseItem(currentLoadout[slot])
 end
-
--- Net events
-RegisterNetEvent("pb-loadout:ClearLoadout", function()
-    ClearLoadout()
-end)
-
-RegisterNetEvent("pb-loadout:ForceLoadout", function(data)
-    ForceLoadout(data)
-end)
-
-RegisterNetEvent("pb-loadout:LockLoadout", function(value)
-    LockLoadout(value)
-end)
-
-RegisterNetEvent("pb-loadout:ForceUse", function(slot)
-    ForceUse(slot)
-end)
 
 -- Check for keypresses and block default weapon wheel
 CreateThread(function()
@@ -141,8 +117,19 @@ CreateThread(function()
     end
 end)
 
--- Exports
-exports("ClearLoadout", ClearLoadout)
-exports("ForceLoadout", ForceLoadout)
-exports("LockLoadout", LockLoadout)
-exports("ForceUse", ForceUse)
+-- Net events
+RegisterNetEvent("pb-loadout:ClearLoadout", function()
+    ClearLoadout()
+end)
+
+RegisterNetEvent("pb-loadout:ForceLoadout", function(data)
+    ForceLoadout(data)
+end)
+
+RegisterNetEvent("pb-loadout:LockLoadout", function(value)
+    LockLoadout(value)
+end)
+
+RegisterNetEvent("pb-loadout:ForceUse", function(slot)
+    ForceUse(slot)
+end)

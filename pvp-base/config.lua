@@ -1,11 +1,14 @@
+-- Variables
 Config = {}
 
--- User account config
+Config.IdentifierPrefix = "22"
 
+-- Default flags
 Config.DefaultFlags = {
     ["rank"] = "member",
 }
 
+-- Default currencies
 Config.Currency = {
     ["cash"] = {
         label = "Cash",
@@ -17,6 +20,7 @@ Config.Currency = {
     }
 }
 
+-- Default levels
 Config.Levels = {
     ["global"] = {
         label = "Global Experience",
@@ -28,18 +32,14 @@ Config.Levels = {
 
 -- Optimize this so that it sets up level amounts on start, then just loop through when needed
 Config.LevelFormula = {
-
     [1] = function(exp)
-
         if not exp then return end
-
         local _amount = 0
         local levelAmounts = {}
         for i = 0, 500, 1 do
             _amount = (i*i)*50 + _amount
             levelAmounts[i] = {amount = _amount}
         end
-
         local lvl = 0
         for k, v in pairs(levelAmounts) do
             if exp < v.amount then
@@ -47,9 +47,6 @@ Config.LevelFormula = {
                 break
             end
         end
-
         return lvl
-
     end
-
 }

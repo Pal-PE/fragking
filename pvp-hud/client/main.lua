@@ -1,5 +1,6 @@
 -- Variables
 local showHUD = false
+local DisplayHUD, SetTooltip, AddNotification, AddKill, SetStats
 
 -- Display HUD
 function DisplayHUD(value)
@@ -23,28 +24,22 @@ end
 function SetTooltip(string)
     SendNUIMessage({type = "HudTooltip", value = string})
 end
+
 function AddNotification(string, _type)
     SendNUIMessage({type = "AddNotification", string = string, cat = _type})
 end
-function AddKill(string, personal)
-    SendNUIMessage({type = "AddKillfeed", string = string, personal = personal})
-end
-function SetStats(table)
-    SendNUIMessage({type = "SetStats", table = table})
-end
 
--- Net events
-RegisterNetEvent("pb-hud:AddKillFeed", function(victim, attacker, victimName, attackerName)
+function AddKill(victim, attacker, victimName, attackerName)
     local personal = false
     if victim == GetPlayerServerId(PlayerId()) or attacker == GetPlayerServerId(PlayerId()) then
         personal = true
     end
-    AddKill(attackerName .. " killed " .. victimName, personal)
-end)
+    SendNUIMessage({type = "AddKillfeed", string = attackerName .. " fragged " .. victimName, personal = personal})
+end
 
-RegisterNetEvent("pb-hud:SetStats", function(table)
-    SetStats(table)
-end)
+function SetStats(table)
+    SendNUIMessage({type = "SetStats", table = table})
+end
 
 -- Base game stuff to disable
 DisplayRadar(false)
@@ -64,11 +59,23 @@ CreateThread(function()
     end
 end)
 
--- Exports
-exports("DisplayHUD", DisplayHUD)
-exports("SetTooltip", SetTooltip)
-exports("AddNotification", AddNotification)
-exports("AddKill", AddKill)
-exports("SetStats", SetStats)
+-- Net events
+RegisterNetEvent("pb-hud:DisplayHUD", function(value)
+    DisplayHUD(value)
+end)
 
-NetworkOverrideClockTime(7, 5, 0)
+RegisterNetEvent("pb-hud:SetTooltip", function(string)
+    SetTooltip(string)
+end)
+
+RegisterNetEvent("pb-hud:AddNotification", function(string, _type)
+    AddNotification(string, _type)
+end)
+
+RegisterNetEvent("pb-hud:SetStats", function(table)
+    SetStats(table)
+end)
+
+RegisterNetEvent("pb-hud:AddKillFeed", function(victim, attacker, victimname, attackerName)
+    AddKill(victim, attacker, attackerName, victimname)
+end)

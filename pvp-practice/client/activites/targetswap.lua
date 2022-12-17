@@ -1,5 +1,4 @@
 -- Variables
-local Targetswap = Activities:CreateActivity("targetswap", false)
 local StartActivity
 
 -- Start activity
@@ -67,5 +66,5 @@ function StartActivity(difficulty)
 
 end
 
--- Attach activity handles
-Targetswap.Handles.StartActivity = StartActivity
+-- Create activity
+local Targetswap = Activities:CreateActivity("targetswap", StartActivity, true, 60, "wep_appistol")

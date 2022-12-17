@@ -6,11 +6,11 @@ local StartCycle, StartLobby, StartGame, Winner, HandleJoin, HandleDeath, Handle
 -- Start core game cycle
 function StartCycle(session)
     -- Set the session to an initial state
-    session.GameData.Live = true
-    session.GameData.State = "LOBBY"
-    session.GameData.Logic = {
-        Timer = 0,
-        Players = {}
+    session.gameData.live = true
+    session.gameData.state = "LOBBY"
+    session.gameData.logic = {
+        timer = 0,
+        players = {}
     }
     StartLobby(session)
 end
@@ -18,47 +18,47 @@ end
 -- Start the lobby up
 function StartLobby(session)
     CreateThread(function()
-        while session.GameData.State == "LOBBY" do
+        while session.gameData.state == "LOBBY" do
             Wait(1000)
             local rdyCount = 0
-            for k, v in pairs(session.GameData.Logic.Players) do
+            for k, v in pairs(session.gameData.logic.players) do
                 if v then
                     rdyCount = rdyCount + 1
                 end
             end
             if rdyCount >= 1 then
-                session.GameData.State = "STARTING"
+                session.gameData.state = "STARTING"
                 Wait(3000)
                 -- Map voting
                 local voteMaps = {}
-                if session.MapPool then
-                    for v in pairs(session.MapPool) do
+                if session.mapPool then
+                    for v in pairs(session.mapPool) do
                         voteMaps[v] = {
-                            name = Locale["map_" .. session.MapPool[v] .. "_name"],
-                            img = session.MapPool[v] .. ".png",
+                            name = Locale["map_" .. session.mapPool[v] .. "_name"],
+                            img = session.mapPool[v] .. ".png",
                             Function = function()
-                                session.Functions.SetMap(session.MapPool[v])
+                                session.Functions.SetMap(session.mapPool[v])
                             end
                         }
                     end
                 else
-                    for v in pairs(FFA.MapPool) do
+                    for v in pairs(FFA.mapPool) do
                         print(v)
                         voteMaps[v] = {
-                            name = Locale["map_" .. FFA.MapPool[v] .. "_name"],
-                            img = FFA.MapPool[v] .. ".png",
+                            name = Locale["map_" .. FFA.mapPool[v] .. "_name"],
+                            img = FFA.mapPool[v] .. ".png",
                             Function = function()
-                                session.Functions.SetMap(FFA.MapPool[v])
+                                session.Functions.SetMap(FFA.mapPool[v])
                             end
                         }
                     end
                 end
-                exports["pvp-voting"]:CreateVote(session.Bucket, "VOTE FOR MAP", 20, voteMaps)
+                exports["pvp-voting"]:CreateVote(session.bucket, "VOTE FOR MAP", 20, voteMaps)
                 local readyCountdown = Config.FFA.LobbyStart
                 while readyCountdown > 0 do
                     Wait(1000)
                     readyCountdown = readyCountdown - 1
-                    for k, v in pairs(session.GameData.Logic.Players) do
+                    for k, v in pairs(session.gameData.logic.players) do
                         TriggerClientEvent("pb-hud:SetStats", k, {[1] = {string = "Game starting", value = readyCountdown}})
                     end
                 end
@@ -71,13 +71,13 @@ end
 --Run server-side game cycle when game starts
 function StartGame(session)
     -- Setup the session
-    session.GameData.State = "LIVE"
-    session.GameData.Logic.Timer = Config.FFA.Timer
+    session.gameData.state = "LIVE"
+    session.gameData.logic.timer = Config.FFA.Timer
 
     -- Push all players in lobby to live game
-    for k, v in pairs(session.Players) do
+    for k, v in pairs(session.players) do
         if v then
-            session.GameData.Logic.Players[k] = {
+            session.gameData.logic.players[k] = {
                 kills = 0,
                 deaths = 0
             }
@@ -94,16 +94,16 @@ function StartGame(session)
 
     -- Add timer
     CreateThread(function()
-        while session.GameData.State == "LIVE" do
+        while session.gameData.state == "LIVE" do
             Wait(1000)
-            session.GameData.Logic.Timer = session.GameData.Logic.Timer - 1
+            session.gameData.logic.timer = session.gameData.logic.timer - 1
             -- Update stats panel for player
-            local time = os.date("!*t", session.GameData.Logic.Timer)
+            local time = os.date("!*t", session.gameData.logic.timer)
             if string.len(tostring(time["sec"])) == 1 then
                 time["sec"] = "0" .. time["sec"]
             end
             time = time["min"] .. ":" .. time["sec"]
-            for k, v in pairs(session.GameData.Logic.Players) do
+            for k, v in pairs(session.gameData.logic.players) do
                 if v then
                     TriggerClientEvent("pb-hud:SetStats", k, {
                         [4] = {string = "Time left", value = time},
@@ -114,10 +114,10 @@ function StartGame(session)
                 end
             end
             -- Check for timed winner
-            if session.GameData.Logic.Timer <= 0 then
+            if session.gameData.logic.timer <= 0 then
                 local topKills = 0
                 local topKiller = nil
-                for k, v in pairs(session.GameData.Logic.Players) do
+                for k, v in pairs(session.gameData.logic.players) do
                     if v and v.kills then
                         if v.kills > topKills or topKiller == nil then
                             topKills = v.kills
@@ -134,8 +134,8 @@ end
 -- Handle a new player joining the game
 function HandleJoin(session, src)
     -- Add them to the gamelogic
-    if session.GameData.State == "LIVE" then
-        session.GameData.Logic.Players[src] = {
+    if session.gameData.state == "LIVE" then
+        session.gameData.logic.players[src] = {
             kills = 0,
             deaths = 0,
         }
@@ -147,8 +147,8 @@ function HandleJoin(session, src)
             [3] = {item = "gadget_medkit"},
             [4] = {item = "gadget_armour"}
         })
-    elseif session.GameData.State == "LOBBY" or session.GameData.State == "STARTING" then
-        session.GameData.Logic.Players[src] = true
+    elseif session.gameData.state == "LOBBY" or session.gameData.state == "STARTING" then
+        session.gameData.logic.players[src] = true
         TPLobby(session, src)
     end
 end
@@ -159,12 +159,12 @@ function HandleDeath(session, victim, attacker)
     if not attacker then return false end
     if attacker == victim then return false end
 
-    if session.GameData.Logic.Players[victim] and session.GameData.Logic.Players[attacker] then
+    if session.gameData.logic.players[victim] and session.gameData.logic.players[attacker] then
         -- Update stats
-        session.GameData.Logic.Players[victim].deaths = session.GameData.Logic.Players[victim].deaths + 1
-        session.GameData.Logic.Players[attacker].kills = session.GameData.Logic.Players[attacker].kills + 1
+        session.gameData.logic.players[victim].deaths = session.gameData.logic.players[victim].deaths + 1
+        session.gameData.logic.players[attacker].kills = session.gameData.logic.players[attacker].kills + 1
         -- Check if we've got a winner
-        if session.GameData.Logic.Players[attacker].kills >= Config.FFA.Goal then
+        if session.gameData.logic.players[attacker].kills >= Config.FFA.Goal then
             Winner(session, attacker)
         end
     end
@@ -173,8 +173,8 @@ end
 -- Decide on a winner of the game
 function Winner(session, src)
     -- End the game
-    session.GameData.State = "LOBBY"
-    for k, v in pairs(session.GameData.Logic.Players) do
+    session.gameData.state = "LOBBY"
+    for k, v in pairs(session.gameData.logic.players) do
         if v then
             local ply = PB.Accounts:Get(k)
             if not ply then return false end
@@ -188,7 +188,7 @@ function Winner(session, src)
     end
 
     -- Reward winner
-    if session.Players[src] then
+    if session.players[src] then
         PB.Utility:Notify(src, "INFO", "You placed first and therefore recieved a bonus!")
         local ply = PB.Accounts:Get(src)
         if not ply then return false end
@@ -202,7 +202,7 @@ end
 -- TP player into the current game map
 function TPGame(session, src)
     local plyPed = GetPlayerPed(src)
-    local selectedSpawn = Config.Maps[session.Map].spawns[99][math.random(#Config.Maps[session.Map].spawns[99])]
+    local selectedSpawn = Config.Maps[session.map].spawns[99][math.random(#Config.Maps[session.map].spawns[99])]
     SetEntityCoords(plyPed, selectedSpawn)
     SetEntityHeading(plyPed, selectedSpawn.w)
     SetPlayerInvincible(src, false)
@@ -219,8 +219,8 @@ end
 
 -- Handle a player leaving the game
 function HandleLeave(session, src)
-    if session.GameData.Logic.Players[src] then
-        session.GameData.Logic.Players[src] = false
+    if session.gameData.logic.players[src] then
+        session.gameData.logic.players[src] = false
         TriggerClientEvent("pb-ffa:InGame", src, false)
     end
 end

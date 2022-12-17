@@ -15,7 +15,8 @@ client_scripts {
     "@NativeUI/NativeUI.lua",
     "config.lua",
     "client/main.lua",
-    "client/weaponSelect.lua"
+    "client/weaponSelect.lua",
+    "client/gadgets.lua"
 }
 
 server_scripts {

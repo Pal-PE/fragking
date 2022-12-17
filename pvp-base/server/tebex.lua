@@ -1,10 +1,10 @@
 -- Variables
 PB.Tebex = {}
 PB.Tebex.Actions = {}
+local RedeemCode
 
 -- Redeem new code
-local function RedeemCode(src, code)
-
+function RedeemCode(src, code)
     if not src or not code then return false end
 
     local ply = PB.Accounts:Get(src)
@@ -18,22 +18,20 @@ local function RedeemCode(src, code)
         if errorCode == 200 then
             if resultData.content then
                 PB.Utility:Notify(src, "SUCCESS", "API: " .. resultData.content , true)
+                CheckForPurchases(src)
             end
-        elseif errorCode == 401 then
+        elseif errorCode == 201 then
             if resultData.error then
                 PB.Utility:Notify(src, "ERROR", "API: " .. resultData.error , true)
             end
         else
             PB.Utility:Notify(src, "ERROR", "Failed to contact API (" .. errorCode .. ")", true)
         end
-        CheckForPurchases(src)
     end, "POST", "", {["identifier"] = ply.identifier, ["code"] = code})
-
 end
 
 -- Handle player connecting
 function CheckForPurchases(src)
-
     if not src then return false end
 
     local ply = PB.Accounts:Get(src)
@@ -58,17 +56,19 @@ function CheckForPurchases(src)
             PB.Utility:Notify(src, "ERROR", "Failed to contact API (" .. errorCode .. ")", true)
         end
     end, "GET", "", {["identifier"] = ply.identifier})
-
 end
 
 -- Net events
 RegisterNetEvent("pb:RedeemCode", function(code)
     local src = source
-    RedeemCode(code)
+    RedeemCode(src, code)
 end)
 
 -- Purchase actions
+local premiumRedeemed = false
 PB.Tebex.Actions["premium"] = function(src)
+    if premiumRedeemed then return false end
+    premiumRedeemed = true
     local ply = PB.Accounts:Get(src)
     if not ply then return false end
     ply.Functions.SetFlag("premium", true)

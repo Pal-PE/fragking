@@ -1,5 +1,6 @@
 -- Core object
 PB = {}
+local GetCoreObject
 
 -- Retrieve core framework object
 function GetCoreObject()
@@ -9,27 +10,28 @@ end
 -- Handle player disconnecting
 RegisterNetEvent("playerDropped", function(reason)
     local src = source
-    PB.Accounts:Save(src)
     PB.Sessions:LeaveSession(src)
+    PB.Accounts:Save(src)
+    PB.Notify.AddLog(src, true, "Player disconnected", {reason = reason}, true)
 end)
 
 -- Handle player death, triggers once they're back alive
 RegisterNetEvent("pb:PlayerDied", function(attacker)
     local src = source
     local ply = PB.Accounts:Get(src)
-    if ply.Session then
-        local session = PB.Sessions:Get(ply.Session)
+    if ply.session then
+        local session = PB.Sessions:Get(ply.session)
         if not session then return false end
         -- Gamemode trigger
-        if session.Active and session.Gamemode and session.GameData.Live then
-            Gamemodes[session.Gamemode].Handles.DeathTrigger(session, src, attacker)
+        if session.active and session.gamemode and session.gameData.live then
+            Gamemodes[session.gamemode].Handles.DeathTrigger(session, src, attacker)
         end
         -- Let all players in session know, for the killfeed
         if attacker then
             local victimName = GetPlayerName(src)
             local attackerName = GetPlayerName(attacker)
-            if session.Active then
-                for k, v in pairs(session.Players) do
+            if session.active then
+                for k, v in pairs(session.players) do
                     if v then
                         TriggerClientEvent("pb-hud:AddKillFeed", k, src, attacker, victimName, attackerName)
                     end

@@ -3,10 +3,10 @@ PB = exports["pvp-base"]:GetCoreObject()
 local activites = {"classic","speed","gridshot","tracking","precision","targetswap"}
 local difficulties = {"easy","normal","hard","pro"}
 highscores = {}
+local NewScore, UpdateHighscores, GetStats
 
 -- Handle new score, and replace former record if needed
 function NewScore(src, activity, difficulty, score)
-
     if not src or not activity or not difficulty or not score then
         return false
     end
@@ -14,12 +14,13 @@ function NewScore(src, activity, difficulty, score)
     local ply = PB.Accounts:Get(src)
     if not ply then return false end
 
+    TriggerEvent("pb:NewLog", src, true, "Finished training drill", {activity = activity, difficulty = difficulty, score = score}, false)
+
     local date = os.time()
 
     -- Add attempt to the database
     exports.oxmysql:query("INSERT INTO pb_training_attempts (identifier, activity, difficulty, score, grade, date) VALUES (?, ?, ?, ?, ?, ?)",
-        {ply.identifier, activity, difficulty, score, "?", date}, function()
-        end)
+    {ply.identifier, activity, difficulty, score, "?", date}, function() end)
 
     -- Check if it's a top score
     exports.oxmysql:query("SELECT * FROM pb_training_leaderboard WHERE identifier = ? AND activity = ? AND difficulty = ?",
@@ -42,7 +43,6 @@ function NewScore(src, activity, difficulty, score)
             end)
         end
     end)
-
 end
 
 -- Update high scores
@@ -72,13 +72,13 @@ end)
 
 -- Get player stats
 function GetStats(src)
-
     if not src then return false end
 
     local ply = PB.Accounts:Get(src)
     if not ply then return false end
 
     local stats = {}
+    local activitesProcessed = 0
 
     for k in pairs(activites) do
         stats[activites[k]] = {}
@@ -107,6 +107,7 @@ function GetStats(src)
                     {activites[k], difficulties[x], ply.identifier}, function(result2)
                         if result2 then
                             stats[activites[k]][difficulties[x]].history = result2
+                            activitesProcessed = activitesProcessed + 1
                         end
                     end)
                 end
@@ -114,10 +115,12 @@ function GetStats(src)
         end
     end
 
-    CreateThread(function()
-        Wait(3000)
-        TriggerClientEvent("pb-practice:ReceiveStats", src, stats)
-    end)
+    -- Send the player their stats once all activites have been processed
+    while activitesProcessed < #activites*#difficulties do 
+        Wait(100)
+    end
+    print("finished processing")
+    TriggerClientEvent("pb-practice:ReceiveStats", src, stats)
 
 end
 

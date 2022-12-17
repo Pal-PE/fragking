@@ -1,5 +1,4 @@
 -- Variables
-local Precision = Activities:CreateActivity("precision", false)
 local StartActivity
 
 -- Start activity
@@ -63,5 +62,5 @@ function StartActivity(difficulty)
 end
 
 
--- Attach activity handles
-Precision.Handles.StartActivity = StartActivity
+-- Create activity
+local Precision = Activities:CreateActivity("precision", StartActivity, true, 60, "wep_pistol")

@@ -1,5 +1,4 @@
 -- Variables
-local Gridshot = Activities:CreateActivity("gridshot", false)
 local StartActivity
 
 -- Start activity
@@ -20,20 +19,15 @@ function StartActivity(difficulty)
 
 
     local targetPoints = Config.Drills["gridshot"].targetPoints
-    local gridshotObjs = {}
-    for i = 1, 5 do
-        gridshotObjs[i] = CreatePracObject(objModel, targetPoints[math.random(#targetPoints)])
-    end
+    local classicObj = CreatePracObject(objModel, targetPoints[math.random(#targetPoints)])
 
     CreateThread(function()
         while activityLive do
             Wait(0)
-            for k in pairs(gridshotObjs) do
-                if GetEntityHealth(gridshotObjs[k]) < 100000000 then
-                    DeleteObject(gridshotObjs[k])
-                    points = points + 100
-                    gridshotObjs[k] = CreatePracObject(objModel, targetPoints[math.random(#targetPoints)])
-                end
+            if GetEntityHealth(classicObj) < 100000000 then
+                DeleteObject(classicObj)
+                points = points + 100
+                classicObj = CreatePracObject(objModel, targetPoints[math.random(#targetPoints)])
             end
         end
     end)
@@ -41,5 +35,5 @@ function StartActivity(difficulty)
 end
 
 
--- Attach activity handles
-Gridshot.Handles.StartActivity = StartActivity
+-- Create activity
+local Classic = Activities:CreateActivity("classic", StartActivity, false, 60, "wep_pistol")

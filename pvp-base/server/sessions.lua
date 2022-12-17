@@ -1,6 +1,7 @@
 -- Variables
 Sessions = {}
 PB.Sessions = {}
+local GetSessions
 
 -- Create the session object, and setup default settings
 function PB.Sessions:CreateSession(bucket, population, lockdown, name)
@@ -8,61 +9,57 @@ function PB.Sessions:CreateSession(bucket, population, lockdown, name)
     if Sessions[bucket] then return false end
 
     Sessions[bucket] = {
-        Bucket = bucket,
-        Name = name,
-        Active = true,
-        Private = false,
-        Gamemode = nil,
-        Map = nil,
-        MapPool = nil,
-        Flags = {},
-        Players = {},
-        Settings = {
-            MaxPlayers = 20,
-            Password = nil
+        bucket = bucket,
+        name = name,
+        active = true,
+        private = false,
+        gamemode = nil,
+        map = nil,
+        mapPool = nil,
+        flags = {},
+        players = {},
+        settings = {
+            maxPlayers = 20,
+            password = nil
         },
-        GameData = {
-            Live = false,
-            State = nil,
-            Logic = {
+        gameData = {
+            live = false,
+            state = nil,
+            logic = {
                 Timer = 10
             }
         },
         Functions = {}
     }
 
-    -- SESSION OBJECT FUNCTIONS
-    -- Flag functions
-    Sessions[bucket].Functions.GetFlag = function(flag)
-        print("getting flag ")
-        --return Sessions[bucket].Flags[flag]
-    end
+    this = Sessions[bucket]
 
-    Sessions[bucket].Functions.SetFlag = function(flag, value)
-        Sessions[bucket].Flags[flag] = value
+    -- Flag functions
+    this.Functions.SetFlag = function(flag, value)
+        this.flags[flag] = value
         -- Actively apply any new flags to all players
         if flag == "god" then
-            for k, v in pairs(Sessions[bucket].Players) do
+            for k, v in pairs(this.players) do
                 SetPlayerInvincible(v, true)
             end
         end
         PB.Logging:NewLog("SESSION", false, "Set a sessions flag", {session = bucket, flag = flag, value = value}, true)
     end
 
-    Sessions[bucket].Functions.SetMaxPlayers = function(value)
-        Sessions[bucket].Settings.MaxPlayers = value
+    this.Functions.SetMaxPlayers = function(value)
+        this.settings.maxPlayers = value
         PB.Logging:NewLog("SESSION", false, "Set a sessions max players", {session = bucket, value = value}, true)
     end
 
-    Sessions[bucket].Functions.SetPassword = function(value)
-        Sessions[bucket].Settings.Password = value
-        Sessions[bucket].Private = true
+    this.Functions.SetPassword = function(value)
+        this.settings.password = value
+        this.private = true
         PB.Logging:NewLog("SESSION", false, "Set a session to private", {session = bucket, password = value}, true)
     end
 
-    Sessions[bucket].Functions.CloseSession = function(value)
-        Sessions[bucket].Active = false
-        for k, v in pairs(Sessions[bucket].Players) do
+    this.Functions.CloseSession = function(value)
+        this.active = false
+        for k, v in pairs(this.players) do
             if v then
                 PB.Utility:Notify(k, "INFO", "The session you were in has closed.")
                 PB.Sessions:LeaveSession(k)
@@ -72,25 +69,25 @@ function PB.Sessions:CreateSession(bucket, population, lockdown, name)
     end
 
     -- Gamemode
-    Sessions[bucket].Functions.SetGame = function(gamemode)
-        Sessions[bucket].Gamemode = gamemode
+    this.Functions.SetGame = function(gamemode)
+        this.gamemode = gamemode
         PB.Logging:NewLog("SESSION", false, "Set a sessions gamemode", {session = bucket, gamemode = gamemode}, true)
     end
 
-    Sessions[bucket].Functions.StartGame = function()
-        Gamemodes[Sessions[bucket].Gamemode].Handles.GameCycle(Sessions[bucket])
-        Sessions[bucket].gameLive = true
-        PB.Logging:NewLog("SESSION", false, "Started a sessions gamemode", {session = bucket, gamemode = Sessions[bucket].Gamemode}, true)
+    this.Functions.StartGame = function()
+        Gamemodes[this.gamemode].Handles.GameCycle(this)
+        this.gameLive = true
+        PB.Logging:NewLog("SESSION", false, "Started a sessions gamemode", {session = bucket, gamemode = this.gamemode}, true)
     end
 
     -- Map
-    Sessions[bucket].Functions.SetMap = function(map)
-        Sessions[bucket].Map = map
+    this.Functions.SetMap = function(map)
+        this.map = map
         PB.Logging:NewLog("SESSION", false, "Set a sessions map", {session = bucket, map = map}, true)
     end
 
-    Sessions[bucket].Functions.SetMapPool = function(maps)
-        Sessions[bucket].MapPool = maps
+    this.Functions.SetMapPool = function(maps)
+        this.mapPool = maps
         PB.Logging:NewLog("SESSION", false, "Set a sessions mappool", {session = bucket, maps = maps}, true)
     end
 
@@ -98,7 +95,7 @@ function PB.Sessions:CreateSession(bucket, population, lockdown, name)
     SetRoutingBucketEntityLockdownMode(bucket, lockdown)
     SetRoutingBucketPopulationEnabled(bucket, population)
 
-    PB.Logging:NewLog("SERVER", false, "Created a new session", {session = bucket, data = Sessions[bucket].data}, true)
+    PB.Logging:NewLog("SERVER", false, "Created a new session", {bucket = bucket}, true)
 
     return Sessions[bucket]
 end
@@ -115,19 +112,19 @@ function PB.Sessions:JoinSession(src, bucket, password)
         return false
     end
 
-    if not Sessions[bucket].Active then 
+    if not Sessions[bucket].active then 
         PB.Utility:Notify(src, "ERROR", "Session has closed")
         PB.Logging:NewError(src, true, "Attempted to join an inactive session", {session = session}, true)
         return false 
     end
 
     -- Check if the games private, and if it is, then match password
-    if Sessions[bucket].Private then
+    if Sessions[bucket].private then
         if not password then
             PB.Utility:Notify(src, "ERROR", "Session requires password", true)
             return
         end
-        if password ~= Sessions[bucket].Settings.Password then
+        if not (password == Sessions[bucket].settings.password) then
             PB.Utility:Notify(src, "ERROR", "Incorrect password", true)
             return
         end
@@ -137,14 +134,14 @@ function PB.Sessions:JoinSession(src, bucket, password)
     if not ply then return false end
 
     -- Make sure they're not attempting to join a full session
-    if Sessions[bucket].Settings.MaxPlayers then
+    if Sessions[bucket].settings.maxPlayers then
         local plyCount = 0
-        for k, v in pairs(Sessions[bucket].Players) do
+        for k, v in pairs(Sessions[bucket].players) do
             if v then
                 plyCount = plyCount + 1
             end
         end
-        if plyCount >= Sessions[bucket].Settings.MaxPlayers then
+        if plyCount >= Sessions[bucket].settings.maxPlayers then
             PB.Logging:NewError(src, true, "Attempted to join a full session", {session = session}, true)
             return false
         end
@@ -153,15 +150,15 @@ function PB.Sessions:JoinSession(src, bucket, password)
     -- Remove the player from any existing session they may be in
     PB.Sessions:LeaveSession(src)
 
-    if Sessions[bucket].Players[src] then
+    if Sessions[bucket].players[src] then
         TriggerClientEvent("pb-menu:DisplayMenu", src, true)
         PB.Utility:Notify(src, "ERROR", "An error occured while joining a new session", true)
         PB.Logging:NewError(src, true, "Attempted to set a players session to the session they're already in", {session = session, plySession = ply.Session, plyInstance = GetPlayerRoutingBucket(src)}, true)
     else
         CreateThread(function()
-            Sessions[bucket].Players[src] = true
+            Sessions[bucket].players[src] = true
             SetPlayerRoutingBucket(src, bucket)
-            ply.Session = bucket
+            ply.session = bucket
             PB.Logging:NewLog(src, true, "Player joined new session", {session = bucket}, true)
 
             -- Check if it failed
@@ -172,7 +169,7 @@ function PB.Sessions:JoinSession(src, bucket, password)
             end
 
             -- Apply any flags that may be applied
-            if Sessions[bucket].Flags["god"] then
+            if Sessions[bucket].flags["god"] then
                 SetPlayerInvincible(src, true)
             else
                 SetPlayerInvincible(src, false)
@@ -183,12 +180,11 @@ function PB.Sessions:JoinSession(src, bucket, password)
             TriggerClientEvent("pb-loadout:ClearLoadout", src)
 
             -- Let the gamemode know
-            if Sessions[bucket].GameData.Live then
-                Gamemodes[Sessions[bucket].Gamemode].Handles.JoinTrigger(Sessions[bucket], src)
+            if Sessions[bucket].gameData.live then
+                Gamemodes[Sessions[bucket].gamemode].Handles.JoinTrigger(Sessions[bucket], src)
             end
 
             -- Let the client know that they've joined a new session
-            PB.Utility:Notify(src, "SUCCESS", "Joined session " .. bucket, true)
             TriggerClientEvent("pb:JoinedSession", src, Sessions[bucket])
 
         end)
@@ -202,19 +198,18 @@ function PB.Sessions:LeaveSession(src)
 
     -- Let's go through and remove them from any sessions that exist
     for k, v in pairs(Sessions) do
-        if v.Players[src] then
-            v.Players[src] = false
+        if v.players[src] then
+            v.players[src] = false
             -- Let the gamemode know
-            if v.GameData.Live then
-                Gamemodes[v.Gamemode].Handles.LeaveTrigger(v, src)
+            if v.gameData.live then
+                Gamemodes[v.gamemode].Handles.LeaveTrigger(v, src)
             end
-            PB.Utility:Notify(src, "ERROR", "Left session", true)
         end
     end
     
-    ply.Session = 0
+    ply.session = 0
     SetPlayerRoutingBucket(src, 0)
-    PB.Logging:NewLog(src, true, "Player left session", {session = ply.Session}, true)
+    PB.Logging:NewLog(src, true, "Player left session", {session = ply.session}, true)
 
     -- Let the client know that they've left the session
     TriggerClientEvent("pb:LeftSession", src)
@@ -235,12 +230,16 @@ function PB.Sessions:GetAll()
     return Sessions
 end
 
+function GetSessions()
+    return Sessions
+end
+
 -- Auto-remove all inactive sessions
 CreateThread(function()
     while true do
         Wait(600*1000)
         for k, v in pairs(Sessions) do
-            if v.Flags["official"] then return false end
+            if v.flags["official"] then return false end
             local plyCount = 0
             for x, y in pairs(v.players) do
                 if y then
@@ -269,3 +268,6 @@ RegisterNetEvent("pb:LeaveSession", function()
     local src = source
     PB.Sessions:LeaveSession(src)
 end)
+
+-- Exports
+exports("GetSessions", GetSessions)

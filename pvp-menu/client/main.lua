@@ -2,6 +2,7 @@
 PB = exports["pvp-base"]:GetCoreObject()
 local showMenu = false
 local lobbyCam = nil
+local GetGamemodes, UpdateSessions, DisplayMenu
 
 -- Get gamemodes, then trim them down and send them to the NUI
 function GetGamemodes()
@@ -9,7 +10,7 @@ function GetGamemodes()
         PB.Gamemodes:RequestAll()
         -- Wait until we've got the gamemodes to start looping
         local gamemodes
-        while gamemodes == nil do
+        while not gamemodes do
             Wait(100)
             gamemodes = PB.Gamemodes:GetGamemodes()
         end
@@ -21,7 +22,7 @@ function GetGamemodes()
                 key = k,
                 maps = {}
             }
-            for x, y in pairs(v.MapPool) do
+            for x, y in pairs(v.mapPool) do
                 collectedGamemodes[k].maps[y] = { key = y }
             end
         end
@@ -35,31 +36,32 @@ function UpdateSessions()
         PB.Sessions:RequestAll()
         -- Wait until we've got the sessions to start looping
         local sessions
-        while sessions == nil do
+        while not sessions do
             Wait(100)
-            sessions = PB.Sessions:GetSessions()
+            sessions = exports["pvp-base"]:GetSessions()
         end
         -- Trim the fat
         local collectedSessions = {}
         for k, v in pairs(sessions) do
-            if v.Flags["hidden"] then return false end
-            -- Calculate players
-            local plyCount = 0
-            for x, y in pairs(v.Players) do
-                if y then
-                    plyCount = plyCount + 1
+            if not v.flags["hidden"] then
+                -- Calculate players
+                local plyCount = 0
+                for x, y in pairs(v.players) do
+                    if y then
+                        plyCount = plyCount + 1
+                    end
                 end
+                collectedSessions[k] = {
+                    id = k,
+                    name = v.name,
+                    gamemode = v.gamemode,
+                    map = v.map,
+                    players = plyCount,
+                    maxplayers = v.settings.maxPlayers,
+                    locked = v.private,
+                    official = v.flags["official"]
+                }
             end
-            collectedSessions[k] = {
-                id = k,
-                name = v.Name,
-                gamemode = v.Gamemode,
-                map = v.Map,
-                players = plyCount,
-                maxplayers = v.Settings.MaxPlayers,
-                locked = v.Private,
-                official = v.Flags["official"]
-            }
         end
         SendNUIMessage({type = "UpdateSessions", sessions = collectedSessions})
     end)
@@ -87,15 +89,6 @@ function DisplayMenu(value)
     end
 end
 
--- Net events
-RegisterNetEvent("pb-menu:DisplayMenu", function(value)
-    DisplayMenu(value)
-end)
-
-RegisterNetEvent("pb:JoinedSession", function()
-    DisplayMenu(false)
-end)
-
 -- NUI callbacks
 RegisterNUICallback("RefreshSessions", function(data)
     UpdateSessions()
@@ -110,33 +103,30 @@ RegisterNUICallback("CreateSession", function(data)
 end)
 
 RegisterNUICallback("QuickplayGG", function()
-    TriggerServerEvent("pb-menu:QuickplayGG")
+    TriggerServerEvent("pb-menu:FindBestMatch", "gungame")
 end)
 
 RegisterNUICallback("QuickplayRZ", function()
-    TriggerServerEvent("pb-menu:QuickplayRZ")
+    TriggerServerEvent("pb-menu:FindBestMatch", "rz")
 end)
 
 RegisterNUICallback("QuickplayPractice", function()
-    TriggerServerEvent("pb-menu:QuickplayPractice")
+    TriggerServerEvent("pb-menu:StartTraining")
 end)
 
 RegisterNUICallback("RedeemCode", function(data)
     TriggerServerEvent("pb:RedeemCode", data.code)
 end)
 
--- Send over locale data to NUI
+-- Net events
+RegisterNetEvent("pb-menu:DisplayMenu", function(value)
+    DisplayMenu(value)
+end)
+-- Get needed data on script start
 CreateThread(function()
     Wait(500)
     SendNUIMessage({ type = "SendTranslations", locale = PB.Locale })
-end)
-
--- Display menu on join
-CreateThread(function()
-    Wait(200)
-    DisplayMenu(true)
     GetGamemodes()
+    DisplayMenu(true)
 end)
 
--- Exports
-exports("DisplayMenu", DisplayMenu)

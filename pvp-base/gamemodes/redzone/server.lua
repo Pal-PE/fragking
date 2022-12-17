@@ -5,16 +5,16 @@ local StartCycle, TPPlatform, HandleDeath, HandleJoin, HandleLeave
 
 -- Start game cycle
 function StartCycle(session)
-    session.GameData.Live = true
-    session.GameData.State = "LIVE"
-    session.GameData.Logic = {
-        Players = {}
+    session.gameData.live = true
+    session.gameData.state = "LIVE"
+    session.gameData.logic = {
+        players = {}
     }
     -- Update HUD
     CreateThread(function()
         while session.Active do
             Wait(500)
-            for k, v in pairs(session.GameData.Logic.Players) do
+            for k, v in pairs(session.gameData.logic.players) do
                 if v then
                     -- HUD
                     TriggerClientEvent("pb-hud:SetStats", k, {
@@ -29,18 +29,18 @@ end
 
 -- Handle player joining
 function HandleJoin(session, src)
-    session.GameData.Logic.Players[src] = {
+    session.gameData.logic.players[src] = {
         kills = 0,
         deaths = 0,
     }
-    TriggerClientEvent("pb-rz:InGame", src, true, Config.Maps[session.Map])
+    TriggerClientEvent("pb-rz:InGame", src, true, Config.Maps[session.map])
     TPPlatform(session, src)
 end
 
 -- Handle player leaving
 function HandleLeave(session, src)
-    if session.GameData.Logic.Players[src] then
-        session.GameData.Logic.Players[src] = false
+    if session.gameData.logic.players[src] then
+        session.gameData.logic.players[src] = false
         TriggerClientEvent("pb-rz:InGame", src, false)
     end
 end
@@ -51,9 +51,9 @@ function HandleDeath(session, victim, attacker)
     if not attacker then return false end
     if attacker == victim then return false end
     -- Update stats
-    if session.GameData.Logic.Players[victim] and session.GameData.Logic.Players[attacker] then
-        session.GameData.Logic.Players[victim].deaths = session.GameData.Logic.Players[victim].deaths + 1
-        session.GameData.Logic.Players[attacker].kills = session.GameData.Logic.Players[attacker].kills + 1
+    if session.gameData.logic.players[victim] and session.gameData.logic.players[attacker] then
+        session.gameData.logic.players[victim].deaths = session.gameData.logic.players[victim].deaths + 1
+        session.gameData.logic.players[attacker].kills = session.gameData.logic.players[attacker].kills + 1
         local ply = PB.Accounts:Get(attacker)
         if not ply then return false end
         ply.Functions.AddCurrency("cash", 50)
@@ -64,7 +64,7 @@ end
 -- Spawn the player back to the centre platform
 function TPPlatform(session, src)
     local plyPed = GetPlayerPed(src)
-    local selectedSpawn = Config.Maps[session.Map].spawns[100][math.random(#Config.Maps[session.Map].spawns[100])]
+    local selectedSpawn = Config.Maps[session.map].spawns[100][math.random(#Config.Maps[session.map].spawns[100])]
     SetEntityCoords(plyPed, selectedSpawn)
     SetEntityHeading(plyPed, selectedSpawn.w)
 end

@@ -6,8 +6,8 @@ PB.Gamemodes = {}
 -- Create gamemode
 function PB.Gamemodes:CreateGamemode(gameid, name)
     Gamemodes[gameid] = {
-        Name = name,
-        MapPool = {},
+        name = name,
+        mapPool = {},
         Handles = {
             GameCycle = nil,
             JoinTrigger = nil,
@@ -18,29 +18,31 @@ function PB.Gamemodes:CreateGamemode(gameid, name)
         Functions = {}
     }
 
+    local this = Gamemodes[gameid]
+
     -- Functions
-    Gamemodes[gameid].Functions.SetMapPool = function(maps)
-        Gamemodes[gameid].MapPool = maps
+    this.Functions.SetMapPool = function(maps)
+        this.mapPool = maps
     end
 
-    Gamemodes[gameid].Functions.SetCycle = function(func)
-        Gamemodes[gameid].Handles.GameCycle = func
+    this.Functions.SetCycle = function(func)
+        this.Handles.GameCycle = func
     end
-    Gamemodes[gameid].Functions.SetHandleJoin = function(func)
-        Gamemodes[gameid].Handles.JoinTrigger = func
+    this.Functions.SetHandleJoin = function(func)
+        this.Handles.JoinTrigger = func
     end
-    Gamemodes[gameid].Functions.SetHandleDeath = function(func)
-        Gamemodes[gameid].Handles.DeathTrigger = func
+    this.Functions.SetHandleDeath = function(func)
+        this.Handles.DeathTrigger = func
     end
-    Gamemodes[gameid].Functions.SetHandleLeave = function(func)
-        Gamemodes[gameid].Handles.LeaveTrigger = func
+    this.Functions.SetHandleLeave = function(func)
+        this.Handles.LeaveTrigger = func
     end
-    Gamemodes[gameid].Functions.SetHandleCommand = function(func)
-        Gamemodes[gameid].Handles.CommandTrigger = func
+    this.Functions.SetHandleCommand = function(func)
+        this.Handles.CommandTrigger = func
     end
-    
-    -- Return
-    return Gamemodes[gameid]
+
+    -- All done, now return
+    return this
 end
 
 -- Return gamemode object

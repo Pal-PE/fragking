@@ -33,14 +33,13 @@ client_scripts {
     "maps.lua",
     "client/main.lua",
     "client/util.lua",
-    "client/account.lua",
+    "client/plyData.lua",
     "client/sessions.lua",
     "client/menu.lua",
     "client/death.lua",
     "gamemodes/ffa/client.lua",
     "gamemodes/gungame/client.lua",
-    "gamemodes/redzone/client.lua",
-    "gamemodes/training/client.lua",
+    "gamemodes/redzone/client.lua"
 }
 
 shared_scripts {

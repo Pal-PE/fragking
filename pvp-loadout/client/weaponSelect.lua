@@ -1,10 +1,12 @@
--- Create the NativeUI menu
+-- Variables
 local menuPool = NativeUI.CreatePool()
 local weaponSelectMenu = NativeUI.CreateMenu("WEAPON SELECT", "")
 menuPool:Add(weaponSelectMenu)
 local primaryMenu = menuPool:AddSubMenu(weaponSelectMenu, "Select Primary")
 local secondaryMenu = menuPool:AddSubMenu(weaponSelectMenu, "Select Secondary")
+local OpenWeaponSelect
 
+-- Loop through all items and add them to their related sub menu
 for k, v in pairs(Config.Items) do
     if v.category == "weps_primary" then
         local newWeapon = NativeUI.CreateItem(v.label)
@@ -17,6 +19,7 @@ for k, v in pairs(Config.Items) do
     end
 end
 
+-- Handle primary weapon being selected
 primaryMenu.OnItemSelect = function(sender, item, index)
     if not loadoutLocked then
         TriggerServerEvent("pb-loadout:RemoveWeapon")
@@ -28,6 +31,7 @@ primaryMenu.OnItemSelect = function(sender, item, index)
     end
 end
 
+-- Handle secondary weapon being selected
 secondaryMenu.OnItemSelect = function(sender, item, index)
     if not loadoutLocked then
         TriggerServerEvent("pb-loadout:RemoveWeapon")
@@ -39,7 +43,7 @@ secondaryMenu.OnItemSelect = function(sender, item, index)
     end
 end
 
--- Process menu
+-- Process menus
 CreateThread(function()
     while true do
         Wait(0)
@@ -56,9 +60,6 @@ function OpenWeaponSelect()
 end
 
 -- Net events
-RegisterNetEvent("pb-loadout:OpenWeaponSelect", function()
+AddEventHandler("pb-loadout:OpenWeaponSelect", function()
     OpenWeaponSelect()
 end)
-
--- Exports
-exports("OpenWeaponSelect", OpenWeaponSelect)

@@ -1,5 +1,8 @@
+-- Variables
+PB.Utility = {}
+
 -- Notifications
-RegisterNetEvent("pb:Notification", function(_type, string, notify)
+function Notify(_type, string, notify)
     local prefix = "INVALID"
     local prefixColour = {255, 255, 255}
 
@@ -23,12 +26,17 @@ RegisterNetEvent("pb:Notification", function(_type, string, notify)
     end
 
     if notify then
-        exports["pvp-hud"]:AddNotification(string, _type)
+        TriggerEvent("pb-hud:AddNotification", string, _type)
     end
-end)
+end
 
 -- LET IT SNOW!
 SetWeatherTypePersist("XMAS")
 SetWeatherTypeNowPersist("XMAS")
 SetWeatherTypeNow("XMAS")
 SetOverrideWeather("XMAS")
+
+-- Net events
+RegisterNetEvent("pb:Notification", function(_type, string, notify)
+   Notify(_type, string, notify)
+end)

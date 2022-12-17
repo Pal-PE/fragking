@@ -3,12 +3,12 @@ local gameLive = false
 
 -- Run client-side game cycle when game starts
 local function InGame()
-    exports["pvp-loadout"]:LockLoadout(false)
+    TriggerEvent("pb-loadout:LockLoadout", true)
     CreateThread(function()
         while gameLive do
             Wait(1)
             if IsControlJustReleased(0, 288) then -- F1
-                exports["pvp-loadout"]:OpenWeaponSelect()
+                TriggerEvent("pb-loadout:OpenWeaponSelect")
             end
         end
     end)
@@ -18,12 +18,12 @@ end
 RegisterNetEvent("pb-ffa:InGame", function(value)
     gameLive = value
     if value then
-        exports["pvp-hud"]:SetTooltip("Press [F1] to change weapons.")
-        exports["pvp-hud"]:DisplayHUD(true)
+        TriggerEvent("pb-hud:SetTooltip", "Press [F1] to change weapons.")
+        TriggerEvent("pb-hud:DisplayHUD", true)
         InGame()
     else
-        exports["pvp-loadout"]:ClearLoadout()
-        exports["pvp-hud"]:SetTooltip(false)
-        exports["pvp-hud"]:DisplayHUD(false)
+        TriggerEvent("pb-loadout:ClearLoadout")
+        TriggerEvent("pb-hud:SetTooltip", false)
+        TriggerEvent("pb-hud:DisplayHUD", false)
     end
 end)

@@ -33,7 +33,7 @@ function CreateVote(bucket, title, time, options)
     end
 
     -- Send vote to all players in lobby
-    for k, v in pairs(session.Players) do
+    for k, v in pairs(session.players) do
         if v then
             TriggerClientEvent("pb-voting:ReceiveNewVote", k, title, Votes[bucket])
         end
@@ -60,7 +60,7 @@ function CreateVote(bucket, title, time, options)
         -- Close menu for any players who didn't vote
         local session = PB.Sessions:Get(bucket)
         if not session then return false end
-        for k, v in pairs(session.Players) do
+        for k, v in pairs(session.players) do
             if v then
                 TriggerClientEvent("pb-voting:VoteEnded", k)
             end
@@ -84,7 +84,13 @@ function CastVote(src, bucket, key)
     if alrdyVoted then return false end
 
     -- Cast vote
+    local ply = PB.Accounts:Get(src)
+    if not ply then return false end
     Votes[bucket][key].votes[#Votes[bucket][key].votes+1] = src
+    -- Extra vote for premium
+    if ply.flags["premium"] then
+        Votes[bucket][key].votes[#Votes[bucket][key].votes+1] = src
+    end
     TriggerClientEvent("pb-voting:VoteEnded", src)
 end
 
@@ -93,10 +99,8 @@ RegisterNetEvent("pb-voting:CastVote", function(key)
     local src = source
     local ply = PB.Accounts:Get(src)
     if not ply then return false end
-    CastVote(src, ply.Session, key)
+    CastVote(src, ply.session, key)
 end)
-
-print("hoe hoe hoe")
 
 -- Exports
 exports("CreateVote", CreateVote)

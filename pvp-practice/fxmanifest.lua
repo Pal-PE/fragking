@@ -13,12 +13,15 @@ files {
 client_scripts {
     "config.lua",
     "client/main.lua",
-    "client/tracking.lua",
-    "client/gridshot.lua",
-    "client/speed.lua",
-    "client/classic.lua",
-    "client/precision.lua",
-    "client/targetswap.lua",
+    "client/object.lua",
+    "client/loop.lua",
+    "client/menu.lua",
+    "client/activites/tracking.lua",
+    "client/activites/gridshot.lua",
+    "client/activites/speed.lua",
+    "client/activites/classic.lua",
+    "client/activites/precision.lua",
+    "client/activites/targetswap.lua",
 }
 
 server_scripts {
