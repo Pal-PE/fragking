@@ -1,7 +1,7 @@
 Config.GunGame = {}
-Config.GunGame.LobbyStart = 10
+Config.GunGame.LobbyStart = 30
 Config.GunGame.Timer = 600
-Config.GunGame.Goal = 31
+Config.GunGame.Goal = 29
 
 Config.GunGame.Guns = {
     [1] = "wep_pistol",

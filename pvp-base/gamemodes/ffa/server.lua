@@ -53,7 +53,7 @@ function StartLobby(session)
                         }
                     end
                 end
-                exports["pvp-voting"]:CreateVote(session.Bucket, "SELECT MAP", 20, voteMaps)
+                exports["pvp-voting"]:CreateVote(session.Bucket, "VOTE FOR MAP", 20, voteMaps)
                 local readyCountdown = Config.FFA.LobbyStart
                 while readyCountdown > 0 do
                     Wait(1000)
@@ -230,36 +230,3 @@ FFA.Functions.SetCycle(StartCycle)
 FFA.Functions.SetHandleJoin(HandleJoin)
 FFA.Functions.SetHandleDeath(HandleDeath)
 FFA.Functions.SetHandleLeave(HandleLeave)
-
--- Create default sessions
-local EXMP = PB.Sessions:CreateSession(11, false, "strict", "FFA: Office 24/7")
-EXMP.Functions.SetGame("ffa")
-EXMP.Functions.SetMap("office")
-EXMP.Functions.SetMapPool({"office"})
-EXMP.Functions.SetMaxPlayers(10)
-EXMP.Functions.SetFlag("official", true)
-EXMP.Functions.StartGame()
-
-local EXMP = PB.Sessions:CreateSession(12, false, "strict", "FFA: Ramps 24/7")
-EXMP.Functions.SetGame("ffa")
-EXMP.Functions.SetMap("ramps")
-EXMP.Functions.SetMapPool({"ramps"})
-EXMP.Functions.SetMaxPlayers(10)
-EXMP.Functions.SetFlag("official", true)
-EXMP.Functions.StartGame()
-
-local EXMP =  PB.Sessions:CreateSession(13, false, "strict", "FFA: Small & Medium Maps")
-EXMP.Functions.SetGame("ffa")
-EXMP.Functions.SetMap("nudist")
-EXMP.Functions.SetMapPool({"office","chopshop","stabcity","shacktown","villa","ramps"})
-EXMP.Functions.SetMaxPlayers(10)
-EXMP.Functions.SetFlag("official", true)
-EXMP.Functions.StartGame()
-
-local EXMP = PB.Sessions:CreateSession(14, false, "strict", "FFA: Large Maps")
-EXMP.Functions.SetGame("ffa")
-EXMP.Functions.SetMap("kortz")
-EXMP.Functions.SetMapPool({"kortz","chopshop"})
-EXMP.Functions.SetMaxPlayers(20)
-EXMP.Functions.SetFlag("official", true)
-EXMP.Functions.StartGame()

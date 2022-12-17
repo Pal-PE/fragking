@@ -28,6 +28,33 @@ function StartLobby(session)
             end
             if rdyCount >= 2 then
                 session.GameData.State = "STARTING"
+                Wait(3000)
+                -- Map voting
+                local voteMaps = {}
+                if session.MapPool then
+                    for v in pairs(session.MapPool) do
+                        voteMaps[v] = {
+                            name = Locale["map_" .. session.MapPool[v] .. "_name"],
+                            img = session.MapPool[v] .. ".png",
+                            Function = function()
+                                session.Functions.SetMap(session.MapPool[v])
+                            end
+                        }
+                    end
+                else
+                    for v in pairs(GunGame.MapPool) do
+                        print(v)
+                        voteMaps[v] = {
+                            name = Locale["map_" .. GunGame.MapPool[v] .. "_name"],
+                            img = GunGame.MapPool[v] .. ".png",
+                            Function = function()
+                                session.Functions.SetMap(FGunGame.MapPool[v])
+                            end
+                        }
+                    end
+                end
+                exports["pvp-voting"]:CreateVote(session.Bucket, "VOTE FOR MAP", 20, voteMaps)
+
                 local readyCountdown = Config.GunGame.LobbyStart
                 while readyCountdown > 0 do
                     Wait(1000)
@@ -217,36 +244,3 @@ GunGame.Functions.SetCycle(StartCycle)
 GunGame.Functions.SetHandleJoin(HandleJoin)
 GunGame.Functions.SetHandleDeath(HandleDeath)
 GunGame.Functions.SetHandleLeave(HandleLeave)
-
--- Create default sessions
-local EXMP = PB.Sessions:CreateSession(21, false, "strict", "Gun Game: Office 24/7")
-EXMP.Functions.SetGame("gungame")
-EXMP.Functions.SetMap("office")
-EXMP.Functions.SetMapPool({"office"})
-EXMP.Functions.SetMaxPlayers(10)
-EXMP.Functions.SetFlag("official", true)
-EXMP.Functions.StartGame()
-
-local EXMP = PB.Sessions:CreateSession(22, false, "strict", "Gun Game: Ramps 24/7")
-EXMP.Functions.SetGame("gungame")
-EXMP.Functions.SetMap("ramps")
-EXMP.Functions.SetMapPool({"ramps"})
-EXMP.Functions.SetMaxPlayers(10)
-EXMP.Functions.SetFlag("official", true)
-EXMP.Functions.StartGame()
-
-local EXMP =  PB.Sessions:CreateSession(23, false, "strict", "Gun Game: Small & Medium Maps")
-EXMP.Functions.SetGame("gungame")
-EXMP.Functions.SetMap("nudist")
-EXMP.Functions.SetMapPool({"office","chopshop","stabcity","shacktown","villa","ramps"})
-EXMP.Functions.SetMaxPlayers(10)
-EXMP.Functions.SetFlag("official", true)
-EXMP.Functions.StartGame()
-
-local EXMP = PB.Sessions:CreateSession(24, false, "strict", "Gun Game: Large Maps")
-EXMP.Functions.SetGame("gungame")
-EXMP.Functions.SetMap("kortz")
-EXMP.Functions.SetMapPool({"kortz","chopshop"})
-EXMP.Functions.SetMaxPlayers(20)
-EXMP.Functions.SetFlag("official", true)
-EXMP.Functions.StartGame()

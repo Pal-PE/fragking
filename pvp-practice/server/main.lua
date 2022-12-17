@@ -19,9 +19,6 @@ function NewScore(src, activity, difficulty, score)
     -- Add attempt to the database
     exports.oxmysql:query("INSERT INTO pb_training_attempts (identifier, activity, difficulty, score, grade, date) VALUES (?, ?, ?, ?, ?, ?)",
         {ply.identifier, activity, difficulty, score, "?", date}, function()
-            if not result then
-                print("Error replace this")
-            end
         end)
 
     -- Check if it's a top score
@@ -91,11 +88,14 @@ function GetStats(src)
             {activites[k], difficulties[x], ply.identifier}, function(result)
                 if result then
                     stats[activites[k]][difficulties[x]] = {}
-                    stats[activites[k]][difficulties[x]].personalBest = result[1]
+                    stats[activites[k]][difficulties[x]].personalBest = 0
+                    if result[1] then
+                        stats[activites[k]][difficulties[x]].personalBest = result[1].score
+                    end
                     local top20 = 0
                     local top50 = 0
                     for i, o in pairs(result) do
-                        if i =< 20 then
+                        if i <= 20 then
                             top20 = top20 + o.score
                         end
                         top50 = top50 + o.score
@@ -133,7 +133,7 @@ RegisterNetEvent("pb-practice:GetHighscores", function()
     TriggerClientEvent("pb-practice:ReceiveHighscores", src, highscores)
 end)
 
-RegisterNetEvents("pb-practice:GetStats", function()
+RegisterNetEvent("pb-practice:GetStats", function()
     local src = source
     GetStats(src)
 end)

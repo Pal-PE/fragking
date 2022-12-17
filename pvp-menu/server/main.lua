@@ -76,5 +76,25 @@ RegisterNetEvent("pb-menu:Quickplay1v1", function()
 end)
 
 RegisterNetEvent("pb-menu:QuickplayPractice", function()
+    local src = source
+
+    if PB.Sessions:Get(900+src) then
+        PB.Sessions:JoinSession(src, 900+src, "HIDDENPASSWORD" .. src)
+    else
+        local newSession = PB.Sessions:CreateSession(900+src, "strict", true, "Practice")
+        newSession.Functions.SetPassword("HIDDENPASSWORD" .. src)
+        if not newSession then
+            PB.Utility:Notify(src, "ERROR", "Couldn't create practice session", true)
+            return
+        end
+        newSession.Functions.SetGame("training")
+        newSession.Functions.SetMap("facility")
+        newSession.Functions.SetFlag("official", true)
+        newSession.Functions.SetFlag("hidden", true)
+        newSession.Functions.StartGame()
+        PB.Sessions:JoinSession(src, 900+src, "HIDDENPASSWORD" .. src)
+    end
+
+
     print("start practice tool!")
 end)

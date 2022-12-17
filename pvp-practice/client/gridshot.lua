@@ -1,5 +1,5 @@
 -- Variables
-local Gridshot = Activities:CreateActivity("gridshot", "GridShot")
+local Gridshot = Activities:CreateActivity("gridshot", false)
 local StartActivity
 
 -- Start activity

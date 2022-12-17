@@ -16,6 +16,7 @@ function GetGamemodes()
         -- Trim the fat
         local collectedGamemodes = {}
         for k, v in pairs(gamemodes) do
+            if k == "training" then return false end
             collectedGamemodes[k] = {
                 key = k,
                 maps = {}
@@ -41,6 +42,7 @@ function UpdateSessions()
         -- Trim the fat
         local collectedSessions = {}
         for k, v in pairs(sessions) do
+            if v.Flags["hidden"] then return false end
             -- Calculate players
             local plyCount = 0
             for x, y in pairs(v.Players) do
@@ -107,16 +109,20 @@ RegisterNUICallback("CreateSession", function(data)
     TriggerServerEvent("pb-menu:CreateSession", data)
 end)
 
-RegisterNUICallback("QuickplayFFA", function()
-    TriggerServerEvent("pb-menu:QuickplayFFA")
+RegisterNUICallback("QuickplayGG", function()
+    TriggerServerEvent("pb-menu:QuickplayGG")
 end)
 
-RegisterNUICallback("Quickplay1v1", function()
-    TriggerServerEvent("pb-menu:Quickplay1v1")
+RegisterNUICallback("QuickplayRZ", function()
+    TriggerServerEvent("pb-menu:QuickplayRZ")
 end)
 
 RegisterNUICallback("QuickplayPractice", function()
     TriggerServerEvent("pb-menu:QuickplayPractice")
+end)
+
+RegisterNUICallback("RedeemCode", function(data)
+    TriggerServerEvent("pb:RedeemCode", data.code)
 end)
 
 -- Send over locale data to NUI

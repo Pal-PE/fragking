@@ -1,7 +1,7 @@
 -- Variables
 local RZ = PB.Gamemodes:CreateGamemode("rz", "AP RZ")
 RZ.Functions.SetMapPool({"ramps"})
-local StartCycle, TPPlatform, HandleDeath
+local StartCycle, TPPlatform, HandleDeath, HandleJoin, HandleLeave
 
 -- Start game cycle
 function StartCycle(session)
@@ -74,18 +74,3 @@ RZ.Functions.SetCycle(StartCycle)
 RZ.Functions.SetHandleJoin(HandleJoin)
 RZ.Functions.SetHandleDeath(HandleDeath)
 RZ.Functions.SetHandleLeave(HandleLeave)
-
--- Create default sessions
-local EXMP = PB.Sessions:CreateSession(31, false, "strict", "RZ: Ramps #1")
-EXMP.Functions.SetGame("rz")
-EXMP.Functions.SetMap("ramps")
-EXMP.Functions.SetMaxPlayers(16)
-EXMP.Functions.SetFlag("official", true)
-EXMP.Functions.StartGame()
-
-local EXMP = PB.Sessions:CreateSession(32, false, "strict", "RZ: Ramps #2")
-EXMP.Functions.SetGame("rz")
-EXMP.Functions.SetMap("ramps")
-EXMP.Functions.SetMaxPlayers(16)
-EXMP.Functions.SetFlag("official", true)
-EXMP.Functions.StartGame()

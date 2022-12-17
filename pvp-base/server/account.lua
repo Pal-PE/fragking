@@ -246,6 +246,7 @@ function PB.Accounts:Load(src, account)
             -- Now this is all done, send the player their data
             Players[src].Functions.SendData()
             TriggerClientEvent("pb:PlayerLoaded", src)
+            CheckForPurchases(src)
 
         end)
     end

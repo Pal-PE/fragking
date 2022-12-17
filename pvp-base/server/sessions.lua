@@ -106,18 +106,7 @@ end
 -- Add a player to session
 function PB.Sessions:JoinSession(src, bucket, password)
 
-    -- Check if theres a password, and if so match it
     bucket = tonumber(bucket)
-    if Sessions[bucket].Private then
-        if not password then
-            PB.Utility:Notify(src, "ERROR", "Session requires password", true)
-            return
-        end
-        if password ~= Sessions[bucket].Settings.Password then
-            PB.Utility:Notify(src, "ERROR", "Incorrect password", true)
-            return
-        end
-    end
 
     if not Sessions[bucket] then
         TriggerClientEvent("pb-menu:DisplayMenu", src, true)
@@ -130,6 +119,18 @@ function PB.Sessions:JoinSession(src, bucket, password)
         PB.Utility:Notify(src, "ERROR", "Session has closed")
         PB.Logging:NewError(src, true, "Attempted to join an inactive session", {session = session}, true)
         return false 
+    end
+
+    -- Check if the games private, and if it is, then match password
+    if Sessions[bucket].Private then
+        if not password then
+            PB.Utility:Notify(src, "ERROR", "Session requires password", true)
+            return
+        end
+        if password ~= Sessions[bucket].Settings.Password then
+            PB.Utility:Notify(src, "ERROR", "Incorrect password", true)
+            return
+        end
     end
 
     local ply = PB.Accounts:Get(src)
@@ -192,7 +193,6 @@ function PB.Sessions:JoinSession(src, bucket, password)
 
         end)
     end
-
 end
 
 -- Remove player from session
@@ -263,4 +263,9 @@ end)
 RegisterNetEvent("pb:RequestSessions", function()
     local src = source
     TriggerClientEvent("pb:ReceiveSessions", src, Sessions)
+end)
+
+RegisterNetEvent("pb:LeaveSession", function()
+    local src = source
+    PB.Sessions:LeaveSession(src)
 end)

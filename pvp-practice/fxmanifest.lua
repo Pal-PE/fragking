@@ -15,7 +15,10 @@ client_scripts {
     "client/main.lua",
     "client/tracking.lua",
     "client/gridshot.lua",
-    "client/speed.lua"
+    "client/speed.lua",
+    "client/classic.lua",
+    "client/precision.lua",
+    "client/targetswap.lua",
 }
 
 server_scripts {

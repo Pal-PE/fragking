@@ -1,4 +1,5 @@
 -- Variables
+PB = exports["pvp-base"]:GetCoreObject()
 inTraining = false
 pracObjects = {}
 Activities = {}
@@ -8,8 +9,9 @@ drillLive = false
 drillTime = 0
 
 -- Create new activity
-function Activities:CreateActivity(id, name)
+function Activities:CreateActivity(id, premium)
     Activities[id] = {
+        premium = premium,
         Handles = {
             StartActivity = nil,
             EndActivity = nil
@@ -38,10 +40,12 @@ function JoinTraining()
     exports["pvp-hud"]:DisplayHUD(true)
     exports["pvp-hud"]:SetTooltip("[F1] Open Training Menu")
     SetPedInfiniteAmmoClip(PlayerPedId(), true)
+    DisplayMenu(true)
     CreateThread(function()
         while inTraining do
             Wait(1)
             if IsControlJustReleased(0, 288) then -- F1
+                print("released!")
                 if drillLive then
                     TriggerEvent("pb:Notification", "ERROR", "Can't open training menu while in a drill", true)
                     return false
@@ -88,7 +92,7 @@ function CreatePracObject(model, startPos)
     end
     -- Create the object
     pracObjects[#pracObjects+1] = CreateObject(model, startPos, false, false)
-    SetEntityHeading(pracObjects[#pracObjects], 15.5)
+    SetEntityHeading(pracObjects[#pracObjects], 195.5)
     SetEntityHealth(pracObjects[#pracObjects], 100000000)
     SetEntityCollision(pracObjects[#pracObjects], false, true)
     SetObjectPhysicsParams(pracObjects[#pracObjects], 10000.0)
@@ -112,12 +116,14 @@ function StartPractice(activity, difficulty)
         TriggerEvent("pb:Notification", "ERROR", "Can't start practice while a drill is live", true)
         return false
     end
+    ClearPracObjects()
     TriggerEvent("pb:Notification", "INFO", "Starting " .. activity .. " practice", true)
     CreateThread(function()
-        Wait(1000)
-        ClearPracObjects()
+        Wait(500)
         points = 0
         math.randomseed(GetGameTimer())
+        print(activity)
+        print(difficulty)
         Activities[activity].Handles.StartActivity(difficulty)
     end)
 end
@@ -133,10 +139,10 @@ function StartDrill(activity, difficulty)
         return false
     end
     drillLive = true
+    ClearPracObjects()
     TriggerEvent("pb:Notification", "INFO", "Starting " .. activity .. " drill", true)
     CreateThread(function()
-        Wait(1000)
-        ClearPracObjects()
+        Wait(500)
         points = 0
         math.randomseed(GetGameTimer())
         SetEntityCoords(PlayerPedId(), vector3(479.2772, 4824.704, -58.38286))
@@ -144,7 +150,7 @@ function StartDrill(activity, difficulty)
         FreezeEntityPosition(PlayerPedId(), true)
         Activities[activity].Handles.StartActivity(difficulty)
         CreateThread(function()
-            drillTime = 15
+            drillTime = 60
             while drillTime > 0 do
                 Wait(1000)
                 drillTime = drillTime - 1
@@ -186,7 +192,7 @@ RegisterNUICallback("RefreshScoreboard", function(data)
 end)
 
 RegisterNUICallback("RefreshStats", function(data)
-    TriggerEvent("pb:Notification", "INFO", "Refreshing stats, this may take a few seconds", true)
+    TriggerEvent("pb:Notification", "INFO", "Refreshing stats, please wait", true)
     TriggerServerEvent("pb-practice:GetStats")
 end)
 
@@ -199,18 +205,26 @@ RegisterNUICallback("StartDrill", function(data)
     end
 end)
 
--- Net events
+RegisterNUICallback("QuitTraining", function(data)
+    DisplayMenu(false)
+    TriggerServerEvent("pb:LeaveSession")
+    exports["pvp-menu"]:DisplayMenu(true)
+end)
 
+-- Net events
 RegisterNetEvent("pb-practice:ReceiveHighscores", function(highscores)
-    print("send this")
     SendNUIMessage({type = "SetHighscores", highscores = highscores})
 end)
 
 RegisterNetEvent("pb-practice:ReceiveStats", function(stats)
-    print("send this neow")
     SendNUIMessage({type = "SetStats", stats = stats})
 end)
 
+-- Send over locale data to NUI
+CreateThread(function()
+    Wait(500)
+    SendNUIMessage({ type = "SendTranslations", locale = PB.Locale })
+end)
 
 -- Exports
 exports("JoinTraining", JoinTraining)

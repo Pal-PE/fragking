@@ -195,6 +195,10 @@ Config.Maps = {
             }
         }
     },
+    ["facility"] = {
+        label = "Training Facility",
+        spawns = {}
+    },
     ["kortz"] = {
         label = "Kortz",
         spawns = {
