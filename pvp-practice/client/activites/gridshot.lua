@@ -25,9 +25,7 @@ function StartActivity(difficulty)
     end
 
     CreateThread(function()
-        print("yope coming!")
         while activityLive do
-            print("yope")
             Wait(0)
             for k in pairs(gridshotObjs) do
                 if GetEntityHealth(gridshotObjs[k]) < 100000000 then

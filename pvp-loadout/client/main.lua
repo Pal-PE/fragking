@@ -14,7 +14,6 @@ end
 
 -- Force a loadout on the player
 function ForceLoadout(data, use)
-    print("forcing loadout")
     selectedWeapon = false
     RemoveAllPedWeapons(PlayerPedId())
     currentLoadout = data
@@ -132,4 +131,12 @@ end)
 
 RegisterNetEvent("pb-loadout:ForceUse", function(slot)
     ForceUse(slot)
+end)
+
+RegisterNetEvent("pb-loadout:ApplyTint", function(weapon, tint)
+    -- Has to be in a thread, don't change
+    CreateThread(function()
+        Wait(100)
+        SetPedWeaponTintIndex(PlayerPedId(), GetHashKey(weapon), tint)
+    end)
 end)

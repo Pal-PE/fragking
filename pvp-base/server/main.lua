@@ -7,12 +7,16 @@ function GetCoreObject()
     return PB
 end
 
+function GetCoreConfig()
+    return Config
+end
+
 -- Handle player disconnecting
 RegisterNetEvent("playerDropped", function(reason)
     local src = source
     PB.Sessions:LeaveSession(src)
     PB.Accounts:Save(src)
-    PB.Notify.AddLog(src, true, "Player disconnected", {reason = reason}, true)
+    PB.Logging.NewLog(src, true, "Player disconnected", {reason = reason}, true)
 end)
 
 -- Handle player death, triggers once they're back alive
@@ -43,3 +47,4 @@ end)
 
 -- Exports
 exports("GetCoreObject", GetCoreObject)
+exports("GetCoreConfig", GetCoreConfig)

@@ -1,70 +1,97 @@
 -- Variables
 PB = exports["pvp-base"]:GetCoreObject()
+CoreConfig = exports["pvp-base"]:GetCoreConfig()
 local showMenu = false
 local lobbyCam = nil
 local GetGamemodes, UpdateSessions, DisplayMenu
 
 -- Get gamemodes, then trim them down and send them to the NUI
 function GetGamemodes()
-    CreateThread(function()
-        PB.Gamemodes:RequestAll()
-        -- Wait until we've got the gamemodes to start looping
-        local gamemodes
-        while not gamemodes do
-            Wait(100)
-            gamemodes = PB.Gamemodes:GetGamemodes()
+    PB.Gamemodes:RequestAll()
+    -- Wait until we've got the gamemodes to start looping
+    local gamemodes
+    while not gamemodes do
+        Wait(100)
+        gamemodes = exports["pvp-base"]:GetGamemodes()
+    end
+    -- Trim the fat
+    local collectedGamemodes = {}
+    for k, v in pairs(gamemodes) do
+        if k == "training" then return false end
+        collectedGamemodes[k] = {
+            key = k,
+            maps = {}
+        }
+        for x, y in pairs(v.mapPool) do
+            collectedGamemodes[k].maps[y] = { key = y }
         end
-        -- Trim the fat
-        local collectedGamemodes = {}
-        for k, v in pairs(gamemodes) do
-            if k == "training" then return false end
-            collectedGamemodes[k] = {
-                key = k,
-                maps = {}
-            }
-            for x, y in pairs(v.mapPool) do
-                collectedGamemodes[k].maps[y] = { key = y }
-            end
-        end
-        SendNUIMessage({type = "SendGamemodes", gamemodes = collectedGamemodes})
-    end)
+    end
+    SendNUIMessage({type = "SendGamemodes", gamemodes = collectedGamemodes})
 end
 
 -- Get sessions, then trim them down and send them to the NUI
 function UpdateSessions()
-    CreateThread(function()
-        PB.Sessions:RequestAll()
-        -- Wait until we've got the sessions to start looping
-        local sessions
-        while not sessions do
-            Wait(100)
-            sessions = exports["pvp-base"]:GetSessions()
-        end
-        -- Trim the fat
-        local collectedSessions = {}
-        for k, v in pairs(sessions) do
-            if not v.flags["hidden"] then
-                -- Calculate players
-                local plyCount = 0
-                for x, y in pairs(v.players) do
-                    if y then
-                        plyCount = plyCount + 1
-                    end
+    PB.Sessions:RequestAll()
+    -- Wait until we've got the sessions to start looping
+    local sessions
+    while not sessions do
+        Wait(100)
+        sessions = exports["pvp-base"]:GetSessions()
+    end
+    -- Trim the fat
+    local collectedSessions = {}
+    for k, v in pairs(sessions) do
+        if not v.flags["hidden"] then
+            -- Calculate players
+            local plyCount = 0
+            for x, y in pairs(v.players) do
+                if y then
+                    plyCount = plyCount + 1
                 end
-                collectedSessions[k] = {
-                    id = k,
-                    name = v.name,
-                    gamemode = v.gamemode,
-                    map = v.map,
-                    players = plyCount,
-                    maxplayers = v.settings.maxPlayers,
-                    locked = v.private,
-                    official = v.flags["official"]
+            end
+            collectedSessions[k] = {
+                id = k,
+                name = v.name,
+                gamemode = v.gamemode,
+                map = v.map,
+                players = plyCount,
+                maxplayers = v.settings.maxPlayers,
+                locked = v.private,
+                official = v.flags["official"]
+            }
+        end
+    end
+    SendNUIMessage({type = "UpdateSessions", sessions = collectedSessions})
+end
+
+function UpdateStash()
+    PB.Stash:Request()
+    -- Wait until we've got the gamemodes to start looping
+    local stash
+    while not stash do
+        Wait(100)
+        stash = exports["pvp-base"]:GetStash()
+    end
+    -- Trim the fat
+    local collectedItems = {}
+    for k, v in pairs(CoreConfig.ItemCategories) do
+        collectedItems[k] = {
+            name = v.label,
+            items = {}
+        }
+        -- Remake this, so that it's its own loop
+        for x, y in pairs(stash) do
+            if k == CoreConfig.Items[x].category then
+                collectedItems[k].items[x] = {
+                    id = x,
+                    name = CoreConfig.Items[x].label,
+                    desc = v.desc,
+                    img = "https://i.kym-cdn.com/photos/images/facebook/001/705/214/84e.png"
                 }
             end
         end
-        SendNUIMessage({type = "UpdateSessions", sessions = collectedSessions})
-    end)
+    end
+    SendNUIMessage({type = "UpdateStash", stash = collectedItems})
 end
 
 -- Set the player cam, TP them, all that stuff, then open the NUI
@@ -118,15 +145,26 @@ RegisterNUICallback("RedeemCode", function(data)
     TriggerServerEvent("pb:RedeemCode", data.code)
 end)
 
+RegisterNUICallback("RefreshStash", function(data)
+    UpdateStash()
+end)
+
+RegisterNUICallback("UseItem", function(data)
+    TriggerServerEvent("pb:UseItem", data.item)
+end)
+
+
 -- Net events
 RegisterNetEvent("pb-menu:DisplayMenu", function(value)
     DisplayMenu(value)
 end)
+
 -- Get needed data on script start
 CreateThread(function()
     Wait(500)
     SendNUIMessage({ type = "SendTranslations", locale = PB.Locale })
     GetGamemodes()
+    UpdateStash()
     DisplayMenu(true)
 end)
 

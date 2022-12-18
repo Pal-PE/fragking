@@ -2,14 +2,21 @@
 PB = {}
 PB.Locale = Locale
 PB.Sessions = {}
-local Sessions
 PB.Gamemodes = {}
+PB.Stash = {}
+local Sessions
 local Gamemodes
-local GetCoreObject, GetSessions
+local Stash
+local GetCoreObject, GetSessions, GetStash
 
 -- Return core object
 function GetCoreObject()
     return PB
+end
+
+-- Return client side config
+function GetCoreConfig()
+    return Config
 end
 
 -- Get session data
@@ -17,11 +24,7 @@ function PB.Sessions:RequestAll()
     TriggerServerEvent("pb:RequestSessions")
 end
 
--- Return session data
-function PB.Sessions:GetSessions()
-    return Sessions
-end
-
+-- Return sessions
 function GetSessions()
     return Sessions
 end
@@ -31,9 +34,19 @@ function PB.Gamemodes:RequestAll()
     TriggerServerEvent("pb:RequestGamemodes")
 end
 
--- Return gamemode data
-function PB.Gamemodes:GetGamemodes()
+-- Return gamemodes
+function GetGamemodes()
     return Gamemodes
+end
+
+-- Get stash data
+function PB.Stash:Request()
+    TriggerServerEvent("pb:RequestStash")
+end
+
+-- Return stash
+function GetStash()
+    return Stash
 end
 
 -- Handle death, and provide a killing player if possible
@@ -72,6 +85,11 @@ RegisterNetEvent("pb:ReceiveGamemodes", function(gamemodes)
     Gamemodes = gamemodes
 end)
 
+RegisterNetEvent("pb:ReceiveStash", function(stash)
+    Stash = stash
+end)
+
+
 RegisterNetEvent("pb:JoinedSession", function(session)
     TriggerEvent("pb-menu:DisplayMenu", false)
     Notify("SUCCESS", "Joined " .. session.name, true)
@@ -94,7 +112,10 @@ end)
 
 -- Exports
 exports("GetCoreObject", GetCoreObject)
+exports("GetCoreConfig", GetCoreConfig)
+exports("GetGamemodes", GetGamemodes)
 exports("GetSessions", GetSessions)
+exports("GetStash", GetStash)
 
 -- Let the server know that we've connected and are ready!
 TriggerServerEvent("pb:PlayerConnected")

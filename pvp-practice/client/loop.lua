@@ -6,12 +6,13 @@ function StartTrainingLoop()
             Wait(1)
             -- Open training menu?
             if IsControlJustReleased(0, 288) then -- F1
-                if drillLive then
+                if not drillLive then
+                    DisplayMenu(true)
+                    activityLive = false
+                else
                     TriggerEvent("pb:Notification", "ERROR", "Can't open training menu while in a drill", true)
-                    return false
                 end
-                DisplayMenu(true)
-                activityLive = false
+
             end
         end
     end)

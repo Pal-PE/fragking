@@ -6,10 +6,12 @@ ui_page "html/index.html"
 
 server_scripts {
     "@mysql-async/lib/MySQL.lua",
-    "locale.lua",
-    "config.lua",
-    "maps.lua",
+    "shared/locale.lua",
+    "shared/config.lua",
+    "shared/maps.lua",
     "server/main.lua",
+    "shared/items.lua",
+    "server/stash.lua",
     "server/util.lua",
     "server/logging.lua",
     "server/account.lua",
@@ -28,9 +30,10 @@ server_scripts {
 }
 
 client_scripts {
-    "locale.lua",
-    "config.lua",
-    "maps.lua",
+    "shared/locale.lua",
+    "shared/config.lua",
+    "shared/items.lua",
+    "shared/maps.lua",
     "client/main.lua",
     "client/util.lua",
     "client/plyData.lua",
