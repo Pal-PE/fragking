@@ -2,7 +2,7 @@
 Config.ItemCategories = {
     ["tints"] = {
         label = "Tints",
-        desc = "Apply tint to weapon"
+        desc = "Apply tint to your weapon, auto applied in all gamemodes."
     },
     ["taunts"] = {
         label = "Taunts",
@@ -12,9 +12,9 @@ Config.ItemCategories = {
         label = "Name Colour",
         desc = "Apply tint to weapon"
     },
-    ["callingcard"] = {
+    ["callingcards"] = {
         label = "Calling Cards",
-        desc = "Apply tint to weapon"
+        desc = "Show off a title upon killing, or being killed by an enemy."
     },
     ["clothing"] = {
         label = "Clothing",
@@ -29,12 +29,46 @@ Config.Items = {
     -- Taunts
 
     -- Calling cards
-    ["calling_fng"] = { label = "FNG", category = "calling_basic", card = "fng.png", max = 1 }
+    ["calling_fng"] = { label = "FNG Calling Card", category = "callingcards", title = "F.N.G.", card = "https://i.imgur.com/oMdDihE.png", img = "https://i.imgur.com/oMdDihE.png", max = 1 },
+    ["calling_veteran"] = { label = "Veteran Calling Card", category = "callingcards", title = "Veteran", card = "https://i.imgur.com/oMdDihE.png", img = "https://i.imgur.com/oMdDihE.png", max = 1 },
+    ["calling_prodigy"] = { label = "Prodigy Calling Card", category = "callingcards", title = "Prodigy", card = "https://i.imgur.com/oMdDihE.png", img = "https://i.imgur.com/oMdDihE.png", max = 1 },
+
+    ["calling_day1"] = { label = "Day 1 Calling Card", category = "callingcards", title = "Day 1", card = "https://i.imgur.com/jLIqB80.png", img = "https://i.imgur.com/jLIqB80.png", max = 1 },
+    ["calling_livinitup"] = { label = "Livin' It Up Calling Card", category = "callingcards", title = "Livin' It Up", card = "https://i.imgur.com/jLIqB80.png", img = "https://i.imgur.com/jLIqB80.png", max = 1 },
+    
+    ["calling_ballas"] = { label = "Ballas Calling Card", category = "callingcards", title = "Ballas", card = "https://i.imgur.com/gVDtDNF.png", img = "https://i.imgur.com/gVDtDNF.png", max = 1 },
+    ["calling_publicenemy"] = { label = "Public Enemy #1 Calling Card", category = "callingcards", title = "Public Enemy #1", card = "https://i.imgur.com/gVDtDNF.png", img = "https://i.imgur.com/gVDtDNF.png", max = 1 },
+    ["calling_gangshit"] = { label = "GANG SHIT Calling Card", category = "callingcards", title = "GANG SHIT", card = "https://i.imgur.com/gVDtDNF.png", img = "https://i.imgur.com/gVDtDNF.png", max = 1 },
+    ["calling_backstabber"] = { label = "Backstabber Calling Card", category = "callingcards", title = "Backstabber", card = "https://i.imgur.com/gVDtDNF.png", img = "https://i.imgur.com/gVDtDNF.png", max = 1 },
+
+    ["calling_<3"] = { label = "<3 Calling Card", category = "callingcards", title = "<3", card = "https://i.imgur.com/6H4y9MG.png", img = "https://i.imgur.com/6H4y9MG.png", max = 1 },
+    ["calling_ggwp"] = { label = "GGWP Calling Card", category = "callingcards", title = "GGWP", card = "https://i.imgur.com/6H4y9MG.png", img = "https://i.imgur.com/6H4y9MG.png", max = 1 },
+    ["calling_sweetandsour"] = { label = "Sweet & Sour Calling Card", category = "callingcards", title = "Sweet & Sour", card = "https://i.imgur.com/6H4y9MG.png", img = "https://i.imgur.com/6H4y9MG.png", max = 1 },
+    ["calling_unlucky"] = { label = "Unlucky! Calling Card", category = "callingcards", title = "Unlucky!", card = "https://i.imgur.com/6H4y9MG.png", img = "https://i.imgur.com/6H4y9MG.png", max = 1 },
+
+    ["calling_ezstuff"] = { label = "EZ Stuff Calling Card", category = "callingcards", title = "EZ Stuff", card = "https://i.imgur.com/EXv4lPG.png", img = "https://i.imgur.com/EXv4lPG.png", max = 1 },
+    ["calling_nosweat"] = { label = "No Sweat Calling Card", category = "callingcards", title = "No Sweat", card = "https://i.imgur.com/EXv4lPG.png", img = "https://i.imgur.com/EXv4lPG.png", max = 1 },
+    ["calling_walkinthepark"] = { label = "Walk In The Park Calling Card", category = "callingcards", title = "Walk In The Park", card = "https://i.imgur.com/EXv4lPG.png", img = "https://i.imgur.com/EXv4lPG.png", max = 1 },
+
+
+    ["calling_thelaw"] = { label = "The Law Calling Card", category = "callingcards", title = "The Law", card = "https://i.imgur.com/HjSGBxf.png", img = "https://i.imgur.com/HjSGBxf.png", max = 1 },
+    ["calling_justice"] = { label = "Justice Calling Card", category = "callingcards", title = "Justice", card = "https://i.imgur.com/HjSGBxf.png", img = "https://i.imgur.com/HjSGBxf.png", max = 1 },
+    ["calling_lawandorder"] = { label = "Law & Order Calling Card", category = "callingcards", title = "Law & Order", card = "https://i.imgur.com/HjSGBxf.png", img = "https://i.imgur.com/HjSGBxf.png", max = 1 },
+
+    ["calling_simplereally"] = { label = "Simple Really Calling Card", category = "callingcards", title = "Simple Really", card = "https://i.imgur.com/VQ1Kmye.png", img = "https://i.imgur.com/VQ1Kmye.png", max = 1 },
+    ["calling_calculated"] = { label = "Calculated Calling Card", category = "callingcards", title = "Calculated", card = "https://i.imgur.com/VQ1Kmye.png", img = "https://i.imgur.com/VQ1Kmye.png", max = 1 },
+
+    ["calling_nbk"] = { label = "NBK Calling Card", category = "callingcards", title = "NBK", card = "https://i.imgur.com/IJz3mX8.png", img = "https://i.imgur.com/IJz3mX8.png", max = 1 },
+    ["calling_itspersonal"] = { label = "It's Personal Calling Card", category = "callingcards", title = "It's Personal", card = "https://i.imgur.com/IJz3mX8.png", img = "https://i.imgur.com/IJz3mX8.png", max = 1 },
+
+    ["calling_allin"] = { label = "All In Calling Card", category = "callingcards", title = "All In", card = "https://i.imgur.com/wf7QHEn.png", img = "https://i.imgur.com/wf7QHEn.png", max = 1 },
+    ["calling_doubledown"] = { label = "Double Down Calling Card", category = "callingcards", title = "Double Down", card = "https://i.imgur.com/wf7QHEn.png", img = "https://i.imgur.com/wf7QHEn.png", max = 1 },
+
 
     -- Clothing
 }
 
--- Auto add tints
+-- Automatically setup tints
 local weaponImg = {
     ["tint_pistol_green"] = "https://i.imgur.com/GbCj9px.png",
     ["tint_appistol_army"] = "https://i.imgur.com/KFkKvbZ.png",

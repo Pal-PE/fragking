@@ -1,9 +1,9 @@
 -- Variables
 local showHUD = false
-local DisplayHUD, SetTooltip, AddNotification, AddKill, SetStats
+local DisplayHUD, SetTooltip, AddNotification, AddKill, SetStats, SetKillbox
 
 -- Display HUD
-function DisplayHUD(value)
+RegisterNetEvent("pb-hud:DisplayHUD", function(value)
     if value == showHUD then return false end
     showHUD = value
     if value then
@@ -18,28 +18,36 @@ function DisplayHUD(value)
     else
         SendNUIMessage({type = "DisplayHUD", value = false})
     end
-end
+end)
 
--- Set NUI values
-function SetTooltip(string)
+-- Set tooltip
+RegisterNetEvent("pb-hud:SetTooltip", function(string)
     SendNUIMessage({type = "HudTooltip", value = string})
-end
+end)
 
-function AddNotification(string, _type)
+-- Add new notification to queue
+RegisterNetEvent("pb-hud:AddNotification", function(string, _type)
     SendNUIMessage({type = "AddNotification", string = string, cat = _type})
-end
+end)
 
-function AddKill(victim, attacker, victimName, attackerName)
+-- Set sidebar stats
+RegisterNetEvent("pb-hud:SetStats", function(table)
+    SendNUIMessage({type = "SetStats", table = table})
+end)
+
+-- Add kill to the killfeed
+RegisterNetEvent("pb-hud:AddKillFeed", function(victim, attacker, victimName, attackerName)
     local personal = false
     if victim == GetPlayerServerId(PlayerId()) or attacker == GetPlayerServerId(PlayerId()) then
         personal = true
     end
     SendNUIMessage({type = "AddKillfeed", string = attackerName .. " fragged " .. victimName, personal = personal})
-end
+end)
 
-function SetStats(table)
-    SendNUIMessage({type = "SetStats", table = table})
-end
+-- Set killbox
+RegisterNetEvent("pb-hud:SetKillbox", function(string, callingcard, title)
+    SendNUIMessage({type = "SetKillbox", string = string, callingcard = callingcard, title = title})
+end)
 
 -- Base game stuff to disable
 DisplayRadar(false)
@@ -57,25 +65,4 @@ CreateThread(function()
         HideHudComponentThisFrame(19) -- Weapon Wheel
         HideHudComponentThisFrame(20) -- Weapon Stats 
     end
-end)
-
--- Net events
-RegisterNetEvent("pb-hud:DisplayHUD", function(value)
-    DisplayHUD(value)
-end)
-
-RegisterNetEvent("pb-hud:SetTooltip", function(string)
-    SetTooltip(string)
-end)
-
-RegisterNetEvent("pb-hud:AddNotification", function(string, _type)
-    AddNotification(string, _type)
-end)
-
-RegisterNetEvent("pb-hud:SetStats", function(table)
-    SetStats(table)
-end)
-
-RegisterNetEvent("pb-hud:AddKillFeed", function(victim, attacker, victimname, attackerName)
-    AddKill(victim, attacker, attackerName, victimname)
 end)

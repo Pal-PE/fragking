@@ -31,10 +31,10 @@ function Notify(_type, string, notify)
 end
 
 -- LET IT SNOW!
-SetWeatherTypePersist("XMAS")
-SetWeatherTypeNowPersist("XMAS")
-SetWeatherTypeNow("XMAS")
-SetOverrideWeather("XMAS")
+--SetWeatherTypePersist("XMAS")
+--SetWeatherTypeNowPersist("XMAS")
+--SetWeatherTypeNow("XMAS")
+--SetOverrideWeather("XMAS")
 
 -- Net events
 RegisterNetEvent("pb:Notification", function(_type, string, notify)

@@ -121,8 +121,10 @@ function GetShop()
                 item = y.item,
                 name = CoreConfig.Items[y.item].label,
                 img = CoreConfig.Items[y.item].img,
+                title = CoreConfig.Items[y.item].title,
+                card = CoreConfig.Items[y.item].card,
                 price = y.price,
-                level = y.level,
+                level = y.level
             }
         end
     end

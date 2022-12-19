@@ -54,25 +54,27 @@ end
 PB.Stash.EquipTint = function(src, tint)
     local ply = PB.Accounts:Get(src)
     if not ply then return false end
-
-    print(tint)
-    print(Config.Items[tint])
-    print(Config.Items[tint].tint)
-
     if ply.equippedItems["tints"] then
         local tints = ply.equippedItems["tints"]
-        print(tints)
         tints[Config.Items[tint].wep] = Config.Items[tint].tint
         ply.Functions.EquipItem("tints", tints, tint)
     else
         ply.Functions.EquipItem("tints", {[Config.Items[tint].wep] = Config.Items[tint].tint}, tint)
     end
-
     PB.Utility:Notify(src, "SUCCESS", "Applied " .. Config.Items[tint].label, true)
+end
+
+-- Equip calling card
+PB.Stash.EquipCallingCard = function(src, callingcard)
+    local ply = PB.Accounts:Get(src)
+    if not ply then return false end
+    ply.Functions.EquipItem("callingcard", callingcard, callingcard)
+    PB.Utility:Notify(src, "SUCCESS", "Equipped " .. Config.Items[callingcard].label, true)
 end
 
 -- Apply funcs to items.lua server side
 Config.ItemCategories["tints"].useFunc = PB.Stash.EquipTint
+Config.ItemCategories["callingcards"].useFunc = PB.Stash.EquipCallingCard
 
 -- Net events
 RegisterNetEvent("pb:RequestStash", function()

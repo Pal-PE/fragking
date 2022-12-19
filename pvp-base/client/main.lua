@@ -74,7 +74,7 @@ end)
 
 -- Net events
 RegisterNetEvent("pb:PlayerLoaded", function()
-    TriggerEvent("pb-menu:DisplayMenu", true)
+    --TriggerEvent("pb-menu:DisplayMenu", true)
 end)
 
 RegisterNetEvent("pb:ReceiveSessions", function(sessions)

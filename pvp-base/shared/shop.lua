@@ -45,5 +45,41 @@ Config.Shop = {
             [4] = { item = "tint_bullpuprifle_orange", currency = "cash", price = 35000, level = 30 },
             [5] = { item = "tint_machinepistol_orange", currency = "cash", price = 35000, level = 39 },
         }            
-    }
+    },
+
+    -- Calling Cards
+    [5] = {
+        label = "Beta Exclusive Calling Cards",
+        type = "callingcards",
+        items = {
+            [1] = { item = "calling_unlucky", currency = "cash", price = 20000, level = 10 },
+            [2] = { item = "calling_ballas", currency = "cash", price = 20000, level = 20 },
+            [3] = { item = "calling_livinitup", currency = "cash", price = 20000, level = 30 },
+            [4] = { item = "calling_nosweat", currency = "cash", price = 20000, level = 40 },
+            [5] = { item = "calling_prodigy", currency = "cash", price = 20000, level = 50 },
+        }
+    },
+    [6] = {
+        label = "Premium Calling Cards",
+        type = "callingcards",
+        items = {
+            [1] = { item = "calling_ezstuff", currency = "cash", price = 20000, level = 10 },
+            [2] = { item = "calling_publicenemy", currency = "cash", price = 20000, level = 34 },
+            [3] = { item = "calling_gangshit", currency = "cash", price = 20000, level = 22 },
+            [4] = { item = "calling_backstabber", currency = "cash", price = 20000, level = 4 },
+            [5] = { item = "calling_<3", currency = "cash", price = 20000, level = 50 },
+            [6] = { item = "calling_ggwp", currency = "cash", price = 20000, level = 14 },
+            [7] = { item = "calling_sweetandsour", currency = "cash", price = 20000, level = 29 },
+            [8] = { item = "calling_lawandorder", currency = "cash", price = 20000, level = 8 },
+            [9] = { item = "calling_justice", currency = "cash", price = 20000, level = 43 },
+            [10] = { item = "calling_walkinthepark", currency = "cash", price = 20000, level = 43 },
+            [11] = { item = "calling_calculated", currency = "cash", price = 20000, level = 43 },
+            [12] = { item = "calling_simplereally", currency = "cash", price = 20000, level = 43 },
+            [13] = { item = "calling_nbk", currency = "cash", price = 20000, level = 43 },
+            [14] = { item = "calling_itspersonal", currency = "cash", price = 20000, level = 43 },
+            [15] = { item = "calling_allin", currency = "cash", price = 20000, level = 43 },
+            [16] = { item = "calling_doubledown", currency = "cash", price = 20000, level = 43 },
+
+        }
+    },
 }

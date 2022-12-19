@@ -142,6 +142,9 @@ function PB.Accounts:Load(src, account)
     this.Functions.AddCurrency = function(currency, amount)
         if Config.Currency[currency] then
             if this.currency[currency] then
+                if this.flags["premium"] then
+                    amount = amount*0.5
+                end
                 this.currency[currency] = this.currency[currency] + amount
                 PB.Logging:NewLog(src, true, "Added player currency", {currency = currency, amount = amount}, true)
                 return true
@@ -206,6 +209,9 @@ function PB.Accounts:Load(src, account)
     this.Functions.AddExp = function(level, amount)
         if Config.Levels[level] then
             if this.levels[level] then
+                if this.flags["premium"] then
+                    amount = amount*0.5
+                end
                 this.levels[level] = this.levels[level] + amount
                 PB.Logging:NewLog(src, true, "Added player experience", {level = level, amount = amount}, true)
                 return true
@@ -291,7 +297,7 @@ function PB.Accounts:Load(src, account)
     this.Functions.UseItem = function(item)
         if not Config.Items[item] then return false end
         if this.stash[item] then
-            Config.ItemCategories["tints"].useFunc(src, item)
+            Config.ItemCategories[Config.Items[item].category].useFunc(src, item)
         end
     end
 
@@ -312,6 +318,12 @@ function PB.Accounts:Load(src, account)
     for k, v in pairs(Config.Levels) do
         if not this.levels[k] then
             this.levels[k] = v.default
+        end
+    end
+
+    for k in pairs(Config.DefaultItems) do
+        if not this.stash[Config.DefaultItems[k]] then
+            this.Functions.AddItem(Config.DefaultItems[k], 1)
         end
     end
 
