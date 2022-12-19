@@ -8,7 +8,7 @@ local function InGame()
         while gameLive do
             Wait(1)
             if IsControlJustReleased(0, 288) then -- F1
-                TriggerEvent("pb-loadout:OpenWeaponSelect")
+                TriggerEvent("pb-loadout:DisplayWeaponSelect", true)
             end
         end
     end)
@@ -22,6 +22,7 @@ RegisterNetEvent("pb-ffa:InGame", function(value)
         TriggerEvent("pb-hud:DisplayHUD", true)
         InGame()
     else
+        TriggerEvent("pb-loadout:DisplayWeaponSelect", false)
         TriggerEvent("pb-loadout:ClearLoadout")
         TriggerEvent("pb-hud:SetTooltip", false)
         TriggerEvent("pb-hud:DisplayHUD", false)

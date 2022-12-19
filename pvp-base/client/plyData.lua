@@ -1,5 +1,5 @@
 -- Variables
-PlayerData = {}
+PlayerData = nil
 local GetData
 
 -- Return stored player data

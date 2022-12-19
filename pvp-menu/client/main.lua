@@ -5,6 +5,19 @@ local showMenu = false
 local lobbyCam = nil
 local GetGamemodes, UpdateSessions, DisplayMenu
 
+-- Update playerstats
+function UpdateStats()
+    local plyData = exports["pvp-base"]:GetData()
+    if not plyData then return false end
+    print(tostring(CoreConfig.NextLevel[CoreConfig.Levels["global"].formula](plyData.levels["global"]).percentage) .. "%")
+    local stats = {
+        money = plyData.currency["cash"],
+        level = CoreConfig.LevelFormulas[CoreConfig.Levels["global"].formula](plyData.levels["global"]),
+        levelPercent = tostring(CoreConfig.NextLevel[CoreConfig.Levels["global"].formula](plyData.levels["global"]).percentage) .. "%"
+    }
+    SendNUIMessage({type = "SetStats", stats = stats})
+end
+
 -- Get gamemodes, then trim them down and send them to the NUI
 function GetGamemodes()
     PB.Gamemodes:RequestAll()
@@ -86,12 +99,34 @@ function UpdateStash()
                     id = x,
                     name = CoreConfig.Items[x].label,
                     desc = v.desc,
-                    img = "https://i.kym-cdn.com/photos/images/facebook/001/705/214/84e.png"
+                    img = CoreConfig.Items[x].img
                 }
             end
         end
     end
     SendNUIMessage({type = "UpdateStash", stash = collectedItems})
+end
+
+function GetShop()
+    local collectedItems = {}
+    for k, v in pairs(CoreConfig.Shop) do
+        collectedItems[k] = {
+            name = v.label,
+            type = v.type,
+            items = {}
+        }
+        for x, y in pairs(v.items) do
+            print(y.item)
+            collectedItems[k].items[y.item] = {
+                item = y.item,
+                name = CoreConfig.Items[y.item].label,
+                img = CoreConfig.Items[y.item].img,
+                price = y.price,
+                level = y.level,
+            }
+        end
+    end
+    SendNUIMessage({type = "SendShop", shop = collectedItems})
 end
 
 -- Set the player cam, TP them, all that stuff, then open the NUI
@@ -153,18 +188,27 @@ RegisterNUICallback("UseItem", function(data)
     TriggerServerEvent("pb:UseItem", data.item)
 end)
 
+RegisterNUICallback("PurchaseItem", function(data)
+    print(data.item)
+    TriggerServerEvent("pb:PurchaseItem", data.item)
+end)
 
 -- Net events
 RegisterNetEvent("pb-menu:DisplayMenu", function(value)
     DisplayMenu(value)
 end)
 
+RegisterNetEvent("pb-menu:UpdateStats", function()
+    UpdateStats()
+end)
+
 -- Get needed data on script start
 CreateThread(function()
     Wait(500)
     SendNUIMessage({ type = "SendTranslations", locale = PB.Locale })
+    UpdateStats()
     GetGamemodes()
+    GetShop()
     UpdateStash()
     DisplayMenu(true)
 end)
-

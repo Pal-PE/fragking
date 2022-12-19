@@ -2,26 +2,66 @@
 PB.Stash = {}
 
 -- Purchase item
-function PB.Stash:PurchaseItem(src, item, amount)
-    if not Config.Items[item] then
-        PB.Logging:NewError(src, true, "Attempted to purchase an item that doesn't exist", {item = item}, true)
-        return false
-    end
+function PB.Stash:PurchaseItem(src, item)
+    if not Config.Items[item] then return false end
     local ply = PB.Accounts:Get(src)
     if not ply then return false end
-    if ply.Functions.TakeCurrency("cash", Config.Items[item].price) then
-        ply.Functions.Additem(item, amount)
+
+    if ply.stash[item] then
+        PB.Utility:Notify(src, "ERROR", "You already own this item", true)
+        return false
+    end
+
+    -- Check for the item in shop
+    local itemCost = nil
+    local currency = nil
+    local levelReq = nil
+    for k, v in pairs(Config.Shop) do
+        for x, y in pairs(v.items) do
+            if item == y.item then
+                itemCost = y.price
+                currency = y.currency
+                levelReq = y.level
+            end
+        end
+    end
+
+    if not itemCost or not currency or not levelReq then
+        PB.Utility:Notify(src, "ERROR", "Item not found in shop", true)
+        return false
+    end
+
+    if ply.Functions.GetLevel("global") >= levelReq then
+        if ply.Functions.TakeCurrency(currency, itemCost) then
+            if ply.Functions.AddItem(item, 1) then
+                PB.Utility:Notify(src, "SUCCESS", "Purchased " .. Config.Items[item].label, true)
+                PB.Accounts:Save(src)
+                PB.Logging:NewLog(src, true, "Item purchased", {item = item, itemCost = itemCost, currency = currency, levelReq = levelReq}, true)
+                return true
+            else
+                ply.Functions.AddCurrency(currency, itemCost)
+                PB.Utility:Notify(src, "ERROR", "Failed to purchase item", true)
+            end
+        else
+            PB.Utility:Notify(src, "ERROR", "Not enough money", true)
+        end
+    else
+        PB.Utility:Notify(src, "ERROR", "Level requirement not met", true)
     end
 end
 
 -- Equip tint
 PB.Stash.EquipTint = function(src, tint)
-
     local ply = PB.Accounts:Get(src)
     if not ply then return false end
 
+    print(tint)
+    print(Config.Items[tint])
+    print(Config.Items[tint].tint)
+
     if ply.equippedItems["tints"] then
         local tints = ply.equippedItems["tints"]
+        print(tints)
         tints[Config.Items[tint].wep] = Config.Items[tint].tint
         ply.Functions.EquipItem("tints", tints, tint)
     else
@@ -29,9 +69,6 @@ PB.Stash.EquipTint = function(src, tint)
     end
 
     PB.Utility:Notify(src, "SUCCESS", "Applied " .. Config.Items[tint].label, true)
-
-    PB.Accounts:Save(src)
-
 end
 
 -- Apply funcs to items.lua server side
@@ -43,4 +80,9 @@ RegisterNetEvent("pb:RequestStash", function()
     local ply = PB.Accounts:Get(src)
     if not ply then return false end
     TriggerClientEvent("pb:ReceiveStash", src, ply.stash)
+end)
+
+RegisterNetEvent("pb:PurchaseItem", function(item)
+    local src = source
+    PB.Stash:PurchaseItem(src, item)
 end)

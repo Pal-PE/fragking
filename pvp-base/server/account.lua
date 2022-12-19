@@ -129,6 +129,7 @@ function PB.Accounts:Load(src, account)
             if this.currency[currency] then
                 this.currency[currency] = amount
                 PB.Logging:NewLog(src, true, "Set player's currency", {currency = currency, amount = amount}, true)
+                return true
             else
                 return false
             end
@@ -143,6 +144,7 @@ function PB.Accounts:Load(src, account)
             if this.currency[currency] then
                 this.currency[currency] = this.currency[currency] + amount
                 PB.Logging:NewLog(src, true, "Added player currency", {currency = currency, amount = amount}, true)
+                return true
             else
                 return false
             end
@@ -159,6 +161,7 @@ function PB.Accounts:Load(src, account)
                 if newAmount > 0 then
                     this.currency[currency] = newAmount
                     PB.Logging:NewLog(src, true, "Removed player currency", {currency = currency, amount = amount}, true)
+                    return true
                 else
                     return false
                 end
@@ -190,6 +193,7 @@ function PB.Accounts:Load(src, account)
             if this.levels[level] then
                 this.levels[level] = amount
                 PB.Logging:NewLog(src, true, "Set player's experience", {level = level, amount = amount}, true)
+                return true
             else
                 return false
             end
@@ -204,6 +208,7 @@ function PB.Accounts:Load(src, account)
             if this.levels[level] then
                 this.levels[level] = this.levels[level] + amount
                 PB.Logging:NewLog(src, true, "Added player experience", {level = level, amount = amount}, true)
+                return true
             else
                 return false
             end
@@ -216,12 +221,11 @@ function PB.Accounts:Load(src, account)
     -- Levels
     this.Functions.GetLevel = function(level)
         if Config.Levels[level] then
-            local level = Config.LevelFormulas[Config.Levels[level].formula](this.Functions.GetExp(level))
-            if level > Config.Levels[level].maxLevel then
-                level = Config.Levels[level].maxLevel
-                PB.Logging:NewLog(src, true, "Removed player experience", {level = level, amount = amount}, true)
+            local lvl = Config.LevelFormulas[Config.Levels[level].formula](this.Functions.GetExp(level))
+            if lvl > Config.Levels[level].maxLevel then
+                lvl = Config.Levels[level].maxLevel
             end
-            return level
+            return lvl
         else
             PB.Logging:NewError(src, true, "Attempted to calculate level for a level that doesn't exist", {level = level}, true)
             return 0
@@ -231,14 +235,27 @@ function PB.Accounts:Load(src, account)
     -- Stash
     this.Functions.AddItem = function(item, amount)
         if Config.Items[item] then
-            if amounnt <= 0 then
+            if amount <= 0 then
                 PB.Logging:NewError(src, true, "Attempted to add a negative amount of items", {item = item, amount = amount}, true)
                 return false
             end
             if this.stash[item] then
-                this.stash[item] = this.stash[item] + amount
+                local newAmount = this.stash[item] + amount
+                if newAmount > Config.Items[item].max then
+                    PB.Logging:NewError(src, true, "Attempted to add more than the maximum amount for an item", {item = item, amount = amount, newAmount = amount}, true)
+                    return false
+                end
+                this.stash[item] = newAmount
+                PB.Logging:NewLog(src, true, "Item added to player stash", {item = item, amount = amount}, true)
+                return true
             else
+                if amount > Config.Items[item].max then 
+                    PB.Logging:NewError(src, true, "Attempted to add more than the maximum amount for an item", {item = item, amount = amount}, true)
+                    return false 
+                end
                 this.stash[item] = amount
+                PB.Logging:NewLog(src, true, "Item added to player stash", {item = item, amount = amount}, true)
+                return true
             end
         else
             PB.Logging:NewError(src, true, "Attempted to take an item that doesn't exist", {item = item}, true)
@@ -259,6 +276,8 @@ function PB.Accounts:Load(src, account)
                     return false
                 end
                 this.stash[item] = currentAmount
+                PB.Logging:NewLog(src, true, "Item taken from player stash", {item = item, amount = amount}, true)
+                return true
             else
                 PB.Logging:NewError(src, true, "Attempted to take an item the player doesnt't have", {item = item, amount = amount}, false)
                 return false
@@ -271,18 +290,16 @@ function PB.Accounts:Load(src, account)
 
     this.Functions.UseItem = function(item)
         if not Config.Items[item] then return false end
-        --if this.stash[item] then
+        if this.stash[item] then
             Config.ItemCategories["tints"].useFunc(src, item)
-        --end
+        end
     end
 
     this.Functions.EquipItem = function(type, data, item)
-        print("equip now?")
         if not Config.Items[item] then return false end
-        --if this.stash[item] then
+        if this.stash[item] then
             this.equippedItems[type] = data
-            print("43434")
-        --end
+        end
     end
 
     -- Setup defaults

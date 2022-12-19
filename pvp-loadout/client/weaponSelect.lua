@@ -4,7 +4,7 @@ local weaponSelectMenu = NativeUI.CreateMenu("WEAPON SELECT", "")
 menuPool:Add(weaponSelectMenu)
 local primaryMenu = menuPool:AddSubMenu(weaponSelectMenu, "Select Primary")
 local secondaryMenu = menuPool:AddSubMenu(weaponSelectMenu, "Select Secondary")
-local OpenWeaponSelect
+local DisplayWeaponSelect
 
 -- Loop through all items and add them to their related sub menu
 for k, v in pairs(Config.Items) do
@@ -55,11 +55,11 @@ CreateThread(function()
 end)
 
 -- Open the weapon select menu
-function OpenWeaponSelect()
-    weaponSelectMenu:Visible(true)
+function DisplayWeaponSelect(value)
+    weaponSelectMenu:Visible(value)
 end
 
 -- Net events
-AddEventHandler("pb-loadout:OpenWeaponSelect", function()
-    OpenWeaponSelect()
+AddEventHandler("pb-loadout:DisplayWeaponSelect", function(value)
+    OpenWeaponSelect(value)
 end)
