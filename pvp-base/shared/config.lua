@@ -31,7 +31,7 @@ Config.Levels = {
 }
 
 -- Default items
-Config.DefaultItems = {"calling_fng","calling_day1"}
+Config.DefaultItems = {"calling_fng","calling_day1","col_white"}
 
 -- Optimize this so that it sets up level amounts on start, then just loop through when needed
 Config.LevelFormulas = {

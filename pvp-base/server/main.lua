@@ -34,18 +34,30 @@ RegisterNetEvent("pb:PlayerDied", function(attacker)
         end
         -- Handle the event if theres an attacker
         if attacker then
+            local attackerPly = PB.Accounts:Get(attacker)
+            if not attackerPly then return false end
             local attackerName = GetPlayerName(attacker)
+            local attackerColour
+            if attackerPly.equippedItems["colname"] then
+                attackerColour = Config.Items[attackerPly.equippedItems["colname"]].colour
+            else
+                attackerColour = Config.Items["col_white"].colour
+            end
+            local victimColour
+            if ply.equippedItems["colname"] then
+                victimColour = Config.Items[ply.equippedItems["colname"]].colour
+            else
+                victimColour = Config.Items["col_white"].colour
+            end
             -- Let all players in session know, for the killfeed
             if session.active then
                 for k, v in pairs(session.players) do
                     if v then
-                        TriggerClientEvent("pb-hud:AddKillFeed", k, src, attacker, victimName, attackerName)
+                        TriggerClientEvent("pb-hud:AddKillFeed", k, src, attacker, victimName, victimColour, attackerName, attackerColour)
                     end
                 end
             end
             -- Set calling cards for attacker and victim
-            local attackerPly = PB.Accounts:Get(attacker)
-            if not attackerPly then return false end
             local attackerCallingCard
             if attackerPly.equippedItems["callingcard"] then
                 attackerCallingCard = Config.Items[attackerPly.equippedItems["callingcard"]]
@@ -58,8 +70,8 @@ RegisterNetEvent("pb:PlayerDied", function(attacker)
             else
                 victimCallingCard = Config.Items["calling_fng"]
             end
-            TriggerClientEvent("pb-hud:SetKillbox", src, "Killed by " .. attackerName, attackerCallingCard.card,  attackerCallingCard.title)
-            TriggerClientEvent("pb-hud:SetKillbox", attacker, "Killed " .. victimName, victimCallingCard.card,  victimCallingCard.title)
+            TriggerClientEvent("pb-hud:SetKillbox", src, "Killed by ", attackerName, attackerColour, attackerCallingCard.card,  attackerCallingCard.title)
+            TriggerClientEvent("pb-hud:SetKillbox", attacker, "Killed ", victimName, victimColour, victimCallingCard.card,  victimCallingCard.title)
         end
     end
 end)

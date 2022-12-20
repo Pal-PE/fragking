@@ -116,13 +116,13 @@ function GetShop()
             items = {}
         }
         for x, y in pairs(v.items) do
-            print(y.item)
-            collectedItems[k].items[y.item] = {
+            collectedItems[k].items[x] = {
                 item = y.item,
                 name = CoreConfig.Items[y.item].label,
                 img = CoreConfig.Items[y.item].img,
                 title = CoreConfig.Items[y.item].title,
                 card = CoreConfig.Items[y.item].card,
+                colour = CoreConfig.Items[y.item].colour,
                 price = y.price,
                 level = y.level
             }

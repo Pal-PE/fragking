@@ -17,7 +17,6 @@ Config.Shop = {
         items = {
             [1] = { item = "tint_pistol_pink", currency = "cash", price = 40000, level = 5 },
             [2] = { item = "tint_appistol_pink", currency = "cash", price = 40000, level = 28 },
-            [3] = { item = "tint_heavypistol_pink", currency = "cash", price = 40000, level = 10 },
             [4] = { item = "tint_minismg_pink", currency = "cash", price = 40000, level = 12 },
             [5] = { item = "tint_microsmg_pink", currency = "cash", price = 40000, level = 20 },
             [6] = { item = "tint_assaultrifle_pink", currency = "cash", price = 40000, level = 43 },
@@ -80,6 +79,29 @@ Config.Shop = {
             [15] = { item = "calling_allin", currency = "cash", price = 20000, level = 43 },
             [16] = { item = "calling_doubledown", currency = "cash", price = 20000, level = 43 },
 
+        }
+    },
+
+    -- Name colours
+    [7] = {
+        label = "Premium Name Colours",
+        type = "namecols",
+        items = {
+            [1] = { item = "col_blue", currency = "cash", price = 50000, level = 10 },
+            [2] = { item = "col_pink", currency = "cash", price = 50000, level = 10 },
+            [3] = { item = "col_green", currency = "cash", price = 50000, level = 10 },
+            [4] = { item = "col_purple", currency = "cash", price = 50000, level = 10 },
+            [5] = { item = "col_orange", currency = "cash", price = 50000, level = 10 },
+            [6] = { item = "col_red", currency = "cash", price = 50000, level = 10 },
+            [7] = { item = "col_cyan", currency = "cash", price = 50000, level = 10 },
+            [8] = { item = "col_yellow", currency = "cash", price = 50000, level = 10 },
+            [9] = { item = "col_mimosa", currency = "cash", price = 100000, level = 20 },
+            [10] = { item = "col_lilly", currency = "cash", price = 100000, level = 40 },
+            [11] = { item = "col_breeze", currency = "cash", price = 100000, level = 40 },
+            [12] = { item = "col_disco", currency = "cash", price = 100000, level = 40 },
+            [13] = { item = "col_seasalt", currency = "cash", price = 100000, level = 40 },
+            [14] = { item = "col_sandstorm", currency = "cash", price = 100000, level = 40 },
+            [15] = { item = "col_lemontwist", currency = "cash", price = 100000, level = 40 },
         }
     },
 }

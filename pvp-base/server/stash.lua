@@ -72,9 +72,18 @@ PB.Stash.EquipCallingCard = function(src, callingcard)
     PB.Utility:Notify(src, "SUCCESS", "Equipped " .. Config.Items[callingcard].label, true)
 end
 
+-- Equip coloured name
+PB.Stash.EquipColouredName = function(src, colour)
+    local ply = PB.Accounts:Get(src)
+    if not ply then return false end
+    ply.Functions.EquipItem("colname", colour, colour)
+    PB.Utility:Notify(src, "SUCCESS", "Applied " .. Config.Items[colour].label, true)
+end
+
 -- Apply funcs to items.lua server side
 Config.ItemCategories["tints"].useFunc = PB.Stash.EquipTint
 Config.ItemCategories["callingcards"].useFunc = PB.Stash.EquipCallingCard
+Config.ItemCategories["namecol"].useFunc = PB.Stash.EquipColouredName
 
 -- Net events
 RegisterNetEvent("pb:RequestStash", function()

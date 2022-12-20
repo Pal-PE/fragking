@@ -36,17 +36,17 @@ RegisterNetEvent("pb-hud:SetStats", function(table)
 end)
 
 -- Add kill to the killfeed
-RegisterNetEvent("pb-hud:AddKillFeed", function(victim, attacker, victimName, attackerName)
+RegisterNetEvent("pb-hud:AddKillFeed", function(victim, attacker, victimName, victimColour, attackerName, attackerColour)
     local personal = false
     if victim == GetPlayerServerId(PlayerId()) or attacker == GetPlayerServerId(PlayerId()) then
         personal = true
     end
-    SendNUIMessage({type = "AddKillfeed", string = attackerName .. " fragged " .. victimName, personal = personal})
+    SendNUIMessage({type = "AddKillfeed", table = {string = " fragged ", personal = personal, attackerName = attackerName, attackerColour = attackerColour, victimName = victimName, victimColour = victimColour}})
 end)
 
 -- Set killbox
-RegisterNetEvent("pb-hud:SetKillbox", function(string, callingcard, title)
-    SendNUIMessage({type = "SetKillbox", string = string, callingcard = callingcard, title = title})
+RegisterNetEvent("pb-hud:SetKillbox", function(string, plyName, plyColour, callingcard, title)
+    SendNUIMessage({type = "SetKillbox", table = {string = string, plyName = plyName, plyColour = plyColour, callingcard = callingcard, title = title}})
 end)
 
 -- Base game stuff to disable

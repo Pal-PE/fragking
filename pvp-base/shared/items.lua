@@ -25,6 +25,24 @@ Config.ItemCategories = {
 -- Items
 Config.Items = {
     -- Name colours
+    ["col_white"] = { label = "White Name Colour", category = "namecol", colour = "linear-gradient(90deg, #ffffff 0%, #ffffff 100%)", max = 1 },
+    ["col_pink"] = { label = "Pink Name Colour", category = "namecol", colour = "linear-gradient(90deg, #872ab5 0%, #872ab5 100%)", max = 1 },
+    ["col_blue"] = { label = "Blue Name Colour", category = "namecol", colour = "linear-gradient(90deg, #2a6ab8 0%, #2a6ab8 100%)", max = 1 },
+    ["col_green"] = { label = "Green Name Colour", category = "namecol", colour = "linear-gradient(90deg, #329c1a 0%, #329c1a 100%)", max = 1 },
+    ["col_purple"] = { label = "Purple Name Colour", category = "namecol", colour = "linear-gradient(90deg, #551a9c 0%, #551a9c 100%)", max = 1 },
+    ["col_orange"] = { label = "Orange Name Colour", category = "namecol", colour = "linear-gradient(90deg, #bf5915 0%, #bf5915 100%)", max = 1 },
+    ["col_red"] = { label = "Red Name Colour", category = "namecol", colour = "linear-gradient(90deg, #cc0c0c 0%, #cc0c0c 100%)", max = 1 },
+    ["col_yellow"] = { label = "Yellow Name Colour", category = "namecol", colour = "linear-gradient(90deg, #bab514 0%, #bab514 100%)", max = 1 },
+    ["col_cyan"] = { label = "Cyan Name Colour", category = "namecol", colour = "linear-gradient(90deg, #1a8aa1 0%, #1a8aa1 100%)", max = 1 },
+
+    ["col_mimosa"] = { label = "Mimosa Name Colour", category = "namecol", colour = "linear-gradient(90deg, #d53369 0%, #daae51 100%)", max = 1 },
+    ["col_lilly"] = { label = "Lilly Name Colour", category = "namecol", colour = "linear-gradient(90deg, #efd5ff 0%, #515ada 100%)", max = 1 },
+    ["col_breeze"] = { label = "Breeze Name Colour", category = "namecol", colour = "linear-gradient(90deg, #1CB5E0 0%, #000851 100%)", max = 1 },
+    ["col_disco"] = { label = "Disco Name Colour", category = "namecol", colour = "linear-gradient(90deg, #FC466B 0%, #3F5EFB 100%)", max = 1 },
+    ["col_seasalt"] = { label = "Sea Salt Name Colour", category = "namecol", colour = "linear-gradient(90deg, #4b6cb7 0%, #182848 100%)", max = 1 },
+    ["col_sandstorm"] = { label = "Sandstorm Name Colour", category = "namecol", colour = "linear-gradient(90deg, #fcff9e 0%, #c67700 100%)", max = 1 },
+    ["col_lemontwist"] = { label = "Lemon Twist Name Colour", category = "namecol", colour = "linear-gradient(90deg, #3CA55C 0%, #B5AC49 100%)", max = 1 },
+
 
     -- Taunts
 
@@ -69,31 +87,6 @@ Config.Items = {
 }
 
 -- Automatically setup tints
-local weaponImg = {
-    ["tint_pistol_green"] = "https://i.imgur.com/GbCj9px.png",
-    ["tint_appistol_army"] = "https://i.imgur.com/KFkKvbZ.png",
-    ["tint_carbinerifle_pink"] = "https://i.imgur.com/JCYEXm0.png",
-    ["tint_mg_blue"] = "https://i.imgur.com/c6NJLSi.png",
-    ["tint_compactrifle_platinum"] = "https://i.imgur.com/Thy7Ay6.png",
-    ["tint_pistol_pink"] = "https://i.imgur.com/GLjRdf5.png",
-    ["tint_appistol_pink"] = "https://i.imgur.com/Jx0jjjf.png",
-    ["tint_heavypistol_pink"] = "https://i.imgur.com/NLZ5yEj.png",
-    ["tint_minismg_pink"] = "https://i.imgur.com/xjCLTFX.png",
-    ["tint_microsmg_pink"] = "https://i.imgur.com/l7K20v6.png",
-    ["tint_musket_pink"] = "https://i.imgur.com/j2L0SkQ.png",
-    ["tint_assaultrifle_pink"] = "https://i.imgur.com/EB3bkhJ.png",
-    ["tint_compactrifle_pink"] = "https://i.imgur.com/0gVK1GH.png",
-    ["tint_combatpistol_green"] = "https://i.imgur.com/DnLyqNi.png",
-    ["tint_assaultrifle_green"] = "https://i.imgur.com/qtyyEPC.png",
-    ["tint_minismg_green"] = "https://i.imgur.com/HnbA1YO.png",
-    ["tint_mg_green"] = "https://i.imgur.com/3fNVFPS.png",
-    ["tint_shotgun_green"] = "https://i.imgur.com/TSnqWqW.png",
-    ["tint_sawnoffshotgun_orange"] = "https://i.imgur.com/fp0ZFWv.png",
-    ["tint_revolver_orange"] = "https://i.imgur.com/XIMqwzo.png",
-    ["tint_marksmanpistol_orange"] = "https://i.imgur.com/HST8otN.png",
-    ["tint_bullpuprifle_orange"] = "https://i.imgur.com/tV8gspO.png",
-    ["tint_machinepistol_orange"] = "https://i.imgur.com/gGS255z.png"
-}
 local baseWeapons = {["pistol"] = "Pistol", ["combatpistol"] = "Combat Pistol", ["appistol"] = "AP Pistol", ["pistol50"] = "Pistol 50", ["heavypistol"] = "Heaavy Pistol",
 ["marksmanpistol"] = "Marksman Pistol", ["revolver"] = "Revolver", ["microsmg"] = "Scorpion", ["smg"] = "SMG", ["combatpdw"] = "Combat PDW", ["machinepistol"] = "Machine Pistol",
 ["minismg"] = "UZI", ["pumpshotgun"] = "Pump Shotgun", ["sawnoffshotgun"] = "Sawnoff", ["assaultshotgun"] = "Assault Shotgun", ["bullpupshotgun"] = "Bullpup Shotgun",
@@ -103,10 +96,6 @@ local baseWeapons = {["pistol"] = "Pistol", ["combatpistol"] = "Combat Pistol", 
 local baseTints = {[1] = "Green", [2] = "Gold", [3] = "Pink", [4] = "Army", [5] = "Blue", [6] = "Orange", [7] = "Platinum"}
 for k, v in pairs(baseWeapons) do
     for x, y in pairs(baseTints) do
-        local img = ""
-        if weaponImg["tint_" .. k .. "_" .. string.lower(y)] then 
-            img = weaponImg["tint_" .. k .. "_" .. string.lower(y)]
-        end
-        Config.Items["tint_" .. k .. "_" .. string.lower(y)] = { label = v .. ": " .. y .. " Tint", max = 1, category = "tints", wep = "weapon_" .. k, tint = x, img = img }
+        Config.Items["tint_" .. k .. "_" .. string.lower(y)] = { label = v .. ": " .. y .. " Tint", max = 1, category = "tints", wep = "weapon_" .. k, tint = x, img = "img/tint_" .. k .. "_" .. string.lower(y) .. ".png" }
     end
 end
