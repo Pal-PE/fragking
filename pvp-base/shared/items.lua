@@ -75,11 +75,16 @@ Config.Items = {
     ["calling_allin"] = { label = "All In Calling Card", category = "callingcards", title = "All In", card = "https://i.imgur.com/wf7QHEn.png", img = "https://i.imgur.com/wf7QHEn.png", max = 1 },
     ["calling_doubledown"] = { label = "Double Down Calling Card", category = "callingcards", title = "Double Down", card = "https://i.imgur.com/wf7QHEn.png", img = "https://i.imgur.com/wf7QHEn.png", max = 1 },
 
+    ["calling_lonewolf"] = { label = "Lone Wolf Calling Card", category = "callingcards", title = "Lone Wolf", card = "https://i.imgur.com/VRR3chg.png", img = "https://i.imgur.com/VRR3chg.png", max = 1 },
+
+    ["calling_speeddemon"] = { label = "Speed Demon Calling Card", category = "callingcards", title = "Speed Demon", card = "https://i.imgur.com/cNXp7s1.png", img = "https://i.imgur.com/cNXp7s1.png", max = 1 },
+    ["calling_fullthrottle"] = { label = "Full Throttle Calling Card", category = "callingcards", title = "Full Throtle", card = "https://i.imgur.com/cNXp7s1.png", img = "https://i.imgur.com/cNXp7s1.png", max = 1 },
+
 
     -- Clothing
     ["clothing_mask_monkey"] = { label = "Monkey Mask", category = "clothing", type = "drawable", drawable = "masks", value = 3, img = "img/", max = 1 },
     ["clothing_mask_monkey2"] = { label = "Monkey Mask", category = "clothing", type = "drawable", drawable = "masks", value = 5, img = "img/", max = 1 },
-    ["clothing_mask_santa"] = { label = "Santa Mask", category = "clothing", type = "drawable", drawable = "masks", value = 5, img = "https://i.imgur.com/wf7QHEn.png", max = 1 },
+    ["clothing_mask_santa"] = { label = "Santa Mask", category = "clothing", type = "drawable", drawable = "masks", value = 8, img = "https://i.imgur.com/wf7QHEn.png", max = 1 },
 
 }
 

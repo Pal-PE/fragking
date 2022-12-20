@@ -133,7 +133,6 @@ end
 
 -- Set the player cam, TP them, all that stuff, then open the NUI
 function DisplayMenu(value)
-    if value == showMenu then return false end
     showMenu = value
     UpdateSessions()
     if value then
@@ -217,5 +216,4 @@ CreateThread(function()
     GetGamemodes()
     GetShop()
     UpdateStash()
-    DisplayMenu(true)
 end)

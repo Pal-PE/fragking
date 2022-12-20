@@ -78,7 +78,9 @@ Config.Shop = {
             [14] = { item = "calling_itspersonal", currency = "cash", price = 20000, level = 43 },
             [15] = { item = "calling_allin", currency = "cash", price = 20000, level = 43 },
             [16] = { item = "calling_doubledown", currency = "cash", price = 20000, level = 43 },
-
+            [17] = { item = "calling_lonewolf", currency = "cash", price = 20000, level = 43 },
+            [18] = { item = "calling_speeddemon", currency = "cash", price = 20000, level = 43 },
+            [19] = { item = "calling_fullthrottle", currency = "cash", price = 20000, level = 43 },
         }
     },
 

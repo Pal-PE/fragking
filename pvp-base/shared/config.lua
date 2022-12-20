@@ -24,7 +24,7 @@ Config.Currency = {
 Config.Levels = {
     ["global"] = {
         label = "Global Experience",
-        default = 500,
+        default = 0,
         maxLevel = 50,
         formula = 1
     }
@@ -39,8 +39,8 @@ Config.LevelFormulas = {
         if not exp then return end
         local _amount = 0
         local levelAmounts = {}
-        for i = 0, 500, 1 do
-            _amount = (i*i)*50 + _amount
+        for i = 0, 51, 1 do
+            _amount = (i*i)*75 + _amount
             levelAmounts[i] = {amount = _amount}
         end
         local lvl = 0
@@ -59,8 +59,8 @@ Config.NextLevel = {
         if not exp then return end
         local _amount = 0
         local levelAmounts = {}
-        for i = 0, 500, 1 do
-            _amount = (i*i)*50 + _amount
+        for i = 0, 51, 1 do
+            _amount = (i*i)*75 + _amount
             levelAmounts[i] = {amount = _amount}
         end
         local lvl = 0

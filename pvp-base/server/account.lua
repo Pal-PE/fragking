@@ -297,7 +297,9 @@ function PB.Accounts:Load(src, account)
     this.Functions.UseItem = function(item)
         if not Config.Items[item] then return false end
         if this.stash[item] then
-            Config.ItemCategories[Config.Items[item].category].useFunc(src, item)
+            if not Config.ItemCategories[Config.Items[item].category].useFunc(src, item) then
+                PB.Utility:Notify(src, "ERROR", "This item can not be used", true)
+            end
         end
     end
 
