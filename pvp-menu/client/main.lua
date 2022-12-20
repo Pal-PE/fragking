@@ -2,8 +2,8 @@
 PB = exports["pvp-base"]:GetCoreObject()
 CoreConfig = exports["pvp-base"]:GetCoreConfig()
 local showMenu = false
-local lobbyCam = nil
-local GetGamemodes, UpdateSessions, DisplayMenu
+lobbyCam = nil
+local GetGamemodes, UpdateSessions
 
 -- Update playerstats
 function UpdateStats()
@@ -142,12 +142,14 @@ function DisplayMenu(value)
         SetCamActive(lobbyCam, true)
         RenderScriptCams(true, false, 1, true, false)
         SetEntityCoords(PlayerPedId(), -1582.29, -569.52, 116.33)
+        FreezeEntityPosition(PlayerPedId(), true)
         SendNUIMessage({type = "DisplayMenu", value = true})
         SetNuiFocus(true, true)
     else
         TriggerScreenblurFadeOut(3000)
         RenderScriptCams(false, false, 1, true, true)
         DestroyAllCams(true)
+        FreezeEntityPosition(PlayerPedId(), false)
         SendNUIMessage({type = "DisplayMenu", value = false})
         SetNuiFocus(false, false)
     end
@@ -191,8 +193,11 @@ RegisterNUICallback("UseItem", function(data)
 end)
 
 RegisterNUICallback("PurchaseItem", function(data)
-    print(data.item)
     TriggerServerEvent("pb:PurchaseItem", data.item)
+    CreateThread(function()
+        Wait(500)
+        UpdateStats()
+    end)
 end)
 
 -- Net events

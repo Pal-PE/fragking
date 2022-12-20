@@ -104,4 +104,15 @@ Config.Shop = {
             [15] = { item = "col_lemontwist", currency = "cash", price = 100000, level = 40 },
         }
     },
+
+    -- Clothing
+    [8] = {
+        label = "Beta Exclusive Clothes",
+        type = "clothing",
+        items = {
+            [1] = { item = "clothing_mask_santa", currency = "cash", price = 55, level = 5 },
+            [2] = { item = "clothing_mask_monkey", currency = "cash", price = 55, level = 5 },
+        }
+    },
+
 }

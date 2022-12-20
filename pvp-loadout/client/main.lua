@@ -74,9 +74,9 @@ function UseItem(item)
                 item.cooldown = false
                 UpdateUI()
             end)
-            TriggerEvent("pb:Notification", "SUCCESS", "Used " .. Config.Items[item.item].label .. ".", true)
+            TriggerEvent("pb:Notification", "SUCCESS", "Used " .. Config.Items[item.item].label, true)
         else
-            TriggerEvent("pb:Notification", "ERROR", Config.Items[item.item].label .. " is on cooldown.", true)
+            TriggerEvent("pb:Notification", "ERROR", Config.Items[item.item].label .. " is on cooldown", true)
         end
     end
 end
@@ -140,3 +140,8 @@ RegisterNetEvent("pb-loadout:ApplyTint", function(weapon, tint)
         SetPedWeaponTintIndex(PlayerPedId(), GetHashKey(weapon), tint)
     end)
 end)
+
+
+RegisterCommand("testyo", function()
+    SetGameplayCamRawYaw(105)
+end, false)

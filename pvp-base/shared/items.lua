@@ -4,21 +4,17 @@ Config.ItemCategories = {
         label = "Tints",
         desc = "Apply tint to your weapon, auto applied in all gamemodes."
     },
-    ["taunts"] = {
-        label = "Taunts",
-        desc = "Apply tint to weapon"
-    },
     ["namecol"] = {
         label = "Name Colour",
-        desc = "Apply tint to weapon"
+        desc = "Change your name colour in chat, death info boxes, and the killfeed."
     },
     ["callingcards"] = {
         label = "Calling Cards",
-        desc = "Show off a title upon killing, or being killed by an enemy."
+        desc = "Show off with a title upon killing, or being killed by an enemy."
     },
     ["clothing"] = {
         label = "Clothing",
-        desc = "Apply tint to weapon"
+        desc = "Allows for the use of this item within the wardrobe."
     }
 }
 
@@ -42,9 +38,6 @@ Config.Items = {
     ["col_seasalt"] = { label = "Sea Salt Name Colour", category = "namecol", colour = "linear-gradient(90deg, #4b6cb7 0%, #182848 100%)", max = 1 },
     ["col_sandstorm"] = { label = "Sandstorm Name Colour", category = "namecol", colour = "linear-gradient(90deg, #fcff9e 0%, #c67700 100%)", max = 1 },
     ["col_lemontwist"] = { label = "Lemon Twist Name Colour", category = "namecol", colour = "linear-gradient(90deg, #3CA55C 0%, #B5AC49 100%)", max = 1 },
-
-
-    -- Taunts
 
     -- Calling cards
     ["calling_fng"] = { label = "FNG Calling Card", category = "callingcards", title = "F.N.G.", card = "https://i.imgur.com/oMdDihE.png", img = "https://i.imgur.com/oMdDihE.png", max = 1 },
@@ -84,6 +77,10 @@ Config.Items = {
 
 
     -- Clothing
+    ["clothing_mask_monkey"] = { label = "Monkey Mask", category = "clothing", type = "drawable", drawable = "masks", value = 3, img = "img/", max = 1 },
+    ["clothing_mask_monkey2"] = { label = "Monkey Mask", category = "clothing", type = "drawable", drawable = "masks", value = 5, img = "img/", max = 1 },
+    ["clothing_mask_santa"] = { label = "Santa Mask", category = "clothing", type = "drawable", drawable = "masks", value = 5, img = "https://i.imgur.com/wf7QHEn.png", max = 1 },
+
 }
 
 -- Automatically setup tints

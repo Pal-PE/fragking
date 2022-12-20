@@ -13,6 +13,7 @@ files {
 
 client_scripts {
     "client/main.lua",
+    "client/clothing.lua"
 }
 
 server_scripts {
