@@ -1,15 +1,15 @@
 Gadgets = {}
 
 Gadgets["gadget_bandage"] = function()
-    local newHP = GetEntityHealth(PlayerPedId())+30
-    if newHP > 100 then
-        newHP = 100
+    local newHP = GetEntityHealth(PlayerPedId())+70
+    if newHP > 200 then
+        newHP = 200
     end
     SetEntityHealth(PlayerPedId(), newHP)
 end
 
 Gadgets["gadget_medkit"] = function()
-    SetEntityHealth(PlayerPedId(), 100)
+    SetEntityHealth(PlayerPedId(), 200)
 end
 
 Gadgets["gadget_armour"] = function()

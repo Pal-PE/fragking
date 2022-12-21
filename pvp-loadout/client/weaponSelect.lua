@@ -61,5 +61,5 @@ end
 
 -- Net events
 AddEventHandler("pb-loadout:DisplayWeaponSelect", function(value)
-    OpenWeaponSelect(value)
+    DisplayWeaponSelect(value)
 end)

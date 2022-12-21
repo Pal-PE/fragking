@@ -56,13 +56,15 @@ function UseItem(item)
     end
     -- Handle weapons
     if Config.Items[item.item].type == "weapon" then
-    if not item.item == selectedWeapon then
-        selectedWeapon = item.item
-        TriggerServerEvent("pb-loadout:GetWeapon", item.item)
-    else
-        selectedWeapon = false
-        TriggerServerEvent("pb-loadout:RemoveWeapon", item.item)
-    end
+        print(2)
+        if item.item == selectedWeapon then
+            selectedWeapon = item.item
+            selectedWeapon = false
+            TriggerServerEvent("pb-loadout:RemoveWeapon", item.item)
+        else
+            selectedWeapon = item.item
+            TriggerServerEvent("pb-loadout:GetWeapon", item.item)
+        end
     -- Handle gadgets
     elseif Config.Items[item.item].type == "gadget" then
         if not item.cooldown then

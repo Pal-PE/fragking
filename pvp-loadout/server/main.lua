@@ -10,6 +10,7 @@ RegisterNetEvent("pb-loadout:GetWeapon", function(weapon)
         GiveWeaponToPed(GetPlayerPed(src), Config.Items[weapon].weapon, 10000, true, true)
         local ply = PB.Accounts:Get(src)
         if not ply then return false end
+        if not ply.equippedItems.tints then return false end
         if not ply.equippedItems.tints[Config.Items[weapon].weapon] then return false end
         TriggerClientEvent("pb-loadout:ApplyTint", src, Config.Items[weapon].weapon, ply.equippedItems.tints[Config.Items[weapon].weapon])
     end)
