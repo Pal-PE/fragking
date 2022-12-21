@@ -22,6 +22,7 @@ function CreateSession(src, data)
     end
     newSession.Functions.SetGame(data.gamemode)
     newSession.Functions.SetMap(data.map)
+    newSession.Functions.SetMapPool({data.map})
     -- Add a password, if needed
     if data.password and string.len(data.password) > 0 then
         newSession.Functions.SetPassword(data.password)

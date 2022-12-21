@@ -27,16 +27,22 @@ function GetGamemodes()
         Wait(100)
         gamemodes = exports["pvp-base"]:GetGamemodes()
     end
+    print("gamemodes!", gamemodes)
     -- Trim the fat
     local collectedGamemodes = {}
     for k, v in pairs(gamemodes) do
-        if k == "training" then return false end
-        collectedGamemodes[k] = {
-            key = k,
-            maps = {}
-        }
-        for x, y in pairs(v.mapPool) do
-            collectedGamemodes[k].maps[y] = { key = y }
+        print("gm found!")
+        print(k)
+        if k ~= "training" then
+            print("add in")
+            print(k)
+            collectedGamemodes[k] = {
+                key = k,
+                maps = {}
+            }
+            for x, y in pairs(v.mapPool) do
+                collectedGamemodes[k].maps[y] = { key = y }
+            end
         end
     end
     SendNUIMessage({type = "SendGamemodes", gamemodes = collectedGamemodes})

@@ -8,7 +8,8 @@ files {
     "html/index.html",
     "html/js/*.js",
     "html/css/*.css",
-    "html/img/*.png"
+    "html/img/*.png",
+    "html/img/masks/*.png"
 }
 
 client_scripts {
