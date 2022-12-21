@@ -60,7 +60,9 @@ function StartLobby(session)
                     Wait(1000)
                     readyCountdown = readyCountdown - 1
                     for k, v in pairs(session.gameData.logic.players) do
-                        TriggerClientEvent("pb-hud:SetStats", k, {[1] = {string = "Game starting", value = readyCountdown}})
+                        if v then
+                            TriggerClientEvent("pb-hud:SetStats", k, {[1] = {string = "Game starting", value = readyCountdown}})
+                        end
                     end
                 end
                 StartGame(session)

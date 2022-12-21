@@ -76,15 +76,83 @@ Config.Items = {
     ["calling_doubledown"] = { label = "Double Down Calling Card", category = "callingcards", title = "Double Down", card = "https://i.imgur.com/wf7QHEn.png", img = "https://i.imgur.com/wf7QHEn.png", max = 1 },
 
     ["calling_lonewolf"] = { label = "Lone Wolf Calling Card", category = "callingcards", title = "Lone Wolf", card = "https://i.imgur.com/VRR3chg.png", img = "https://i.imgur.com/VRR3chg.png", max = 1 },
+    ["calling_hunted"] = { label = "Hunted Calling Card", category = "callingcards", title = "Hunted", card = "https://i.imgur.com/VRR3chg.png", img = "https://i.imgur.com/VRR3chg.png", max = 1 },
+
 
     ["calling_speeddemon"] = { label = "Speed Demon Calling Card", category = "callingcards", title = "Speed Demon", card = "https://i.imgur.com/cNXp7s1.png", img = "https://i.imgur.com/cNXp7s1.png", max = 1 },
     ["calling_fullthrottle"] = { label = "Full Throttle Calling Card", category = "callingcards", title = "Full Throtle", card = "https://i.imgur.com/cNXp7s1.png", img = "https://i.imgur.com/cNXp7s1.png", max = 1 },
 
 
     -- Clothing
-    ["clothing_mask_monkey"] = { label = "Monkey Mask", category = "clothing", type = "drawable", drawable = "masks", value = 3, img = "img/", max = 1 },
-    ["clothing_mask_monkey2"] = { label = "Monkey Mask", category = "clothing", type = "drawable", drawable = "masks", value = 5, img = "img/", max = 1 },
-    ["clothing_mask_santa"] = { label = "Santa Mask", category = "clothing", type = "drawable", drawable = "masks", value = 8, img = "https://i.imgur.com/wf7QHEn.png", max = 1 },
+    -- Buyable vanilla masks
+    ["clothing_mask_moose"] = { label = "Moose Mask", category = "clothing", type = "drawable", drawable = "masks", value = 9, img = "img/masks/9.png", max = 1 },
+    ["clothing_mask_orc"] = { label = "Orc Mask", category = "clothing", type = "drawable", drawable = "masks", value = 7, img = "img/masks/7.png", max = 1 },
+    ["clothing_mask_snowman"] = { label = "Snowman Mask", category = "clothing", type = "drawable", drawable = "masks", value = 10, img = "img/masks/7.png", max = 1 },
+    ["clothing_mask_cat"] = { label = "Cat Mask", category = "clothing", type = "drawable", drawable = "masks", value = 17, img = "img/masks/17.png", max = 1 },
+    ["clothing_mask_fox"] = { label = "Fox Mask", category = "clothing", type = "drawable", drawable = "masks", value = 18, img = "img/masks/18.png", max = 1 },
+    ["clothing_mask_racoon"] = { label = "Racoon Mask", category = "clothing", type = "drawable", drawable = "masks", value = 20, img = "img/masks/20.png", max = 1 },
+    ["clothing_mask_bear"] = { label = "Bear Mask", category = "clothing", type = "drawable", drawable = "masks", value = 21, img = "img/masks/21.png", max = 1 },
+    ["clothing_mask_penguin"] = { label = "Penguin Mask", category = "clothing", type = "drawable", drawable = "masks", value = 31, img = "img/masks/31.png", max = 1 },
+    ["clothing_mask_gingerbreadhappy"] = { label = "Happy Gingerbread Mask", category = "clothing", type = "drawable", drawable = "masks", value = 33, img = "img/masks/33.png", max = 1 },
+    ["clothing_mask_zombie"] = { label = "Zombie Mask", category = "clothing", type = "drawable", drawable = "masks", value = 39, img = "img/masks/39.png", max = 1 },
+    ["clothing_mask_weeb"] = { label = "Weeb Mask", category = "clothing", type = "drawable", drawable = "masks", value = 44, img = "img/masks/44.png", max = 1 },
+    ["clothing_mask_detective"] = { label = "Detective Mask", category = "clothing", type = "drawable", drawable = "masks", value = 45, img = "img/masks/45.png", max = 1 },
+    ["clothing_mask_pumpkin"] = { label = "Pumpkin Mask", category = "clothing", type = "drawable", drawable = "masks", value = 60, img = "img/masks/60.png", max = 1 },
+    ["clothing_mask_skullzombie"] = { label = "Skull Zombie Mask", category = "clothing", type = "drawable", drawable = "masks", value = 64, img = "img/masks/64.png", max = 1 },
+    ["clothing_mask_bug"] = { label = "Bug Mask", category = "clothing", type = "drawable", drawable = "masks", value = 66, img = "img/masks/66.png", max = 1 },
+    ["clothing_mask_satan"] = { label = "Satan Mask", category = "clothing", type = "drawable", drawable = "masks", value = 68, img = "img/masks/68.png", max = 1 },
+    ["clothing_mask_angrygingerbread"] = { label = "Angry Gingerbread Mask", category = "clothing", type = "drawable", drawable = "masks", value = 74, img = "img/masks/74.png", max = 1 },
+    ["clothing_mask_chicken"] = { label = "Chicken Mask", category = "clothing", type = "drawable", drawable = "masks", value = 85, img = "img/masks/85.png", max = 1 },
+    ["clothing_mask_granny"] = { label = "Granny Mask", category = "clothing", type = "drawable", drawable = "masks", value = 86, img = "img/masks/86.png", max = 1 },
+    ["clothing_mask_grandpa"] = { label = "Grandpa Mask", category = "clothing", type = "drawable", drawable = "masks", value = 87, img = "img/masks/87.png", max = 1 },
+    ["clothing_mask_dino"] = { label = "Dino Mask", category = "clothing", type = "drawable", drawable = "masks", value = 93, img = "img/masks/93.png", max = 1 },
+    ["clothing_mask_clown"] = { label = "Clown Mask", category = "clothing", type = "drawable", drawable = "masks", value = 95, img = "img/masks/95.png", max = 1 },
+    ["clothing_mask_ape"] = { label = "Ape Mask", category = "clothing", type = "drawable", drawable = "masks", value = 96, img = "img/masks/96.png", max = 1 },
+    ["clothing_mask_horse"] = { label = "Horse Mask", category = "clothing", type = "drawable", drawable = "masks", value = 97, img = "img/masks/97.png", max = 1 },
+    ["clothing_mask_unicorn"] = { label = "Unicorn Mask", category = "clothing", type = "drawable", drawable = "masks", value = 98, img = "img/masks/98.png", max = 1 },
+    ["clothing_mask_pug"] = { label = "Pug Mask", category = "clothing", type = "drawable", drawable = "masks", value = 100, img = "img/masks/100.png", max = 1 },
+    ["clothing_mask_neon"] = { label = "Neon Mask", category = "clothing", type = "drawable", drawable = "masks", value = 102, img = "img/masks/102.png", max = 1 },
+    ["clothing_mask_soldierzombie"] = { label = "Zombie Soldier Mask", category = "clothing", type = "drawable", drawable = "masks", value = 103, img = "img/masks/103.png", max = 1 },
+    ["clothing_mask_skull"] = { label = "Skull Mask", category = "clothing", type = "drawable", drawable = "masks", value = 110, img = "img/masks/110.png", max = 1 },
+    ["clothing_mask_neon2"] = { label = "Neon Mask", category = "clothing", type = "drawable", drawable = "masks", value = 124, img = "img/masks/124.png", max = 1 },
+    ["clothing_mask_nvg"] = { label = "NVG Mask", category = "clothing", type = "drawable", drawable = "masks", value = 132, img = "img/masks/132.png", max = 1 },
+    ["clothing_mask_bird"] = { label = "Bird Mask", category = "clothing", type = "drawable", drawable = "masks", value = 136, img = "img/masks/136.png", max = 1 },
+    ["clothing_mask_cyberird"] = { label = "Cyber Bird Mask", category = "clothing", type = "drawable", drawable = "masks", value = 138, img = "img/masks/138.png", max = 1 },
+    ["clothing_mask_alien"] = { label = "Alien Mask", category = "clothing", type = "drawable", drawable = "masks", value = 139, img = "img/masks/139.png", max = 1 },
+    ["clothing_mask_mike"] = { label = "Mike Mask", category = "clothing", type = "drawable", drawable = "masks", value = 140, img = "img/masks/140.png", max = 1 },
+    ["clothing_mask_druid"] = { label = "Druid Mask", category = "clothing", type = "drawable", drawable = "masks", value = 141, img = "img/masks/141.png", max = 1 },
+    ["clothing_mask_steampunk"] = { label = "Steampunk Mask", category = "clothing", type = "drawable", drawable = "masks", value = 142, img = "img/masks/142.png", max = 1 },
+    ["clothing_mask_taco"] = { label = "Taco Mask", category = "clothing", type = "drawable", drawable = "masks", value = 143, img = "img/masks/143.png", max = 1 },
+    ["clothing_mask_burgershot"] = { label = "Burgershot Mask", category = "clothing", type = "drawable", drawable = "masks", value = 144, img = "img/masks/144.png", max = 1 },
+    ["clothing_mask_cluckin"] = { label = "Cluckin Mask", category = "clothing", type = "drawable", drawable = "masks", value = 145, img = "img/masks/145.png", max = 1 },
+    ["clothing_mask_gadget"] = { label = "Gadget Mask", category = "clothing", type = "drawable", drawable = "masks", value = 146, img = "img/masks/146.png", max = 1 },
+    ["clothing_mask_coolape"] = { label = "Cool Ape Mask", category = "clothing", type = "drawable", drawable = "masks", value = 147, img = "img/masks/147.png", max = 1 },
+    -- Stock vanilla masks
+
+    -- Buyable vanilla hats
+
+    -- Stock vanilla hats
+
+    -- Buyable vanilla glases
+    ["clothing_glasses_ski"] = { label = "Ski Goggles", category = "clothing", type = "prop", prop = "glasses", value = 25, img = "img/glasses/25", max = 1 },
+    ["clothing_glasses_combat2"] = { label = "Combat Glasses 2", category = "clothing", type = "prop", prop = "glasses", value = 23, img = "img/glasses/23", max = 1 },
+    ["clothing_glasses_patriot"] = { label = "Patriot Shades", category = "clothing", type = "prop", prop = "glasses", value = 21, img = "img/glasses/21", max = 1 },
+    ["clothing_glasses_patriot2"] = { label = "Patriot Shades 2", category = "clothing", type = "prop", prop = "glasses", value = 22, img = "img/glasses/22", max = 1 },
+    -- Stock vanilla glasses
+    ["clothing_glasses_shades"] = { label = "Shades", category = "clothing", type = "prop", prop = "glasses", value = 1, img = "img/glasses/1", max = 1 },
+    ["clothing_glasses_shades2"] = { label = "Shades 2", category = "clothing", type = "prop", prop = "glasses", value = 2, img = "img/glasses/2", max = 1 },
+    ["clothing_glasses_glasses"] = { label = "Glasses", category = "clothing", type = "prop", prop = "glasses", value = 2, img = "img/glasses/2", max = 1 },
+    ["clothing_glasses_glasses2"] = { label = "Glasses 2", category = "clothing", type = "prop", prop = "glasses", value = 2, img = "img/glasses/7", max = 1 },
+    ["clothing_glasses_aviators"] = { label = "Aviators", category = "clothing", type = "prop", prop = "glasses", value = 5, img = "img/glasses/5", max = 1 },
+    ["clothing_glasses_aviators2"] = { label = "Aviators 2", category = "clothing", type = "prop", prop = "glasses", value = 8, img = "img/glasses/8", max = 1 },
+    ["clothing_glasses_shades3"] = { label = "Shades 3", category = "clothing", type = "prop", prop = "glasses", value = 9, img = "img/glasses/9", max = 1 },
+    ["clothing_glasses_squareframe"] = { label = "Square Fames", category = "clothing", type = "prop", prop = "glasses", value = 10, img = "img/glasses/10", max = 1 },
+    ["clothing_glasses_shades4"] = { label = "Shades 4", category = "clothing", type = "prop", prop = "glasses", value = 13, img = "img/glasses/13", max = 1 },
+    ["clothing_glasses_combat"] = { label = "Combat Glasses", category = "clothing", type = "prop", prop = "glasses", value = 15, img = "img/glasses/15", max = 1 },
+    ["clothing_glasses_glasses3"] = { label = "Glasses 3", category = "clothing", type = "prop", prop = "glasses", value = 17, img = "img/glasses/17", max = 1 },
+    ["clothing_glasses_pilot"] = { label = "Pilot Goggles", category = "clothing", type = "prop", prop = "glasses", value = 24, img = "img/glasses/24", max = 1 },
+    ["clothing_glasses_diving"] = { label = "Rebreather", category = "clothing", type = "prop", prop = "glasses", value = 26, img = "img/glasses/26", max = 1 },
+
 
 }
 

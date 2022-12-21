@@ -17,7 +17,8 @@ local function InGame(safezone, radius)
                     [1] = {item = "wep_appistol"},
                     [2] = {item = "gadget_medkit"},
                     [3] = {item = "gadget_armour"}
-                }, 1)
+                })
+                TriggerEvent("pb-loadout:ForceUse", 1)
             elseif not inSafezone and distance < radius then
                 inSafezone = true
                 SetEntityInvincible(PlayerPedId(), true)

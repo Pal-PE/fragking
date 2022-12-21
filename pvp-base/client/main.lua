@@ -64,8 +64,8 @@ CreateThread(function()
             while IsEntityDead(PlayerPedId()) do
                 Wait(50)
             end
-            SetEntityMaxHealth(PlayerPedId(), 100)
-            SetEntityHealth(PlayerPedId(), 100)
+            SetEntityMaxHealth(PlayerPedId(), 200)
+            SetEntityHealth(PlayerPedId(), 200)
             SetPedArmour(PlayerPedId(), 100)
             TriggerServerEvent("pb:PlayerDied", attacker)
         end

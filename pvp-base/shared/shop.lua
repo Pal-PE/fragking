@@ -81,6 +81,8 @@ Config.Shop = {
             [17] = { item = "calling_lonewolf", currency = "cash", price = 20000, level = 43 },
             [18] = { item = "calling_speeddemon", currency = "cash", price = 20000, level = 43 },
             [19] = { item = "calling_fullthrottle", currency = "cash", price = 20000, level = 43 },
+            [20] = { item = "calling_hunted", currency = "cash", price = 20000, level = 43 },
+
         }
     },
 
@@ -109,11 +111,10 @@ Config.Shop = {
 
     -- Clothing
     [8] = {
-        label = "Beta Exclusive Clothes",
+        label = "Masks",
         type = "clothing",
         items = {
-            [1] = { item = "clothing_mask_santa", currency = "cash", price = 55, level = 5 },
-            [2] = { item = "clothing_mask_monkey", currency = "cash", price = 55, level = 5 },
+            [1] = { item = "clothing_mask_moose", currency = "cash", price = 18000, level = 18 },
         }
     },
 

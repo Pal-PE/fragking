@@ -59,7 +59,9 @@ function StartLobby(session)
                     Wait(1000)
                     readyCountdown = readyCountdown - 1
                     for k, v in pairs(session.gameData.logic.players) do
-                        TriggerClientEvent("pb-hud:SetStats", k, {[1] = {string = "Game starting", value = readyCountdown}})
+                        if v then
+                            TriggerClientEvent("pb-hud:SetStats", k, {[1] = {string = "Game starting", value = readyCountdown}})
+                        end
                     end
                 end
                 StartGame(session)
@@ -156,6 +158,7 @@ end
 -- Handle a player dying within the gamemode
 function HandleDeath(session, victim, attacker)
     TPGame(session, victim)
+    TriggerClientEvent("pb-loadout:ForceUse", victim, 1)
     if not attacker then return false end
     if attacker == victim then return false end
 
