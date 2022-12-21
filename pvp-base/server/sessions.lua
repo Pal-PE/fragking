@@ -32,34 +32,32 @@ function PB.Sessions:CreateSession(bucket, population, lockdown, name)
         Functions = {}
     }
 
-    this = Sessions[bucket]
-
     -- Flag functions
-    this.Functions.SetFlag = function(flag, value)
-        this.flags[flag] = value
+    Sessions[bucket].Functions.SetFlag = function(flag, value)
+        Sessions[bucket].flags[flag] = value
         -- Actively apply any new flags to all players
         if flag == "god" then
-            for k, v in pairs(this.players) do
+            for k, v in pairs(Sessions[bucket].players) do
                 SetPlayerInvincible(v, true)
             end
         end
         PB.Logging:NewLog("SESSION", false, "Set a sessions flag", {session = bucket, flag = flag, value = value}, true)
     end
 
-    this.Functions.SetMaxPlayers = function(value)
-        this.settings.maxPlayers = value
+    Sessions[bucket].Functions.SetMaxPlayers = function(value)
+        Sessions[bucket].settings.maxPlayers = value
         PB.Logging:NewLog("SESSION", false, "Set a sessions max players", {session = bucket, value = value}, true)
     end
 
-    this.Functions.SetPassword = function(value)
-        this.settings.password = value
-        this.private = true
+    Sessions[bucket].Functions.SetPassword = function(value)
+        Sessions[bucket].settings.password = value
+        Sessions[bucket].private = true
         PB.Logging:NewLog("SESSION", false, "Set a session to private", {session = bucket, password = value}, true)
     end
 
-    this.Functions.CloseSession = function(value)
-        this.active = false
-        for k, v in pairs(this.players) do
+    Sessions[bucket].Functions.CloseSession = function(value)
+        Sessions[bucket].active = false
+        for k, v in pairs(Sessions[bucket].players) do
             if v then
                 PB.Utility:Notify(k, "INFO", "The session you were in has closed.")
                 PB.Sessions:LeaveSession(k)
@@ -69,25 +67,25 @@ function PB.Sessions:CreateSession(bucket, population, lockdown, name)
     end
 
     -- Gamemode
-    this.Functions.SetGame = function(gamemode)
-        this.gamemode = gamemode
+    Sessions[bucket].Functions.SetGame = function(gamemode)
+        Sessions[bucket].gamemode = gamemode
         PB.Logging:NewLog("SESSION", false, "Set a sessions gamemode", {session = bucket, gamemode = gamemode}, true)
     end
 
-    this.Functions.StartGame = function()
-        Gamemodes[this.gamemode].Handles.GameCycle(this)
-        this.gameLive = true
-        PB.Logging:NewLog("SESSION", false, "Started a sessions gamemode", {session = bucket, gamemode = this.gamemode}, true)
+    Sessions[bucket].Functions.StartGame = function()
+        Gamemodes[Sessions[bucket].gamemode].Handles.GameCycle(Sessions[bucket])
+        Sessions[bucket].gameLive = true
+        PB.Logging:NewLog("SESSION", false, "Started a sessions gamemode", {session = bucket, gamemode = Sessions[bucket].gamemode}, true)
     end
 
     -- Map
-    this.Functions.SetMap = function(map)
-        this.map = map
+    Sessions[bucket].Functions.SetMap = function(map)
+        Sessions[bucket].map = map
         PB.Logging:NewLog("SESSION", false, "Set a sessions map", {session = bucket, map = map}, true)
     end
 
-    this.Functions.SetMapPool = function(maps)
-        this.mapPool = maps
+    Sessions[bucket].Functions.SetMapPool = function(maps)
+        Sessions[bucket].mapPool = maps
         PB.Logging:NewLog("SESSION", false, "Set a sessions mappool", {session = bucket, maps = maps}, true)
     end
 
@@ -98,6 +96,7 @@ function PB.Sessions:CreateSession(bucket, population, lockdown, name)
     PB.Logging:NewLog("SERVER", false, "Created a new session", {bucket = bucket}, true)
 
     return Sessions[bucket]
+
 end
 
 -- Add a player to session

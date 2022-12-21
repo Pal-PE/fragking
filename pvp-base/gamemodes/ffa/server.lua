@@ -37,13 +37,13 @@ function StartLobby(session)
                             name = Locale["map_" .. session.mapPool[v] .. "_name"],
                             img = session.mapPool[v] .. ".png",
                             Function = function()
+                                print("setting map to " .. session.mapPool[v])
                                 session.Functions.SetMap(session.mapPool[v])
                             end
                         }
                     end
                 else
                     for v in pairs(FFA.mapPool) do
-                        print(v)
                         voteMaps[v] = {
                             name = Locale["map_" .. FFA.mapPool[v] .. "_name"],
                             img = FFA.mapPool[v] .. ".png",
@@ -205,6 +205,7 @@ end
 -- TP player into the current game map
 function TPGame(session, src)
     local plyPed = GetPlayerPed(src)
+    print("spawning for " .. session.map)
     local selectedSpawn = Config.Maps[session.map].spawns[99][math.random(#Config.Maps[session.map].spawns[99])]
     SetEntityCoords(plyPed, selectedSpawn)
     SetEntityHeading(plyPed, selectedSpawn.w)
