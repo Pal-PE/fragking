@@ -1,29 +1,45 @@
+-- All shops
 Config.Shop = {
+
     -- Tints
     [1] = {
         label = "Beta Exclusive Tints",
         type = "tints",
+        premium = false,
+        defaultPrice = false,
+        defaultLevel = false,
+        sortBy = "level",
+        level = "global",
+        currency = "cash",
         items = {
-            [1] = { item = "tint_pistol_green", currency = "cash", price = 25000, level = 10 },
-            [2] = { item = "tint_appistol_army", currency = "cash", price = 30000, level = 20 },
-            [3] = { item = "tint_carbinerifle_pink", currency = "cash", price = 40000, level = 30},
-            [4] = { item = "tint_mg_blue", currency = "cash", price = 30000, level = 40},
-            [5] = { item = "tint_compactrifle_platinum", currency = "cash", price = 150000, level = 50},
+            ["tint_pistol_green"] = { level = 10, price = 25000 },
+            ["tint_appistol_army"] = { level = 20, price = 30000 },
+            ["tint_carbinerifle_pink"] = { level = 30, price = 40000 },
+            ["tint_mg_blue"] = { level = 40, price = 30000 },
+            ["tint_compactrifle_platinum"] = { level = 50, price = 150000 },
         }
-    },
-    [2] = {
+    }
+
+    [1] = {
         label = "Pink Tints",
         type = "tints",
+        premium = false,
+        defaultPrice = 50000,
+        defaultLevel = false,
+        sortBy = "level",
+        level = "global",
+        currency = "cash",
         items = {
-            [1] = { item = "tint_pistol_pink", currency = "cash", price = 40000, level = 5 },
-            [2] = { item = "tint_appistol_pink", currency = "cash", price = 40000, level = 28 },
-            [4] = { item = "tint_minismg_pink", currency = "cash", price = 40000, level = 12 },
-            [5] = { item = "tint_microsmg_pink", currency = "cash", price = 40000, level = 20 },
-            [6] = { item = "tint_assaultrifle_pink", currency = "cash", price = 40000, level = 43 },
-            [7] = { item = "tint_compactrifle_pink", currency = "cash", price = 40000, level = 45 },
-            [8] = { item = "tint_musket_pink", currency = "cash", price = 40000, level = 49 },
+            ["tint_pistol_pink"] = { level = 5 },
+            ["tint_appistol_pink"] = { level = 28 },
+            ["tint_minismg_pink"] = { level = 12 },
+            ["tint_microsmg_pink"] = { level = 20 },
+            ["tint_assaultrifle_pink"] = { level = 43 },
+            ["tint_compactrifle_pink"] = { level = 45 },
+            ["tint_musket_pink"] = { level = 49 },
         }
-    },
+    }
+
     [3] = {
         label = "Green Tints",
         type = "tints",
@@ -115,6 +131,47 @@ Config.Shop = {
         type = "clothing",
         items = {
             [1] = { item = "clothing_mask_moose", currency = "cash", price = 18000, level = 18 },
+            [2] = { item = "clothing_mask_orc", currency = "cash", price = 18000, level = 18 },
+            [3] = { item = "clothing_mask_snowman", currency = "cash", price = 18000, level = 18 },
+            [4] = { item = "clothing_mask_cat", currency = "cash", price = 18000, level = 18 },
+            [5] = { item = "clothing_mask_fox", currency = "cash", price = 18000, level = 18 },
+            --[6] = { item = "clothing_mask_racoon", currency = "cash", price = 18000, level = 18 },
+            [7] = { item = "clothing_mask_bear", currency = "cash", price = 18000, level = 18 },
+            [8] = { item = "clothing_mask_penguin", currency = "cash", price = 18000, level = 18 },
+            [9] = { item = "clothing_mask_gingerbreadhappy", currency = "cash", price = 18000, level = 18 },
+            --[10] = { item = "clothing_mask_zombie", currency = "cash", price = 18000, level = 18 },
+            [11] = { item = "clothing_mask_weeb", currency = "cash", price = 18000, level = 18 },
+            [12] = { item = "clothing_mask_detective", currency = "cash", price = 18000, level = 18 },
+            --[13] = { item = "clothing_mask_pumpkin", currency = "cash", price = 18000, level = 18 },
+            [14] = { item = "clothing_mask_skullzombie", currency = "cash", price = 18000, level = 18 },
+            --[15] = { item = "clothing_mask_bug", currency = "cash", price = 18000, level = 18 },
+            [16] = { item = "clothing_mask_satan", currency = "cash", price = 18000, level = 18 },
+            [17] = { item = "clothing_mask_angrygingerbread", currency = "cash", price = 18000, level = 18 },
+            [18] = { item = "clothing_mask_chicken", currency = "cash", price = 18000, level = 18 },
+            --[19] = { item = "clothing_mask_granny", currency = "cash", price = 18000, level = 18 },
+            --[20] = { item = "clothing_mask_grandpa", currency = "cash", price = 18000, level = 18 },
+            [21] = { item = "clothing_mask_dino", currency = "cash", price = 18000, level = 18 },
+            [22] = { item = "clothing_mask_clown", currency = "cash", price = 18000, level = 18 },
+            [23] = { item = "clothing_mask_ape", currency = "cash", price = 18000, level = 18 },
+            --[24] = { item = "clothing_mask_horse", currency = "cash", price = 18000, level = 18 },
+            [25] = { item = "clothing_mask_unicorn", currency = "cash", price = 18000, level = 18 },
+            [26] = { item = "clothing_mask_pug", currency = "cash", price = 18000, level = 18 },
+            --[27] = { item = "clothing_mask_neon", currency = "cash", price = 18000, level = 18 },
+            --[28] = { item = "clothing_mask_soldierzombie", currency = "cash", price = 18000, level = 18 },
+            [29] = { item = "clothing_mask_skull", currency = "cash", price = 18000, level = 18 },
+            [30] = { item = "clothing_mask_neon2", currency = "cash", price = 18000, level = 18 },
+            [31] = { item = "clothing_mask_nvg", currency = "cash", price = 18000, level = 18 },
+            [32] = { item = "clothing_mask_bird", currency = "cash", price = 18000, level = 18 },
+            --[33] = { item = "clothing_mask_cyberbird", currency = "cash", price = 18000, level = 18 },
+            [34] = { item = "clothing_mask_alien", currency = "cash", price = 18000, level = 18 },
+            --[35] = { item = "clothing_mask_mike", currency = "cash", price = 18000, level = 18 },
+            [36] = { item = "clothing_mask_druid", currency = "cash", price = 18000, level = 18 },
+            [37] = { item = "clothing_mask_steampunk", currency = "cash", price = 18000, level = 18 },
+            --[38] = { item = "clothing_mask_taco", currency = "cash", price = 18000, level = 18 },
+            --[39] = { item = "clothing_mask_burgershot", currency = "cash", price = 18000, level = 18 },
+            --[40] = { item = "clothing_mask_cluckin", currency = "cash", price = 18000, level = 18 },
+            [41] = { item = "clothing_mask_gadget", currency = "cash", price = 18000, level = 18 },
+            [42] = { item = "clothing_mask_coolape", currency = "cash", price = 18000, level = 18 },
         }
     },
 

@@ -85,6 +85,7 @@ function StartGame(session)
             }
             TPGame(session, k)
             TriggerClientEvent("pb-ffa:InGame", k,  true)
+            TriggerClientEvent("pb:CheckMap", k, session.map)
             TriggerClientEvent("pb-loadout:ForceLoadout", k, {
                 [1] = {item = "wep_assaultrifle"},
                 [2] = {item = "wep_appistol"},
@@ -143,6 +144,7 @@ function HandleJoin(session, src)
         }
         TPGame(session, src)
         TriggerClientEvent("pb-ffa:InGame", src, true)
+        TriggerClientEvent("pb:CheckMap", src, session.map)
         TriggerClientEvent("pb-loadout:ForceLoadout", src, {
             [1] = {item = "wep_assaultrifle"},
             [2] = {item = "wep_appistol"},
@@ -174,7 +176,7 @@ end
 -- Handle player respawning
 function HandleRespawn(session, src)
     TPGame(session, src)
-    TriggerClientEvent("pb-loadout:ForceUse", sc, 1)
+    TriggerClientEvent("pb-loadout:ForceUse", src, 1)
 end
 
 -- Decide on a winner of the game
@@ -189,6 +191,7 @@ function Winner(session, src)
             ply.Functions.AddExp("global", 250 + v.kills*50)
             v = true
             TPLobby(session, k)
+            TriggerClientEvent("pb:LeaveMap", k)
             TriggerClientEvent("pb-ffa:InGame", k, false)
             TriggerClientEvent("pb:Notification", k, "INFO", "Game over! " .. GetPlayerName(src) .. " has won.", true)
         end
@@ -209,11 +212,11 @@ end
 -- TP player into the current game map
 function TPGame(session, src)
     local plyPed = GetPlayerPed(src)
-    print("spawning for " .. session.map)
     local selectedSpawn = Config.Maps[session.map].spawns[99][math.random(#Config.Maps[session.map].spawns[99])]
     SetEntityCoords(plyPed, selectedSpawn)
     SetEntityHeading(plyPed, selectedSpawn.w)
     SetPlayerInvincible(src, false)
+    TriggerClientEvent("pb-loadout:ForceUse", src, 1)
 end
 
 -- TP player into the lobby

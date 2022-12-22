@@ -31,17 +31,18 @@ server_scripts {
 }
 
 client_scripts {
+    "@PolyZone/client.lua",
     "shared/locale.lua",
     "shared/config.lua",
     "shared/items.lua",
     "shared/shop.lua",
     "shared/maps.lua",
+    "shared/poly.lua",
     "client/main.lua",
     "client/util.lua",
     "client/plyData.lua",
     "client/sessions.lua",
-    "client/menu.lua",
-    "client/death.lua",
+    "client/poly.lua",
     "gamemodes/ffa/client.lua",
     "gamemodes/gungame/client.lua",
     "gamemodes/redzone/client.lua"

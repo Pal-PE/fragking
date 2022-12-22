@@ -8,7 +8,7 @@ local Sessions
 local Gamemodes
 local Stash
 local GetCoreObject, GetSessions, GetStash
-local handlingRespawn
+handlingRespawn = false
 
 -- Return core object
 function GetCoreObject()
@@ -79,10 +79,10 @@ function Respawned()
     DoScreenFadeIn(500)
     CreateThread(function()
         SetEntityInvincible(PlayerPedId(), true)
-        SetEntityAlpha(PlayerPedid(), 200)
+        SetEntityAlpha(PlayerPedId(), 200)
         Wait(400)
         SetEntityInvincible(PlayerPedId(), false)
-        SetEntityAlpha(PlayerPedid(), 255)
+        SetEntityAlpha(PlayerPedId(), 255)
     end)
 end
 
@@ -111,6 +111,7 @@ end)
 
 RegisterNetEvent("pb:LeftSession", function()
     TriggerEvent("pb-menu:DisplayMenu", true)
+    PB.Utility:LeaveMap()
     TriggerEvent("pb-loadout:ClearLoadout")
     TriggerEvent("pb-hud:SetStats", {})
     TriggerEvent("pb-hud:SetTooltip", false)

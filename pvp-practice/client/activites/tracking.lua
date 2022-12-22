@@ -34,4 +34,4 @@ function StartActivity(difficulty)
 end
 
 -- Create activity
-local Tracking = Activities:CreateActivity("tracking", StartActivity, false, 60, "wep_appistol")
+local Tracking = Activities:CreateActivity("tracking", StartActivity, false, 20, "wep_appistol")

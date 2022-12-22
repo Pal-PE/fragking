@@ -122,6 +122,7 @@ function GetShop()
             items = {}
         }
         for x, y in pairs(v.items) do
+            print(CoreConfig.Items[y.item].label)
             collectedItems[k].items[x] = {
                 item = y.item,
                 name = CoreConfig.Items[y.item].label,

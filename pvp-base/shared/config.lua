@@ -31,7 +31,12 @@ Config.Levels = {
 }
 
 -- Default items
-Config.DefaultItems = {"calling_fng","calling_day1","col_white"}
+Config.DefaultItems = {"calling_fng","calling_day1","col_white","clothing_hat_beanie","clothing_hat_bucket",
+"clothing_hat_frontcap","clothing_hat_beanie2","clothing_hat_militarycap","clothing_hat_flatcap","clothing_hat_backcap",
+"clothing_hat_frontcap2","clothing_hat_fedora","clothing_hat_cowboy","clothing_hat_bandana","clothing_hat_headphones",
+"clothing_hat_bike","clothing_hat_bike2","clothing_hat_bike3","clothing_hat_headset","clothing_hat_reindeer",
+"clothing_hat_pilot","clothing_hat_combat","clothing_hat_xmas","clothing_hat_xmas2","clothing_hat_yankee","clothing_hat_fedora7","clothing_hat_frontcap8",
+"clothing_hat_backcap4","clothing_hat_bike7","clothing_hat_stunt","clothing_hat_bike8","clothing_hat_beret","clothing_hat_santa"}
 
 -- Optimize this so that it sets up level amounts on start, then just loop through when needed
 Config.LevelFormulas = {

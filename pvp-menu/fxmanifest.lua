@@ -9,7 +9,9 @@ files {
     "html/js/*.js",
     "html/css/*.css",
     "html/img/*.png",
-    "html/img/masks/*.png"
+    "html/img/masks/*.png",
+    "html/img/glasses/*.png",
+    "html/img/hats/*.png"
 }
 
 client_scripts {

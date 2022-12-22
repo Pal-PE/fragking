@@ -87,6 +87,7 @@ function StartGame(session)
                 nextGun = 3,
             }
             TPGame(session, k)
+            TriggerClientEvent("pb:CheckMap", k, session.map)
             TriggerClientEvent("pb-gungame:InGame", k,  true)
         end
     end
@@ -141,6 +142,7 @@ function HandleJoin(session, src)
             nextGun = 3,
         }
         TPGame(session, src)
+        TriggerClientEvent("pb:CheckMap", src, session.map)
         TriggerClientEvent("pb-gungame:InGame", src, true)
     elseif session.gameData.state == "LOBBY" or session.gameData.state == "STARTING" then
         session.gameData.logic.players[src] = true

@@ -69,7 +69,7 @@ function CreateVote(bucket, title, time, options)
 end
 
 -- Handle casting of a vote
-function CastVote(src, bucket, key)
+function CastVote(src, bucket, key, ply)
     if not Votes[bucket] then return false end
 
     -- Make sure that the players not already voted
@@ -84,8 +84,6 @@ function CastVote(src, bucket, key)
     if alrdyVoted then return false end
 
     -- Cast vote
-    local ply = PB.Accounts:Get(src)
-    if not ply then return false end
     Votes[bucket][key].votes[#Votes[bucket][key].votes+1] = src
     -- Extra vote for premium
     if ply.flags["premium"] then
@@ -99,7 +97,7 @@ RegisterNetEvent("pb-voting:CastVote", function(key)
     local src = source
     local ply = PB.Accounts:Get(src)
     if not ply then return false end
-    CastVote(src, ply.session, key)
+    CastVote(src, ply.session, key, ply)
 end)
 
 -- Exports
