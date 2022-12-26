@@ -18,24 +18,11 @@ function UpdateStats()
     SendNUIMessage({type = "SetStats", stats = stats})
 end
 
--- Get gamemodes, then trim them down and send them to the NUI
-function GetGamemodes()
-    PB.Gamemodes:RequestAll()
-    -- Wait until we've got the gamemodes to start looping
-    local gamemodes
-    while not gamemodes do
-        Wait(100)
-        gamemodes = exports["pvp-base"]:GetGamemodes()
-    end
-    print("gamemodes!", gamemodes)
-    -- Trim the fat
+-- Update Gamemodes
+function UpdateGamemodes(gamemodes)
     local collectedGamemodes = {}
     for k, v in pairs(gamemodes) do
-        print("gm found!")
-        print(k)
         if k ~= "training" then
-            print("add in")
-            print(k)
             collectedGamemodes[k] = {
                 key = k,
                 maps = {}
@@ -45,19 +32,12 @@ function GetGamemodes()
             end
         end
     end
-    SendNUIMessage({type = "SendGamemodes", gamemodes = collectedGamemodes})
+    SendNUIMessage({type = "SetGamemodes", gamemodes = collectedGamemodes})
 end
 
--- Get sessions, then trim them down and send them to the NUI
-function UpdateSessions()
-    PB.Sessions:RequestAll()
-    -- Wait until we've got the sessions to start looping
-    local sessions
-    while not sessions do
-        Wait(100)
-        sessions = exports["pvp-base"]:GetSessions()
-    end
-    -- Trim the fat
+
+-- Update sessions
+function UpdateSessions(sessions)
     local collectedSessions = {}
     for k, v in pairs(sessions) do
         if not v.flags["hidden"] then
@@ -80,18 +60,12 @@ function UpdateSessions()
             }
         end
     end
-    SendNUIMessage({type = "UpdateSessions", sessions = collectedSessions})
+    SendNUIMessage({type = "SetSessions", sessions = collectedSessions})
 end
 
-function UpdateStash()
-    PB.Stash:Request()
-    -- Wait until we've got the gamemodes to start looping
-    local stash
-    while not stash do
-        Wait(100)
-        stash = exports["pvp-base"]:GetStash()
-    end
-    -- Trim the fat
+
+-- Update stash
+function UpdateStash(stash)
     local collectedItems = {}
     for k, v in pairs(CoreConfig.ItemCategories) do
         collectedItems[k] = {
@@ -104,25 +78,26 @@ function UpdateStash()
                 collectedItems[k].items[x] = {
                     id = x,
                     name = CoreConfig.Items[x].label,
-                    desc = v.desc,
+                    desc = CoreConfig.Items[x].desc or v.desc,
                     img = CoreConfig.Items[x].img
                 }
             end
         end
     end
-    SendNUIMessage({type = "UpdateStash", stash = collectedItems})
+    SendNUIMessage({type = "SetStash", stash = collectedItems})
 end
 
-function GetShop()
+-- Update the shop
+function UpdateShop(shop)
     local collectedItems = {}
-    for k, v in pairs(CoreConfig.Shop) do
+    for k, v in pairs(shop) do
         collectedItems[k] = {
             name = v.label,
             type = v.type,
+            premium = v.premium,
             items = {}
         }
         for x, y in pairs(v.items) do
-            print(CoreConfig.Items[y.item].label)
             collectedItems[k].items[x] = {
                 item = y.item,
                 name = CoreConfig.Items[y.item].label,
@@ -135,16 +110,18 @@ function GetShop()
             }
         end
     end
-    SendNUIMessage({type = "SendShop", shop = collectedItems})
+    SendNUIMessage({type = "SetShop", shop = collectedItems})
 end
+
+
 
 -- Set the player cam, TP them, all that stuff, then open the NUI
 function DisplayMenu(value)
     showMenu = value
-    UpdateSessions()
+    PB:GetSessions(UpdateSessions)
     if value then
         TriggerScreenblurFadeIn(3000)
-        lobbyCam = CreateCameraWithParams(`DEFAULT_SCRIPTED_CAMERA`, 128.0, -856.0, 180.0, 0.0, 0.0, 150.0, 90.0, false, 2)
+        lobbyCam = CreateCameraWithParams("DEFAULT_SCRIPTED_CAMERA", 128.0, -856.0, 180.0, 0.0, 0.0, 150.0, 90.0, false, 2)
         SetCamActive(lobbyCam, true)
         RenderScriptCams(true, false, 1, true, false)
         SetEntityCoords(PlayerPedId(), -1582.29, -569.52, 116.33)
@@ -163,7 +140,7 @@ end
 
 -- NUI callbacks
 RegisterNUICallback("RefreshSessions", function(data)
-    UpdateSessions()
+    PB:GetSessions(UpdateSessions)
 end)
 
 RegisterNUICallback("JoinSession", function(data)
@@ -191,7 +168,7 @@ RegisterNUICallback("RedeemCode", function(data)
 end)
 
 RegisterNUICallback("RefreshStash", function(data)
-    UpdateStash()
+    PB:GetStash(UpdateStash)
 end)
 
 RegisterNUICallback("UseItem", function(data)
@@ -220,7 +197,8 @@ CreateThread(function()
     Wait(500)
     SendNUIMessage({ type = "SendTranslations", locale = PB.Locale })
     UpdateStats()
-    GetGamemodes()
-    GetShop()
-    UpdateStash()
+    PB:GetGamemodes(UpdateGamemodes)
+    PB:GetSessions(UpdateSessions)
+    PB:GetStash(UpdateStash)
+    PB:GetShop(UpdateShop)
 end)

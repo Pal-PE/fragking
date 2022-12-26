@@ -187,8 +187,8 @@ function Winner(session, src)
         if v then
             local ply = PB.Accounts:Get(k)
             if not ply then return false end
-            ply.Functions.AddCurrency("cash", 1000 + v.kills*200)
-            ply.Functions.AddExp("global", 250 + v.kills*50)
+            ply.Functions.AddCurrency("cash", 1000 + v.kills*50)
+            ply.Functions.AddExp("global", 250 + v.kills*35)
             v = true
             TPLobby(session, k)
             TriggerClientEvent("pb:LeaveMap", k)

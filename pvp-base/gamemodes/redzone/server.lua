@@ -56,18 +56,20 @@ function HandleDeath(session, victim, attacker)
         session.gameData.logic.players[attacker].kills = session.gameData.logic.players[attacker].kills + 1
         local ply = PB.Accounts:Get(attacker)
         if not ply then return false end
-        ply.Functions.AddCurrency("cash", 50)
-        ply.Functions.AddExp("global", 75)
+        ply.Functions.AddCurrency("cash", 70)
+        ply.Functions.AddExp("global", 40)
     end
 end
 
 -- Handle player respawning
-function HandleRespawn(sesison, src)
+function HandleRespawn(session, src)
+    print("session", session)
     TPPlatform(session, src)
 end
 
 -- Spawn the player back to the centre platform
 function TPPlatform(session, src)
+    print("session", session)
     local plyPed = GetPlayerPed(src)
     local selectedSpawn = Config.Maps[session.map].spawns[100][math.random(#Config.Maps[session.map].spawns[100])]
     SetEntityCoords(plyPed, selectedSpawn)

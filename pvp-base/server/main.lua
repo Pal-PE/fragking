@@ -21,15 +21,18 @@ end)
 
 -- Handle player death, triggers once they're back alive
 RegisterNetEvent("pb:PlayerDied", function(attacker)
+    print("deth rec 1")
     local src = source
     local victimName = GetPlayerName(src)
     local ply = PB.Accounts:Get(src)
     if not ply then return false end
     if ply.session then
+        print("death rec 2")
         local session = PB.Sessions:Get(ply.session)
         if not session then return false end
         -- Gamemode trigger
         if session.active and session.gamemode and session.gameData.live then
+            print("deth trigger")
             Gamemodes[session.gamemode].Handles.DeathTrigger(session, src, attacker)
         end
         -- Handle the event if theres an attacker
@@ -85,6 +88,7 @@ RegisterNetEvent("pb:PlayerRespawned", function()
         if not session then return false end
         -- Gamemode trigger
         if session.active and session.gamemode and session.gameData.live then
+            print("session core", session)
             Gamemodes[session.gamemode].Handles.RespawnTrigger(session, src)
         end
     end

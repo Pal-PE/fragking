@@ -43,7 +43,6 @@ function StartLobby(session)
                     end
                 else
                     for v in pairs(GunGame.mapPool) do
-                        print(v)
                         voteMaps[v] = {
                             name = Locale["map_" .. GunGame.mapPool[v] .. "_name"],
                             img = GunGame.mapPool[v] .. ".png",
@@ -54,7 +53,7 @@ function StartLobby(session)
                     end
                 end
                 exports["pvp-voting"]:CreateVote(session.bucket, "VOTE FOR MAP", 20, voteMaps)
-
+                
                 local readyCountdown = Config.GunGame.LobbyStart
                 while readyCountdown > 0 do
                     Wait(1000)
@@ -73,7 +72,6 @@ end
 
 --Run server-side game cycle when game starts
 function StartGame(session)
-    -- Setup the session
     session.gameData.state = "LIVE"
     session.gameData.logic.timer = Config.GunGame.Timer
 
@@ -86,6 +84,11 @@ function StartGame(session)
                 currentGun = 1,
                 nextGun = 3,
             }
+            TriggerClientEvent("pb-loadout:ForceLoadout", k, {
+                [1] = {item = Config.GunGame.Guns[1]},
+                [2] = {item = "gadget_medkit"},
+                [3] = {item = "gadget_armour"}
+            })
             TPGame(session, k)
             TriggerClientEvent("pb:CheckMap", k, session.map)
             TriggerClientEvent("pb-gungame:InGame", k,  true)
@@ -142,6 +145,11 @@ function HandleJoin(session, src)
             nextGun = 3,
         }
         TPGame(session, src)
+        TriggerClientEvent("pb-loadout:ForceLoadout", src, {
+            [1] = {item = Config.GunGame.Guns[1]},
+            [2] = {item = "gadget_medkit"},
+            [3] = {item = "gadget_armour"}
+        })
         TriggerClientEvent("pb:CheckMap", src, session.map)
         TriggerClientEvent("pb-gungame:InGame", src, true)
     elseif session.gameData.state == "LOBBY" or session.gameData.state == "STARTING" then
@@ -182,6 +190,7 @@ end
 
 -- Handle player respawning
 function HandleRespawn(session, src)
+    print(session)
     TPGame(session, src)
 end
 
@@ -193,8 +202,8 @@ function Winner(session, src)
         if v then
             local ply = PB.Accounts:Get(k)
             if not ply then return false end
-            ply.Functions.AddCurrency("cash", 1000 + v.kills*200)
-            ply.Functions.AddExp("global", 250 + v.kills*50)
+            ply.Functions.AddCurrency("cash", 1000 + v.kills*50)
+            ply.Functions.AddExp("global", 250 + v.kills*35)
             v = true
             TPLobby(session, k)
             TriggerClientEvent("pb-gungame:InGame", k, false)
@@ -221,12 +230,6 @@ function TPGame(session, src)
     SetEntityCoords(plyPed, selectedSpawn)
     SetEntityHeading(plyPed, selectedSpawn.w)
     SetPlayerInvincible(src, false)
-    -- Handle gungame weapons
-    TriggerClientEvent("pb-loadout:ForceLoadout", src, {
-        [1] = {item = Config.GunGame.Guns[session.gameData.logic.players[src].currentGun]},
-        [2] = {item = "gadget_medkit"},
-        [3] = {item = "gadget_armour"}
-    })
     TriggerClientEvent("pb-loadout:ForceUse", src, 1)
 end
 

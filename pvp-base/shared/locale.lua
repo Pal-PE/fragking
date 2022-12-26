@@ -6,6 +6,9 @@ Locale = {
     ["gm_gungame_desc"] = "Classic FFA with a twist, every player will start with the same weapon. After every 2 kills the player will progress to the next weapon until they make it to the Bat! First player to get a kill with the Bat wins.",
     ["gm_rz_name"] = "RZ: AP",
     ["gm_rz_desc"] = "Continous fighting in smaller maps, full of cover. Players are only equipped with an AP pistol.",
+    ["gm_elim_name"] = "Elimination",
+    ["gm_elim_desc"] = "2 teams face off in a series of rounds, PLACEHOLDER.",
+
 
     -- Maps
     ["map_villa_name"] = "Villa",
@@ -18,6 +21,7 @@ Locale = {
     ["map_stabcity_name"] = "Stab City",
     ["map_office_name"] = "Office",
     ["map_ramps_name"] = "Ramps",
+    ["map_sandy_name"] = "Sandy",
 
     -- Training
     ["train_classic_desc"] = "Traditional aim training activity, after shooting the target it will reward points and move position. Target size will change depending on difficulty.",

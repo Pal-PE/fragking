@@ -3,6 +3,7 @@ PB.Utility = {}
 local currentMap = nil
 local outOfMapCountdown = 5
 local CheckMap
+local time = 0
 
 -- Notifications
 function Notify(_type, string, notify)
@@ -33,13 +34,11 @@ function Notify(_type, string, notify)
     end
 end
 
--- LET IT SNOW!
---SetWeatherTypePersist("XMAS")
---SetWeatherTypeNowPersist("XMAS")
---SetWeatherTypeNow("XMAS")
---SetOverrideWeather("XMAS")
+RegisterNetEvent("pb:Notification", function(_type, string, notify)
+    Notify(_type, string, notify)
+ end)
 
--- Check if player is out of map
+-- Handle player leaving map bounds
 function CheckMap(map)
     if not Config.Maps[map].Poly then return false end
     CreateThread(function()
@@ -69,15 +68,43 @@ function PB.Utility:LeaveMap()
     currentMap = nil
 end
 
--- Net events
-RegisterNetEvent("pb:Notification", function(_type, string, notify)
-   Notify(_type, string, notify)
-end)
-
 RegisterNetEvent("pb:CheckMap", function(map)
     CheckMap(map)
 end)
 
 RegisterNetEvent("pb:LeaveMap", function()
     PB.Utility:LeaveMap()
+end)
+
+-- Handle weather
+local frozenTime = 12
+function PB.Utility:SetWeather(weather, time)
+    ClearOverrideWeather()
+	ClearWeatherTypePersist()
+    SetWeatherTypePersist(weather)
+    SetWeatherTypeNowPersist(weather)
+    SetWeatherTypeNow(weather)
+    SetOverrideWeather(weather)
+    if weather == "XMAS" then
+        SetForceVehicleTrails(true)
+		SetForcePedFootstepsTracks(true)
+    else
+        SetForceVehicleTrails(false)
+        SetForcePedFootstepsTracks(false)
+    end
+    -- Set time
+    NetworkOverrideClockTime(time, 0, 0)
+    frozenTime = time
+end
+
+CreateThread(function()
+    while true do
+        Wait(5000)
+        NetworkOverrideClockTime(frozenTime, 0, 0)
+    end
+end)
+
+
+RegisterNetEvent("pb:UpdateWeather", function(weather, time)
+    PB.Utility:SetWeather(weaather, time)
 end)

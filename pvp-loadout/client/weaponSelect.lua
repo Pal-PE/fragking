@@ -57,9 +57,13 @@ end)
 -- Open the weapon select menu
 function DisplayWeaponSelect(value)
     weaponSelectMenu:Visible(value)
+    if not value then
+        primaryMenu:Visible(false)
+        secondaryMenu:Visible(false)
+    end
 end
 
 -- Net events
-AddEventHandler("pb-loadout:DisplayWeaponSelect", function(value)
+RegisterNetEvent("pb-loadout:DisplayWeaponSelect", function(value)
     DisplayWeaponSelect(value)
 end)

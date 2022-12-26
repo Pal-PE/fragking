@@ -16,9 +16,13 @@ function PB.Stash:PurchaseItem(src, item)
     local itemCost = nil
     local currency = nil
     local levelReq = nil
-    for k, v in pairs(Config.Shop) do
+    for k, v in pairs(CurrentShop) do
         for x, y in pairs(v.items) do
             if item == y.item then
+                if v.premium and not ply.flags["premium"] then
+                    PB.Utility:Notify(src, "ERROR", "Premium required for purchase", true)
+                    return false
+                end
                 itemCost = y.price
                 currency = y.currency
                 levelReq = y.level
@@ -33,7 +37,7 @@ function PB.Stash:PurchaseItem(src, item)
 
     if ply.Functions.GetLevel("global") >= levelReq then
         if ply.Functions.TakeCurrency(currency, itemCost) then
-            if ply.Functions.AddItem(item, 1) then
+            if ply.Functions.AddItem(item, 1, true) then
                 PB.Utility:Notify(src, "SUCCESS", "Purchased " .. Config.Items[item].label, true)
                 PB.Accounts:Save(src)
                 PB.Logging:NewLog(src, true, "Item purchased", {item = item, itemCost = itemCost, currency = currency, levelReq = levelReq}, true)

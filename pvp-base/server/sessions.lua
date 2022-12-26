@@ -19,6 +19,8 @@ function PB.Sessions:CreateSession(bucket, population, lockdown, name)
         flags = {},
         players = {},
         settings = {
+            time = 12,
+            weather = "SUNNY",
             maxPlayers = 20,
             password = nil
         },
@@ -41,18 +43,18 @@ function PB.Sessions:CreateSession(bucket, population, lockdown, name)
                 SetPlayerInvincible(v, true)
             end
         end
-        PB.Logging:NewLog("SESSION", false, "Set a sessions flag", {session = bucket, flag = flag, value = value}, true)
+        PB.Logging:NewLog("SESSION", false, "Set a sessions flag", {session = bucket, flag = flag, value = value}, false)
     end
 
     Sessions[bucket].Functions.SetMaxPlayers = function(value)
         Sessions[bucket].settings.maxPlayers = value
-        PB.Logging:NewLog("SESSION", false, "Set a sessions max players", {session = bucket, value = value}, true)
+        PB.Logging:NewLog("SESSION", false, "Set a sessions max players", {session = bucket, value = value}, false)
     end
 
     Sessions[bucket].Functions.SetPassword = function(value)
         Sessions[bucket].settings.password = value
         Sessions[bucket].private = true
-        PB.Logging:NewLog("SESSION", false, "Set a session to private", {session = bucket, password = value}, true)
+        PB.Logging:NewLog("SESSION", false, "Set a session to private", {session = bucket, password = value}, false)
     end
 
     Sessions[bucket].Functions.CloseSession = function(value)
@@ -69,7 +71,7 @@ function PB.Sessions:CreateSession(bucket, population, lockdown, name)
     -- Gamemode
     Sessions[bucket].Functions.SetGame = function(gamemode)
         Sessions[bucket].gamemode = gamemode
-        PB.Logging:NewLog("SESSION", false, "Set a sessions gamemode", {session = bucket, gamemode = gamemode}, true)
+        PB.Logging:NewLog("SESSION", false, "Set a sessions gamemode", {session = bucket, gamemode = gamemode}, false)
     end
 
     Sessions[bucket].Functions.StartGame = function()
@@ -81,13 +83,35 @@ function PB.Sessions:CreateSession(bucket, population, lockdown, name)
     -- Map
     Sessions[bucket].Functions.SetMap = function(map)
         Sessions[bucket].map = map
-        PB.Logging:NewLog("SESSION", false, "Set a sessions map", {session = bucket, map = map}, true)
+        PB.Logging:NewLog("SESSION", false, "Set a sessions map", {session = bucket, map = map}, false)
     end
 
     Sessions[bucket].Functions.SetMapPool = function(maps)
         Sessions[bucket].mapPool = maps
-        PB.Logging:NewLog("SESSION", false, "Set a sessions mappool", {session = bucket, maps = maps}, true)
+        PB.Logging:NewLog("SESSION", false, "Set a sessions mappool", {session = bucket, maps = maps}, false)
     end
+
+    -- Weather
+    Sessions[bucket].Functions.SetWeather = function(weather)
+        Sessions[bucket].settings.weather = weather
+        for k, v in pairs(Sessions[bucket].players) do
+            if v then
+                TriggerClientEvent("pb:UpdateWeather", k, Sessions[bucket].settings.weather, Sessions[bucket].settings.time)
+            end
+        end
+        PB.Logging:NewLog("SESSION", false, "Set a sessions weather", {session = bucket, weather = weather}, false)
+    end
+
+    Sessions[bucket].Functions.SetTime = function(time)
+        Sessions[bucket].settings.time = time
+        for k, v in pairs(Sessions[bucket].players) do
+            if v then
+                TriggerClientEvent("pb:UpdateWeather", k, Sessions[bucket].settings.weather, Sessions[bucket].settings.time)
+            end
+        end
+        PB.Logging:NewLog("SESSION", false, "Set a sessions time", {session = bucket, time = time}, false)
+    end
+    
 
     -- Set the native options
     SetRoutingBucketEntityLockdownMode(bucket, lockdown)

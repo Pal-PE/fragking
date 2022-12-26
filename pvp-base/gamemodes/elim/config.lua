@@ -1,0 +1,9 @@
+Config.Elim = {}
+Config.Elim.LobbyStart = 30
+Config.Elim.RoundStart = 10
+Config.Elim.MaxRounds = 4
+Config.Elim.RoundTime = 180
+Config.Elim.ZoneStartTime = 120
+Config.Elim.ZoneSpeed = 0.45
+Config.Elim.ZoneStartSize = 100.0
+Config.Elim.ZoneEndSize = 10.0

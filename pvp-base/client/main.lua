@@ -1,12 +1,7 @@
 -- Variables
 PB = {}
 PB.Locale = Locale
-PB.Sessions = {}
-PB.Gamemodes = {}
-PB.Stash = {}
-local Sessions
-local Gamemodes
-local Stash
+local Sessions, Gamemodes, Stash, Shop
 local GetCoreObject, GetSessions, GetStash
 handlingRespawn = false
 
@@ -20,103 +15,84 @@ function GetCoreConfig()
     return Config
 end
 
--- Get session data
-function PB.Sessions:RequestAll()
+-- Get sessions, with a callback
+function PB:GetSessions(cb)
+    Sessions = nil
     TriggerServerEvent("pb:RequestSessions")
-end
-
--- Return sessions
-function GetSessions()
-    return Sessions
-end
-
--- Get gamemode data
-function PB.Gamemodes:RequestAll()
-    TriggerServerEvent("pb:RequestGamemodes")
-end
-
--- Return gamemodes
-function GetGamemodes()
-    return Gamemodes
-end
-
--- Get stash data
-function PB.Stash:Request()
-    TriggerServerEvent("pb:RequestStash")
-end
-
--- Return stash
-function GetStash()
-    return Stash
-end
-
--- Handle death, and provide a killing player if possible
-exports["spawnmanager"]:setAutoSpawn(false)
-CreateThread(function()
-    local attacker = false
-    while true do
-        Wait(100)
-        if IsEntityDead(PlayerPedId()) then
-            local pedKiller = GetPedSourceOfDeath(PlayerPedId())
-            if IsEntityAPed(pedKiller) and IsPedAPlayer(pedKiller) then
-                attacker = GetPlayerServerId(NetworkGetPlayerIndexFromPed(pedKiller))
-            end
-            TriggerServerEvent("pb:PlayerDied", attacker)
-            handlingRespawn = true
-            DoScreenFadeOut(500)
-            exports["spawnmanager"]:spawnPlayer(false, Respawned)
-            while handlingRespawn do
-                Wait(0)
-            end
-        end
+    while not Sessions do
+        Wait(50)
     end
-end)
-
--- Handle respawn
-function Respawned()
-    handlingRespawn = false
-    TriggerServerEvent("pb:PlayerRespawned", attacker)
-    DoScreenFadeIn(500)
-    CreateThread(function()
-        SetEntityInvincible(PlayerPedId(), true)
-        SetEntityAlpha(PlayerPedId(), 200)
-        Wait(400)
-        SetEntityInvincible(PlayerPedId(), false)
-        SetEntityAlpha(PlayerPedId(), 255)
-    end)
+    cb(Sessions)
 end
-
--- Net events
-RegisterNetEvent("pb:PlayerLoaded", function()
-    --TriggerEvent("pb-menu:DisplayMenu", true)
-end)
 
 RegisterNetEvent("pb:ReceiveSessions", function(sessions)
     Sessions = sessions
 end)
 
+-- Get gamemodes, with a callback
+function PB:GetGamemodes(cb)
+    Gamemodes = nil
+    TriggerServerEvent("pb:RequestGamemodes")
+    while not Gamemodes do
+        Wait(50)
+    end
+    cb(Gamemodes)
+end
+
 RegisterNetEvent("pb:ReceiveGamemodes", function(gamemodes)
     Gamemodes = gamemodes
 end)
+
+-- Get stash, with a callback
+function PB:GetStash(cb)
+    Stash = nil
+    TriggerServerEvent("pb:RequestStash")
+    while not Stash do
+        Wait(50)
+    end
+    cb(Stash)
+end
 
 RegisterNetEvent("pb:ReceiveStash", function(stash)
     Stash = stash
 end)
 
+-- Get shop, with a callback
+function PB:GetShop(cb)
+    Shop = nil
+    TriggerServerEvent("pb:RequestShop")
+    while not Shop do
+        Wait(50)
+    end
+    cb(Shop)
+end
 
+RegisterNetEvent("pb:ReceiveShop", function(shop)
+    if not shop then return false end
+    Shop = shop
+end)
+
+-- Net events
 RegisterNetEvent("pb:JoinedSession", function(session)
+    PB.Utility:SetWeather(session.settings.weather, session.settings.time)
     TriggerEvent("pb-menu:DisplayMenu", false)
+    TriggerEvent("pb-hud:DisplayHUD", true)
     Notify("SUCCESS", "Joined " .. session.name, true)
+    NetworkSetVoiceChannel(session.bucket)
 end)
 
 RegisterNetEvent("pb:LeftSession", function()
-    TriggerEvent("pb-menu:DisplayMenu", true)
     PB.Utility:LeaveMap()
+    allowedRespawn = true
+    TriggerEvent("pb-menu:DisplayMenu", true)
     TriggerEvent("pb-loadout:ClearLoadout")
     TriggerEvent("pb-hud:SetStats", {})
     TriggerEvent("pb-hud:SetTooltip", false)
     TriggerEvent("pb-hud:DisplayHUD", false)
     Notify("ERROR", "Left session", true)
+    SetPlayerTeam(PlayerId(), 0)
+    SetCanAttackFriendly(PlayerPedId(), true, true)
+	NetworkSetFriendlyFireOption(true)
 end)
 
 -- Turn on friendly fire, required
@@ -128,9 +104,6 @@ end)
 -- Exports
 exports("GetCoreObject", GetCoreObject)
 exports("GetCoreConfig", GetCoreConfig)
-exports("GetGamemodes", GetGamemodes)
-exports("GetSessions", GetSessions)
-exports("GetStash", GetStash)
 
 -- Let the server know that we've connected and are ready!
 TriggerServerEvent("pb:PlayerConnected")

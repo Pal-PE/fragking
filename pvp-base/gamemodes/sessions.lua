@@ -80,3 +80,13 @@ EXMP.Functions.SetMap("ramps")
 EXMP.Functions.SetMaxPlayers(16)
 EXMP.Functions.SetFlag("official", true)
 EXMP.Functions.StartGame()
+
+
+-- Elim
+local EXMP = PB.Sessions:CreateSession(41, false, "strict", "Elimination: Villa")
+EXMP.Functions.SetGame("elim")
+EXMP.Functions.SetMap("villa")
+EXMP.Functions.SetMapPool({"villa","sandy","lumber"})
+EXMP.Functions.SetMaxPlayers(16)
+EXMP.Functions.SetFlag("official", true)
+EXMP.Functions.StartGame()

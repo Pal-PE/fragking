@@ -3,14 +3,8 @@ currentLoadout = {}
 local selectedWeapon = false
 loadoutLocked = true
 local displayLoadout = true
-local ClearLoadout, ForceLoadout, LockLoadout, UseItem
-
--- Clear loadout to default, and remove ped weapons
-function ClearLoadout()
-    currentLoadout = {}
-    TriggerServerEvent("pb-loadout:RemoveWeapon")
-    UpdateUI()
-end
+local allowEquip = false
+local ForceLoadout, LockLoadout, UseItem
 
 -- Force a loadout on the player
 function ForceLoadout(data, use)
@@ -49,6 +43,7 @@ end
 
 -- Logic for using an item
 function UseItem(item)
+    if not allowEquip then return false end
     -- Make sure the item exists
     if not item or not item.item or not Config.Items[item.item] then
         TriggerEvent("pb:Notification", "ERROR", "Error occured while using item", true)
@@ -120,7 +115,9 @@ end)
 
 -- Net events
 RegisterNetEvent("pb-loadout:ClearLoadout", function()
-    ClearLoadout()
+    currentLoadout = {}
+    TriggerServerEvent("pb-loadout:RemoveWeapon")
+    UpdateUI()
 end)
 
 RegisterNetEvent("pb-loadout:ForceLoadout", function(data)
@@ -143,7 +140,10 @@ RegisterNetEvent("pb-loadout:ApplyTint", function(weapon, tint)
     end)
 end)
 
+-- Disable the use of use items, disallowing and equip
+RegisterNetEvent("pb-loadout:AllowEquip", function(value)
+    allowEquip = value
+    if not allowEquip then
 
-RegisterCommand("testyo", function()
-    SetGameplayCamRawYaw(105)
-end, false)
+    end
+end)

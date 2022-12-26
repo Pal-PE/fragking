@@ -239,7 +239,7 @@ function PB.Accounts:Load(src, account)
     end
 
     -- Stash
-    this.Functions.AddItem = function(item, amount)
+    this.Functions.AddItem = function(item, amount, alert)
         if Config.Items[item] then
             if amount <= 0 then
                 PB.Logging:NewError(src, true, "Attempted to add a negative amount of items", {item = item, amount = amount}, true)
@@ -261,15 +261,19 @@ function PB.Accounts:Load(src, account)
                 end
                 this.stash[item] = amount
                 PB.Logging:NewLog(src, true, "Item added to player stash", {item = item, amount = amount}, true)
+                if alert then
+                    TriggerClientEvent("pb:StashUpdated", src)
+                    PB.Utility:Notify(src, "NIL", "Added " .. amount .. "x " .. Config.Items[item].label .. " to stash", true)
+                end
                 return true
             end
         else
-            PB.Logging:NewError(src, true, "Attempted to take an item that doesn't exist", {item = item}, true)
+            PB.Logging:NewError(src, true, "Attempted to add an item that doesn't exist", {item = item}, true)
             return false
         end
     end
 
-    this.Functions.TakeItem = function(item, amount)
+    this.Functions.TakeItem = function(item, amount, alert)
         if Config.Items[item] then
             if amount <= 0 then
                 PB.Logging:NewError(src, true, "Attempted to take a negative amount of items", {item = item, amount = amount}, true)

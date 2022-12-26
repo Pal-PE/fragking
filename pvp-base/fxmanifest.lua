@@ -11,7 +11,7 @@ server_scripts {
     "shared/maps.lua",
     "server/main.lua",
     "shared/items.lua",
-    "shared/shop.lua",
+    "server/shop.lua",
     "server/stash.lua",
     "server/util.lua",
     "server/logging.lua",
@@ -27,6 +27,8 @@ server_scripts {
     "gamemodes/gungame/server.lua",
     "gamemodes/redzone/server.lua",
     "gamemodes/training/server.lua",
+    "gamemodes/elim/config.lua",
+    "gamemodes/elim/server.lua",
     "gamemodes/sessions.lua"
 }
 
@@ -35,17 +37,18 @@ client_scripts {
     "shared/locale.lua",
     "shared/config.lua",
     "shared/items.lua",
-    "shared/shop.lua",
     "shared/maps.lua",
     "shared/poly.lua",
     "client/main.lua",
+    "client/death.lua",
     "client/util.lua",
+    "client/spectate.lua",
     "client/plyData.lua",
     "client/sessions.lua",
     "client/poly.lua",
     "gamemodes/ffa/client.lua",
-    "gamemodes/gungame/client.lua",
-    "gamemodes/redzone/client.lua"
+    "gamemodes/redzone/client.lua",
+    "gamemodes/elim/client.lua"
 }
 
 shared_scripts {

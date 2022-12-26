@@ -19,12 +19,10 @@ RegisterNetEvent("pb-ffa:InGame", function(value)
     gameLive = value
     if value then
         TriggerEvent("pb-hud:SetTooltip", "Press [F1] to change weapons.")
-        TriggerEvent("pb-hud:DisplayHUD", true)
         InGame()
     else
         TriggerEvent("pb-loadout:DisplayWeaponSelect", false)
         TriggerEvent("pb-loadout:ClearLoadout")
         TriggerEvent("pb-hud:SetTooltip", false)
-        TriggerEvent("pb-hud:DisplayHUD", false)
     end
 end)

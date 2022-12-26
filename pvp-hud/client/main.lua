@@ -10,8 +10,8 @@ RegisterNetEvent("pb-hud:DisplayHUD", function(value)
         SendNUIMessage({type = "DisplayHUD", value = true})
         CreateThread(function()
             while showHUD do
-                Wait(500)
-                SendNUIMessage({type = "HudHP", value = GetEntityMaxHealth(PlayerPedId())})
+                Wait(100)
+                SendNUIMessage({type = "HudHP", value = GetEntityHealth(PlayerPedId())})
                 SendNUIMessage({type = "HudARM", value = GetPedArmour(PlayerPedId())})
             end
         end)

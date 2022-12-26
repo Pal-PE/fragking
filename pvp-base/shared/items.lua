@@ -30,6 +30,8 @@ Config.Items = {
     ["col_red"] = { label = "Red Name Colour", category = "namecol", colour = "linear-gradient(90deg, #cc0c0c 0%, #cc0c0c 100%)", max = 1 },
     ["col_yellow"] = { label = "Yellow Name Colour", category = "namecol", colour = "linear-gradient(90deg, #bab514 0%, #bab514 100%)", max = 1 },
     ["col_cyan"] = { label = "Cyan Name Colour", category = "namecol", colour = "linear-gradient(90deg, #1a8aa1 0%, #1a8aa1 100%)", max = 1 },
+    ["col_cyan"] = { label = "Cyan Name Colour", category = "namecol", colour = "linear-gradient(90deg, #1a8aa1 0%, #1a8aa1 100%)", max = 1 },
+
 
     ["col_mimosa"] = { label = "Mimosa Name Colour", category = "namecol", colour = "linear-gradient(90deg, #d53369 0%, #daae51 100%)", max = 1 },
     ["col_lilly"] = { label = "Lilly Name Colour", category = "namecol", colour = "linear-gradient(90deg, #efd5ff 0%, #515ada 100%)", max = 1 },
@@ -38,6 +40,8 @@ Config.Items = {
     ["col_seasalt"] = { label = "Sea Salt Name Colour", category = "namecol", colour = "linear-gradient(90deg, #4b6cb7 0%, #182848 100%)", max = 1 },
     ["col_sandstorm"] = { label = "Sandstorm Name Colour", category = "namecol", colour = "linear-gradient(90deg, #fcff9e 0%, #c67700 100%)", max = 1 },
     ["col_lemontwist"] = { label = "Lemon Twist Name Colour", category = "namecol", colour = "linear-gradient(90deg, #3CA55C 0%, #B5AC49 100%)", max = 1 },
+    ["col_retro"] = { label = "Retro Name Colour", category = "namecol", colour = "linear-gradient(90deg, #FDBB2D 0%, #22C1C3 100%)", max = 1 },
+    ["col_apple"] = { label = "Apple Name Colour", category = "namecol", colour = "linear-gradient(90deg, #6e1142 16%, #15de4e 100%)", max = 1 },
 
     -- Calling cards
     ["calling_fng"] = { label = "FNG Calling Card", category = "callingcards", title = "F.N.G.", card = "https://i.imgur.com/oMdDihE.png", img = "https://i.imgur.com/oMdDihE.png", max = 1 },
@@ -46,7 +50,8 @@ Config.Items = {
 
     ["calling_day1"] = { label = "Day 1 Calling Card", category = "callingcards", title = "Day 1", card = "https://i.imgur.com/jLIqB80.png", img = "https://i.imgur.com/jLIqB80.png", max = 1 },
     ["calling_livinitup"] = { label = "Livin' It Up Calling Card", category = "callingcards", title = "Livin' It Up", card = "https://i.imgur.com/jLIqB80.png", img = "https://i.imgur.com/jLIqB80.png", max = 1 },
-    
+    ["calling_chill"] = { label = "Chill Calling Card", category = "callingcards", title = "Chill", card = "https://i.imgur.com/jLIqB80.png", img = "https://i.imgur.com/jLIqB80.png", max = 1 },
+
     ["calling_ballas"] = { label = "Ballas Calling Card", category = "callingcards", title = "Ballas", card = "https://i.imgur.com/gVDtDNF.png", img = "https://i.imgur.com/gVDtDNF.png", max = 1 },
     ["calling_publicenemy"] = { label = "Public Enemy #1 Calling Card", category = "callingcards", title = "Public Enemy #1", card = "https://i.imgur.com/gVDtDNF.png", img = "https://i.imgur.com/gVDtDNF.png", max = 1 },
     ["calling_gangshit"] = { label = "GANG SHIT Calling Card", category = "callingcards", title = "GANG SHIT", card = "https://i.imgur.com/gVDtDNF.png", img = "https://i.imgur.com/gVDtDNF.png", max = 1 },
@@ -60,6 +65,7 @@ Config.Items = {
     ["calling_ezstuff"] = { label = "EZ Stuff Calling Card", category = "callingcards", title = "EZ Stuff", card = "https://i.imgur.com/EXv4lPG.png", img = "https://i.imgur.com/EXv4lPG.png", max = 1 },
     ["calling_nosweat"] = { label = "No Sweat Calling Card", category = "callingcards", title = "No Sweat", card = "https://i.imgur.com/EXv4lPG.png", img = "https://i.imgur.com/EXv4lPG.png", max = 1 },
     ["calling_walkinthepark"] = { label = "Walk In The Park Calling Card", category = "callingcards", title = "Walk In The Park", card = "https://i.imgur.com/EXv4lPG.png", img = "https://i.imgur.com/EXv4lPG.png", max = 1 },
+    ["calling_lightwork"] = { label = "Light Work Calling Card", category = "callingcards", title = "Light Work", card = "https://i.imgur.com/EXv4lPG.png", img = "https://i.imgur.com/EXv4lPG.png", max = 1 },
 
 
     ["calling_thelaw"] = { label = "The Law Calling Card", category = "callingcards", title = "The Law", card = "https://i.imgur.com/HjSGBxf.png", img = "https://i.imgur.com/HjSGBxf.png", max = 1 },
@@ -71,12 +77,16 @@ Config.Items = {
 
     ["calling_nbk"] = { label = "NBK Calling Card", category = "callingcards", title = "NBK", card = "https://i.imgur.com/IJz3mX8.png", img = "https://i.imgur.com/IJz3mX8.png", max = 1 },
     ["calling_itspersonal"] = { label = "It's Personal Calling Card", category = "callingcards", title = "It's Personal", card = "https://i.imgur.com/IJz3mX8.png", img = "https://i.imgur.com/IJz3mX8.png", max = 1 },
+    ["calling_dogeatdog"] = { label = "Dog Eat Dog Calling Card", category = "callingcards", title = "Dog Eat Dog", card = "https://i.imgur.com/IJz3mX8.png", img = "https://i.imgur.com/IJz3mX8.png", max = 1 },
 
+    
     ["calling_allin"] = { label = "All In Calling Card", category = "callingcards", title = "All In", card = "https://i.imgur.com/wf7QHEn.png", img = "https://i.imgur.com/wf7QHEn.png", max = 1 },
     ["calling_doubledown"] = { label = "Double Down Calling Card", category = "callingcards", title = "Double Down", card = "https://i.imgur.com/wf7QHEn.png", img = "https://i.imgur.com/wf7QHEn.png", max = 1 },
+    ["calling_againstodds"] = { label = "Against The Odds Calling Card", category = "callingcards", title = "Against The Odds", card = "https://i.imgur.com/wf7QHEn.png", img = "https://i.imgur.com/wf7QHEn.png", max = 1 },
 
     ["calling_lonewolf"] = { label = "Lone Wolf Calling Card", category = "callingcards", title = "Lone Wolf", card = "https://i.imgur.com/VRR3chg.png", img = "https://i.imgur.com/VRR3chg.png", max = 1 },
     ["calling_hunted"] = { label = "Hunted Calling Card", category = "callingcards", title = "Hunted", card = "https://i.imgur.com/VRR3chg.png", img = "https://i.imgur.com/VRR3chg.png", max = 1 },
+    ["calling_survivor"] = { label = "Survivor Calling Card", category = "callingcards", title = "Survivor", card = "https://i.imgur.com/VRR3chg.png", img = "https://i.imgur.com/VRR3chg.png", max = 1 },
 
 
     ["calling_speeddemon"] = { label = "Speed Demon Calling Card", category = "callingcards", title = "Speed Demon", card = "https://i.imgur.com/cNXp7s1.png", img = "https://i.imgur.com/cNXp7s1.png", max = 1 },
@@ -127,7 +137,28 @@ Config.Items = {
     ["clothing_mask_cluckin"] = { label = "Cluckin Mask", category = "clothing", type = "drawable", drawable = "masks", value = 145, img = "img/masks/145.png", max = 1 },
     ["clothing_mask_gadget"] = { label = "Gadget Mask", category = "clothing", type = "drawable", drawable = "masks", value = 146, img = "img/masks/146.png", max = 1 },
     ["clothing_mask_coolape"] = { label = "Cool Ape Mask", category = "clothing", type = "drawable", drawable = "masks", value = 147, img = "img/masks/147.png", max = 1 },
+    ["clothing_mask_hockey2"] = { label = "Hockey Mask 2", category = "clothing", type = "drawable", drawable = "masks", value = 6, img = "img/masks/6.png", max = 1 },
+    ["clothing_mask_hockey3"] = { label = "Hockey Mask 3", category = "clothing", type = "drawable", drawable = "masks", value = 14, img = "img/masks/14.png", max = 1 },
+    ["clothing_mask_gasmask"] = { label = "Gas Mask", category = "clothing", type = "drawable", drawable = "masks", value = 46, img = "img/masks/46.png", max = 1 },
+
     -- Stock vanilla masks
+    ["clothing_mask_hockey"] = { label = "Hockey Mask", category = "clothing", type = "drawable", drawable = "masks", value = 3, img = "img/masks/3.png", max = 1 },
+    ["clothing_mask_hockey4"] = { label = "Hockey Mask 4", category = "clothing", type = "drawable", drawable = "masks", value = 15, img = "img/masks/15.png", max = 1 },
+    ["clothing_mask_oldpilot"] = { label = "Old Pilot Mask", category = "clothing", type = "drawable", drawable = "masks", value = 27, img = "img/masks/27.png", max = 1 },
+    ["clothing_mask_combat"] = { label = "Combat Mask", category = "clothing", type = "drawable", drawable = "masks", value = 28, img = "img/masks/28.png", max = 1 },
+    ["clothing_mask_skullhocket"] = { label = "Skull Hockey Mask", category = "clothing", type = "drawable", drawable = "masks", value = 29, img = "img/masks/29.png", max = 1 },
+    ["clothing_mask_hockey5"] = { label = "Hockey Mask 5", category = "clothing", type = "drawable", drawable = "masks", value = 30, img = "img/masks/30.png", max = 1 },
+    ["clothing_mask_skimask"] = { label = "Ski Mask", category = "clothing", type = "drawable", drawable = "masks", value = 35, img = "img/masks/35.png", max = 1 },
+    ["clothing_mask_bankrobber"] = { label = "Bank Robbing Mask", category = "clothing", type = "drawable", drawable = "masks", value = 37, img = "img/masks/37.png", max = 1 },
+    ["clothing_mask_tapemask"] = { label = "Tape Mask", category = "clothing", type = "drawable", drawable = "masks", value = 47, img = "img/masks/47.png", max = 1 },
+    ["clothing_mask_paperbag"] = { label = "Paper Bag", category = "clothing", type = "drawable", drawable = "masks", value = 49, img = "img/masks/49.png", max = 1 },
+    ["clothing_mask_hockey6"] = { label = "Hockey Mask 6", category = "clothing", type = "drawable", drawable = "masks", value = 50, img = "img/masks/50.png", max = 1 },
+    ["clothing_mask_bandana"] = { label = "Bandana", category = "clothing", type = "drawable", drawable = "masks", value = 51, img = "img/masks/51.png", max = 1 },
+    ["clothing_mask_bandana2"] = { label = "Bandana 2", category = "clothing", type = "drawable", drawable = "masks", value = 111, img = "img/masks/111.png", max = 1 },
+    ["clothing_mask_shirt"] = { label = "Shirt Mask", category = "clothing", type = "drawable", drawable = "masks", value = 54, img = "img/masks/54.png", max = 1 },
+    ["clothing_mask_skimask"] = { label = "Ski Mask 2", category = "clothing", type = "drawable", drawable = "masks", value = 58, img = "img/masks/58.png", max = 1 },
+    ["clothing_mask_shemagh"] = { label = "Shemagh", category = "clothing", type = "drawable", drawable = "masks", value = 115, img = "img/masks/115.png", max = 1 },
+
 
     -- Buyable vanilla hats
     ["clothing_hat_dunce"] = { label = "Dunce Hat", category = "clothing", type = "prop", prop = "hats", value = 1, img = "img/hats/1.png", max = 1 },
@@ -186,18 +217,18 @@ Config.Items = {
     ["clothing_hat_boonie"] = { label = "Boonie", category = "clothing", type = "prop", prop = "hats", value = 104, img = "img/hats/104.png", max = 1 },
     ["clothing_hat_boonie2"] = { label = "Boonie 2", category = "clothing", type = "prop", prop = "hats", value = 105, img = "img/hats/105.png", max = 1 },
     ["clothing_hat_militarycap3"] = { label = "Military Cap 3", category = "clothing", type = "prop", prop = "hats", value = 107, img = "img/hats/107.png", max = 1 },
-    ["clothing_hat_frontcap10"] = { label = "Front Cap 10", category = "clothing", type = "prop", prop = "hats", value = 108, img = "img/hats/108.png", max = 1 },
-    ["clothing_hat_frontcap11"] = { label = "Front Cap 11", category = "clothing", type = "prop", prop = "hats", value = 109, img = "img/hats/109.png", max = 1 },
+    ["clothing_hat_frontcap11"] = { label = "Front Cap 11", category = "clothing", type = "prop", prop = "hats", value = 108, img = "img/hats/108.png", max = 1 },
+    ["clothing_hat_frontcap12"] = { label = "Front Cap 12", category = "clothing", type = "prop", prop = "hats", value = 109, img = "img/hats/109.png", max = 1 },
     ["clothing_hat_backcap2"] = { label = "Backwards Cap 2", category = "clothing", type = "prop", prop = "hats", value = 110, img = "img/hats/110.png", max = 1 },
     ["clothing_hat_pilot3"] = { label = "Pilot Helmet 3", category = "clothing", type = "prop", prop = "hats", value = 111, img = "img/hats/111.png", max = 1 },
     ["clothing_hat_combat3"] = { label = "Combat Helmet 3", category = "clothing", type = "prop", prop = "hats", value = 112, img = "img/hats/112.png", max = 1 },
     ["clothing_hat_nvg"] = { label = "NVG", category = "clothing", type = "prop", prop = "hats", value = 116, img = "img/hats/116.png", max = 1 },
     ["clothing_hat_nvg2"] = { label = "NVG 2", category = "clothing", type = "prop", prop = "hats", value = 118, img = "img/hats/118.png", max = 1 },
     ["clothing_hat_beanie5"] = { label = "Beanie 5", category = "clothing", type = "prop", prop = "hats", value = 120, img = "img/hats/120.png", max = 1 },
-    ["clothing_hat_frontcap12"] = { label = "Front Cap 12", category = "clothing", type = "prop", prop = "hats", value = 122, img = "img/hats/122.png", max = 1 },
+    ["clothing_hat_frontcap13"] = { label = "Front Cap 132", category = "clothing", type = "prop", prop = "hats", value = 122, img = "img/hats/122.png", max = 1 },
     ["clothing_hat_tachanka"] = { label = "Tachanka Helmet", category = "clothing", type = "prop", prop = "hats", value = 123, img = "img/hats/123.png", max = 1 },
     ["clothing_hat_riot"] = { label = "Riot Helmet", category = "clothing", type = "prop", prop = "hats", value = 125, img = "img/hats/125.png", max = 1 },
-    ["clothing_hat_frontcap13"] = { label = "Front Cap 13", category = "clothing", type = "prop", prop = "hats", value = 130, img = "img/hats/130.png", max = 1 },
+    ["clothing_hat_frontcap14"] = { label = "Front Cap 14", category = "clothing", type = "prop", prop = "hats", value = 130, img = "img/hats/130.png", max = 1 },
     ["clothing_hat_backcap6"] = { label = "Backwards Cap 6", category = "clothing", type = "prop", prop = "hats", value = 131, img = "img/hats/131.png", max = 1 },
     ["clothing_hat_bucket4"] = { label = "Bucket Hat 4", category = "clothing", type = "prop", prop = "hats", value = 132, img = "img/hats/132.png", max = 1 },
     ["clothing_hat_space"] = { label = "Space Helmet", category = "clothing", type = "prop", prop = "hats", value = 133, img = "img/hats/133.png", max = 1 },
@@ -235,27 +266,34 @@ Config.Items = {
 
 
     -- Buyable vanilla glases
-    ["clothing_glasses_ski"] = { label = "Ski Goggles", category = "clothing", type = "prop", prop = "glasses", value = 25, img = "img/glasses/25", max = 1 },
-    ["clothing_glasses_combat2"] = { label = "Combat Glasses 2", category = "clothing", type = "prop", prop = "glasses", value = 23, img = "img/glasses/23", max = 1 },
-    ["clothing_glasses_patriot"] = { label = "Patriot Shades", category = "clothing", type = "prop", prop = "glasses", value = 21, img = "img/glasses/21", max = 1 },
-    ["clothing_glasses_patriot2"] = { label = "Patriot Shades 2", category = "clothing", type = "prop", prop = "glasses", value = 22, img = "img/glasses/22", max = 1 },
+    ["clothing_glasses_ski"] = { label = "Ski Goggles", category = "clothing", type = "prop", prop = "glasses", value = 25, img = "img/glasses/25.png", max = 1 },
+    ["clothing_glasses_combat2"] = { label = "Combat Glasses 2", category = "clothing", type = "prop", prop = "glasses", value = 23, img = "img/glasses/23.png", max = 1 },
+    ["clothing_glasses_patriot"] = { label = "Patriot Shades", category = "clothing", type = "prop", prop = "glasses", value = 21, img = "img/glasses/21.png", max = 1 },
+    ["clothing_glasses_patriot2"] = { label = "Patriot Shades 2", category = "clothing", type = "prop", prop = "glasses", value = 22, img = "img/glasses/22.png", max = 1 },
     -- Stock vanilla glasses
-    ["clothing_glasses_shades"] = { label = "Shades", category = "clothing", type = "prop", prop = "glasses", value = 1, img = "img/glasses/1", max = 1 },
-    ["clothing_glasses_shades2"] = { label = "Shades 2", category = "clothing", type = "prop", prop = "glasses", value = 2, img = "img/glasses/2", max = 1 },
-    ["clothing_glasses_glasses"] = { label = "Glasses", category = "clothing", type = "prop", prop = "glasses", value = 2, img = "img/glasses/2", max = 1 },
-    ["clothing_glasses_glasses2"] = { label = "Glasses 2", category = "clothing", type = "prop", prop = "glasses", value = 2, img = "img/glasses/7", max = 1 },
-    ["clothing_glasses_aviators"] = { label = "Aviators", category = "clothing", type = "prop", prop = "glasses", value = 5, img = "img/glasses/5", max = 1 },
-    ["clothing_glasses_aviators2"] = { label = "Aviators 2", category = "clothing", type = "prop", prop = "glasses", value = 8, img = "img/glasses/8", max = 1 },
-    ["clothing_glasses_shades3"] = { label = "Shades 3", category = "clothing", type = "prop", prop = "glasses", value = 9, img = "img/glasses/9", max = 1 },
-    ["clothing_glasses_squareframe"] = { label = "Square Fames", category = "clothing", type = "prop", prop = "glasses", value = 10, img = "img/glasses/10", max = 1 },
-    ["clothing_glasses_shades4"] = { label = "Shades 4", category = "clothing", type = "prop", prop = "glasses", value = 13, img = "img/glasses/13", max = 1 },
-    ["clothing_glasses_combat"] = { label = "Combat Glasses", category = "clothing", type = "prop", prop = "glasses", value = 15, img = "img/glasses/15", max = 1 },
-    ["clothing_glasses_glasses3"] = { label = "Glasses 3", category = "clothing", type = "prop", prop = "glasses", value = 17, img = "img/glasses/17", max = 1 },
-    ["clothing_glasses_pilot"] = { label = "Pilot Goggles", category = "clothing", type = "prop", prop = "glasses", value = 24, img = "img/glasses/24", max = 1 },
-    ["clothing_glasses_diving"] = { label = "Rebreather", category = "clothing", type = "prop", prop = "glasses", value = 26, img = "img/glasses/26", max = 1 },
+    ["clothing_glasses_shades"] = { label = "Shades", category = "clothing", type = "prop", prop = "glasses", value = 1, img = "img/glasses/1.png", max = 1 },
+    ["clothing_glasses_shades2"] = { label = "Shades 2", category = "clothing", type = "prop", prop = "glasses", value = 2, img = "img/glasses/2.png", max = 1 },
+    ["clothing_glasses_glasses"] = { label = "Glasses", category = "clothing", type = "prop", prop = "glasses", value = 2, img = "img/glasses/2.png", max = 1 },
+    ["clothing_glasses_glasses2"] = { label = "Glasses 2", category = "clothing", type = "prop", prop = "glasses", value = 2, img = "img/glasses/7.png", max = 1 },
+    ["clothing_glasses_aviators"] = { label = "Aviators", category = "clothing", type = "prop", prop = "glasses", value = 5, img = "img/glasses/5.png", max = 1 },
+    ["clothing_glasses_aviators2"] = { label = "Aviators 2", category = "clothing", type = "prop", prop = "glasses", value = 8, img = "img/glasses/8.png", max = 1 },
+    ["clothing_glasses_shades3"] = { label = "Shades 3", category = "clothing", type = "prop", prop = "glasses", value = 9, img = "img/glasses/9.png", max = 1 },
+    ["clothing_glasses_squareframe"] = { label = "Square Fames", category = "clothing", type = "prop", prop = "glasses", value = 10, img = "img/glasses/10.png", max = 1 },
+    ["clothing_glasses_shades4"] = { label = "Shades 4", category = "clothing", type = "prop", prop = "glasses", value = 13, img = "img/glasses/13.png", max = 1 },
+    ["clothing_glasses_combat"] = { label = "Combat Glasses", category = "clothing", type = "prop", prop = "glasses", value = 15, img = "img/glasses/15.png", max = 1 },
+    ["clothing_glasses_glasses3"] = { label = "Glasses 3", category = "clothing", type = "prop", prop = "glasses", value = 17, img = "img/glasses/17.png", max = 1 },
+    ["clothing_glasses_pilot"] = { label = "Pilot Goggles", category = "clothing", type = "prop", prop = "glasses", value = 24, img = "img/glasses/24.png", max = 1 },
+    ["clothing_glasses_diving"] = { label = "Rebreather", category = "clothing", type = "prop", prop = "glasses", value = 26, img = "img/glasses/26.png", max = 1 },
 
 
 }
+
+-- Add the value to clothing description, and add useable value where applicable
+for k, v in pairs(Config.Items) do
+    if v.category == "clothing" then
+       -- v.desc = "Avaliable to use within the wadrobe, type: " .. v.prop or v.component .. ", id: " .. v.value
+    end
+end
 
 -- Automatically setup tints
 local baseWeapons = {["pistol"] = "Pistol", ["combatpistol"] = "Combat Pistol", ["appistol"] = "AP Pistol", ["pistol50"] = "Pistol 50", ["heavypistol"] = "Heaavy Pistol",
